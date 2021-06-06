@@ -4,7 +4,7 @@
 
 # Ensure that dotfiles are in /tmp
 SYSTEM="main"
-git clone -b $SYSTEM https://github.com/bweston6/dotfiles.git /mnt/tmp/dotfiles
+git clone -b $SYSTEM git@github.com:bweston6/dotfiles.git /mnt/tmp/dotfiles
 
 # Creating User
 echo "Enter username for non-privileged user:"
@@ -43,7 +43,7 @@ yay -Syu systemd-boot-pacman-hook vi-vim-symlink
 # Installing Dotfiles
 cd ~
 git init
-git remote add origin https://github.com/bweston6/dotfiles.git
+git remote add origin git@github.com:bweston6/dotfiles.git
 git fetch
 git reset origin/main
 git checkout -t origin/master

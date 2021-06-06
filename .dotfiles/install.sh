@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script should be run under the arch installer (as root)
+# This section runs under the arch installer (as root)
 
 # Ask to Confirm Mountpoints
 if ! mountpoint -q -- "/mnt";
@@ -27,7 +27,7 @@ pacstrap /mnt base linux linux-firmware - < packages.txt
 
 # Configuring the System
 genfstab -U /mnt >> /mnt/etc/fstab
-git clone -b $SYSTEM https://github.com/bweston6/dotfiles.git /mnt/tmp/dotfiles
+git clone -b $SYSTEM git@github.com:bweston6/dotfiles.git /mnt/dotfiles
 echo "Chrooting into New System"
 arch-chroot /mnt /bin/bash <<"EOT"
 ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -52,8 +52,8 @@ bootctl install
 cp -a /tmp/dotfiles/.dotfiles/boot/loader /boot
 
 # Setup Installer for Next Boot
-cp /tmp/dotfiles/.dotfiles/onetime.service /etc/systemd/system/
-cp /tmp/dotfiles/.dotfiles/onetime.sh /
+cp -a /tmp/dotfiles/.dotfiles/onetime.service /etc/systemd/system/
+cp -a /tmp/dotfiles/.dotfiles/onetime.sh /
 systemctl enable onetime.service
 EOT
 
