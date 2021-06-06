@@ -1,0 +1,5 @@
+pacman-contrib
+intel-ucode
+git
+vim
+
