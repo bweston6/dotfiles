@@ -1,0 +1,10 @@
+[Unit]
+Description=yourscript
+ConditionPathExists=/path/to/some/file
+
+[Service]
+Type=oneshot
+ExecStart=/path/to/yourscript
+
+[Install]
+WantedBy=multi-user.target
