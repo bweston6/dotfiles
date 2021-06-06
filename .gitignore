@@ -19,3 +19,6 @@
 !.gitignore
 !.vimrc
 !.zshrc
+
+# Exclude files
+.dotfiles/boot/loader/random-seed
