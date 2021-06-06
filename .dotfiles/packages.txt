@@ -3,3 +3,5 @@ intel-ucode
 git
 vim
 zsh
+wget
+curl
