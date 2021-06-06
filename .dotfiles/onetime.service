@@ -1,10 +1,10 @@
 [Unit]
-Description=yourscript
-ConditionPathExists=/path/to/some/file
+Description=A one-time service that sets up the system post-install.
+ConditionPathExists=/onetime.sh
 
 [Service]
 Type=oneshot
-ExecStart=/path/to/yourscript
+ExecStart=/onetime.sh
 
 [Install]
 WantedBy=multi-user.target

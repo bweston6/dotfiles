@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This section runs under the arch installer (as root)
+# This script should be run under the arch installer (as root)
 
 # Ask to Confirm Mountpoints
 if ! mountpoint -q -- "/mnt";
@@ -52,8 +52,8 @@ bootctl install
 cp -a /tmp/dotfiles/.dotfiles/boot/loader /boot
 
 # Setup Installer for Next Boot
-cp -a /tmp/dotfiles/.dotfiles/onetime.service /etc/systemd/system/
-cp -a /tmp/dotfiles/.dotfiles/onetime.sh /
+cp /tmp/dotfiles/.dotfiles/onetime.service /etc/systemd/system/
+cp /tmp/dotfiles/.dotfiles/onetime.sh /
 systemctl enable onetime.service
 EOT
 
