@@ -1,3 +1,4 @@
+base-devel
 pacman-contrib
 intel-ucode
 git
@@ -5,3 +6,6 @@ vim
 zsh
 wget
 curl
+rsync
+man-db
+sudo
