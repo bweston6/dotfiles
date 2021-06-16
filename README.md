@@ -2,10 +2,10 @@
 In this repo are three branches that extend eachother:
 
 * `base` - Includes base dotfiles for a console install with no networking configured.
-	* `server` - The setup that is curently deployed to my home server.
+	* ~~`server` - The setup that is curently deployed to my home server.~~ - *This is not yet implemented.*
 	* `desktop` - A desktop installation based on Gnome and all my programs.
 		* `laptop` - Extension of `desktop` that includes drivers for intel graphics drivers and hardware decoding. Also includes `pulseeffects-legacy`.
-		* `computer` - Install meant for my desktop computer with amd graphics drivers and hardware decoding. Also includes a vfio setup for gpu passthrough to a windows vm.
+		* ~~`computer` - Install meant for my desktop computer with amd graphics drivers and hardware decoding. Also includes a vfio setup for gpu passthrough to a windows vm.~~ - *This is not yet implemented.*
 
 ## Installing
 There are several numbered scripts in the `.dotfiles` folder that will take you from the Arch Installer to a useable desktop. 
