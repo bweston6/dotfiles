@@ -79,7 +79,7 @@ then
 fi
 echo "${YELLOW}:: ${MAGENTA}Updating and installing packages...${RESET}"
 cd ~/.dotfiles
-yay -Syu --needed systemd-boot-pacman-hook vi-vim-symlink chrome-gnome-shell etcher-bin gogh-git pulseaudio-modules-bt pulseeffects-legacy - < packages.txt
+yay -Syu --needed systemd-boot-pacman-hook vi-vim-symlink chrome-gnome-shell etcher-bin gogh-git pulseaudio-modules-bt pulseeffects-legacy-git - < packages.txt
 
 # Installing flatpak Packages
 echo "${YELLOW}:: ${MAGENTA}Installing flatpak packages...${RESET}"
