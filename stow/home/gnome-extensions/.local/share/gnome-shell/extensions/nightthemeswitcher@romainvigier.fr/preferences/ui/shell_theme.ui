@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="nightthemeswitcher@romainvigier.fr">
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkBox" id="shell_theme">
+    <property name="width_request">600</property>
+    <property name="halign">center</property>
+    <property name="valign">start</property>
+    <property name="margin_start">36</property>
+    <property name="margin_end">36</property>
+    <property name="margin_top">36</property>
+    <property name="margin_bottom">36</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">30</property>
+    <property name="baseline_position">top</property>
+    <child>
+      <object class="GtkFrame" id="enabled">
+        <property name="child">
+          <object class="GtkListBox">
+            <property name="width_request">600</property>
+            <property name="selection_mode">none</property>
+            <child>
+              <object class="GtkListBoxRow">
+                <property name="activatable">0</property>
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="margin_start">16</property>
+                    <property name="margin_end">16</property>
+                    <property name="margin_top">16</property>
+                    <property name="margin_bottom">16</property>
+                    <property name="spacing">30</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Switch Shell variants</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="enabled_switch">
+                        <property name="hexpand">1</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                        <property name="active">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkFrame" id="manual">
+        <property name="child">
+          <object class="GtkListBox">
+            <property name="width_request">600</property>
+            <property name="selection_mode">none</property>
+            <child>
+              <object class="GtkListBoxRow">
+                <property name="activatable">0</property>
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="margin_start">16</property>
+                    <property name="margin_end">16</property>
+                    <property name="margin_top">16</property>
+                    <property name="margin_bottom">16</property>
+                    <property name="spacing">30</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Manual variants</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="valign">center</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">&lt;small&gt;You can manually set variants if the extension cannot automatically detect the day and night variants of your GNOME Shell theme. Please &lt;a href=&quot;https://gitlab.com/rmnvgr/nightthemeswitcher-gnome-shell-extension/-/issues&quot;&gt;submit a request&lt;/a&gt; to get your theme supported.&lt;/small&gt;</property>
+                            <property name="use_markup">1</property>
+                            <property name="wrap">1</property>
+                            <property name="max_width_chars">50</property>
+                            <property name="xalign">0</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="manual_switch">
+                        <property name="hexpand">1</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox" id="variants">
+        <property name="orientation">vertical</property>
+        <property name="spacing">8</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Manual variants</property>
+            <attributes>
+              <attribute name="weight" value="bold"></attribute>
+            </attributes>
+          </object>
+        </child>
+        <child>
+          <object class="GtkFrame">
+            <property name="child">
+              <object class="GtkListBox">
+                <property name="width_request">600</property>
+                <property name="selection_mode">none</property>
+                <child>
+                  <object class="GtkListBoxRow">
+                    <property name="activatable">0</property>
+                    <property name="child">
+                      <object class="GtkBox">
+                        <property name="margin_start">16</property>
+                        <property name="margin_end">16</property>
+                        <property name="margin_top">16</property>
+                        <property name="margin_bottom">16</property>
+                        <property name="spacing">30</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Day variant</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkComboBoxText" id="day_combo">
+                            <property name="hexpand">1</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBoxRow">
+                    <property name="activatable">0</property>
+                    <property name="selectable">0</property>
+                    <property name="child">
+                      <object class="GtkSeparator">
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBoxRow">
+                    <property name="activatable">0</property>
+                    <property name="child">
+                      <object class="GtkBox">
+                        <property name="margin_start">16</property>
+                        <property name="margin_end">16</property>
+                        <property name="margin_top">16</property>
+                        <property name="margin_bottom">16</property>
+                        <property name="spacing">30</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Night variant</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkComboBoxText" id="night_combo">
+                            <property name="hexpand">1</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="nightthemeswitcher@romainvigier.fr">
+	<schema id="org.gnome.shell.extensions.nightthemeswitcher" path="/org/gnome/shell/extensions/nightthemeswitcher/">
+		<key name="settings-version" type="i">
+			<default>0</default>
+			<summary>Settings version</summary>
+			<description>The current extension settings version</description>
+		</key>
+	</schema>
+	<schema id="org.gnome.shell.extensions.nightthemeswitcher.gtk-variants" path="/org/gnome/shell/extensions/nightthemeswitcher/gtk-variants/">
+		<key name="enabled" type="b">
+			<default>true</default>
+			<summary>Switch GTK variants</summary>
+			<description>Enable GTK variants switching</description>
+		</key>
+		<key name="day" type="s">
+			<default>"Adwaita"</default>
+			<summary>Day GTK theme</summary>
+			<description>The GTK theme to use during daytime</description>
+		</key>
+		<key name="night" type="s">
+			<default>"Adwaita-dark"</default>
+			<summary>Night GTK theme</summary>
+			<description>The GTK theme to use during nighttime</description>
+		</key>
+		<key name="manual" type="b">
+			<default>false</default>
+			<summary>Use manual GTK variants</summary>
+			<description>Disable automatic GTK theme variants detection</description>
+		</key>
+	</schema>
+	<schema id="org.gnome.shell.extensions.nightthemeswitcher.shell-variants" path="/org/gnome/shell/extensions/nightthemeswitcher/shell-variants/">
+		<key name="enabled" type="b">
+			<default>true</default>
+			<summary>Switch shell variants</summary>
+			<description>Enable shell variants switching</description>
+		</key>
+		<key name="day" type="s">
+			<default>""</default>
+			<summary>Day shell theme</summary>
+			<description>The shell theme to use during daytime</description>
+		</key>
+		<key name="night" type="s">
+			<default>""</default>
+			<summary>Night shell theme</summary>
+			<description>The shell theme to use during nighttime</description>
+		</key>
+		<key name="manual" type="b">
+			<default>false</default>
+			<summary>Use manual shell variants</summary>
+			<description>Disable automatic shell theme variants detection</description>
+		</key>
+	</schema>
+	<schema id="org.gnome.shell.extensions.nightthemeswitcher.icon-variants" path="/org/gnome/shell/extensions/nightthemeswitcher/icon-variants/">
+		<key name="enabled" type="b">
+			<default>false</default>
+			<summary>Switch icon variants</summary>
+			<description>Enable icon variants switching</description>
+		</key>
+		<key name="day" type="s">
+			<default>""</default>
+			<summary>Day icon theme</summary>
+			<description>The icon theme to use during daytime</description>
+		</key>
+		<key name="night" type="s">
+			<default>""</default>
+			<summary>Night icon theme</summary>
+			<description>The icon theme to use during nighttime</description>
+		</key>
+	</schema>
+	<schema id="org.gnome.shell.extensions.nightthemeswitcher.cursor-variants" path="/org/gnome/shell/extensions/nightthemeswitcher/cursor-variants/">
+		<key name="enabled" type="b">
+			<default>false</default>
+			<summary>Switch cursor variants</summary>
+			<description>Enable cursor variants switching</description>
+		</key>
+		<key name="day" type="s">
+			<default>""</default>
+			<summary>Day cursor theme</summary>
+			<description>The cursor theme to use during daytime</description>
+		</key>
+		<key name="night" type="s">
+			<default>""</default>
+			<summary>Night cursor theme</summary>
+			<description>The cursor theme to use during nighttime</description>
+		</key>
+	</schema>
+	<schema id="org.gnome.shell.extensions.nightthemeswitcher.commands" path="/org/gnome/shell/extensions/nightthemeswitcher/commands/">
+		<key name="enabled" type="b">
+			<default>false</default>
+			<summary>Enable commands</summary>
+			<description>Commands will be spawned on time change</description>
+		</key>
+		<key name="sunrise" type="s">
+			<default>""</default>
+			<summary>Sunrise command</summary>
+			<description>The command to spawn at sunrise</description>
+		</key>
+		<key name="sunset" type="s">
+			<default>""</default>
+			<summary>Sunset command</summary>
+			<description>The command to spawn at sunset</description>
+		</key>
+	</schema>
+	<schema id="org.gnome.shell.extensions.nightthemeswitcher.backgrounds" path="/org/gnome/shell/extensions/nightthemeswitcher/backgrounds/">
+		<key name="enabled" type="b">
+			<default>false</default>
+			<summary>Enable backgrounds</summary>
+			<description>Background will be changed on time change</description>
+		</key>
+		<key name="day" type="s">
+			<default>""</default>
+			<summary>Day background</summary>
+			<description>Path to the day background</description>
+		</key>
+		<key name="night" type="s">
+			<default>""</default>
+			<summary>Night background</summary>
+			<description>Path to the night background</description>
+		</key>
+	</schema>
+	<schema id="org.gnome.shell.extensions.nightthemeswitcher.time" path="/org/gnome/shell/extensions/nightthemeswitcher/time/">
+		<key name="time-source" type="s">
+			<choices>
+				<choice value="nightlight"/>
+				<choice value="location"/>
+				<choice value="schedule"/>
+				<choice value="ondemand"/>
+			</choices>
+			<default>"schedule"</default>
+			<summary>Time source</summary>
+			<description>The source used to check current time</description>
+		</key>
+		<key name="nightlight-follow-disable" type="b">
+			<default>false</default>
+			<summary>Follow Night Light "Disable until tomorrow"</summary>
+			<description>Switch back to day time when Night Light is temporarily disabled</description>
+		</key>
+		<key name="always-enable-ondemand" type="b">
+			<default>false</default>
+			<summary>Always enable the on-demand timer</summary>
+			<description>The on-demand timer will always be enabled alongside other timers</description>
+		</key>
+		<key name="ondemand-time" type="s">
+			<choices>
+				<choice value="day"/>
+				<choice value="night"/>
+			</choices>
+			<default>"day"</default>
+			<summary>On-demand time</summary>
+			<description>The current time used in on-demand mode</description>
+		</key>
+		<key name="nightthemeswitcher-ondemand-keybinding" type="as">
+			<default><![CDATA[['<Shift><Super>t']]]></default>
+			<summary>Key combination to toggle time</summary>
+			<description>The key combination that will toggle time in on-demand mode</description>
+		</key>
+		<key name="ondemand-button-placement" type="s">
+			<choices>
+				<choice value="none"/>
+				<choice value="panel"/>
+				<choice value="menu"/>
+			</choices>
+			<default>"panel"</default>
+			<summary>On-demand button placement</summary>
+			<description>Where the on-demand button will be placed</description>
+		</key>
+		<key name="manual-time-source" type="b">
+			<default>false</default>
+			<summary>Use manual time source</summary>
+			<description>Disable automatic time source detection</description>
+		</key>
+		<key name="schedule-sunrise" type="d">
+			<default>6</default>
+			<summary>Sunrise time</summary>
+			<description>When the day starts</description>
+		</key>
+		<key name="schedule-sunset" type="d">
+			<default>20</default>
+			<summary>Sunset time</summary>
+			<description>When the day ends</description>
+		</key>
+	</schema>
+</schemalist>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="nightthemeswitcher@romainvigier.fr">
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkBox" id="commands">
+    <property name="width_request">600</property>
+    <property name="halign">center</property>
+    <property name="valign">start</property>
+    <property name="margin_start">36</property>
+    <property name="margin_end">36</property>
+    <property name="margin_top">36</property>
+    <property name="margin_bottom">36</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">30</property>
+    <property name="baseline_position">top</property>
+    <child>
+      <object class="GtkFrame" id="enabled">
+        <property name="child">
+          <object class="GtkListBox">
+            <property name="width_request">600</property>
+            <property name="selection_mode">none</property>
+            <child>
+              <object class="GtkListBoxRow">
+                <property name="activatable">0</property>
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="margin_start">16</property>
+                    <property name="margin_end">16</property>
+                    <property name="margin_top">16</property>
+                    <property name="margin_bottom">16</property>
+                    <property name="spacing">30</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Run commands</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="valign">center</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">&lt;small&gt;You can set custom commands that will be run when the time of the day changes.&lt;/small&gt;</property>
+                            <property name="use_markup">1</property>
+                            <property name="wrap">1</property>
+                            <property name="max_width_chars">50</property>
+                            <property name="xalign">0</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="enabled_switch">
+                        <property name="hexpand">1</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox" id="entries">
+        <property name="orientation">vertical</property>
+        <property name="spacing">8</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="halign">start</property>
+            <property name="label" translatable="yes">Commands</property>
+            <attributes>
+              <attribute name="weight" value="bold"></attribute>
+            </attributes>
+          </object>
+        </child>
+        <child>
+          <object class="GtkFrame">
+            <property name="child">
+              <object class="GtkListBox">
+                <property name="width_request">600</property>
+                <property name="selection_mode">none</property>
+                <child>
+                  <object class="GtkListBoxRow">
+                    <property name="activatable">0</property>
+                    <property name="child">
+                      <object class="GtkBox">
+                        <property name="margin_start">16</property>
+                        <property name="margin_end">16</property>
+                        <property name="margin_top">16</property>
+                        <property name="margin_bottom">16</property>
+                        <property name="spacing">30</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Sunrise command</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="hexpand">1</property>
+                            <property name="halign">end</property>
+                            <child>
+                              <object class="GtkEntry" id="sunrise_entry">
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                                <property name="width_chars">28</property>
+                                <property name="truncate_multiline">1</property>
+                                <property name="placeholder_text" translatable="yes">notify-send &quot;Hello sunshine!&quot;</property>
+                                <property name="input_purpose">terminal</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="sunrise_clear_button">
+                                <property name="label" translatable="yes">Clear</property>
+                                <style>
+                                  <class name="destructive-action"/>
+                                </style>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="linked"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBoxRow">
+                    <property name="activatable">0</property>
+                    <property name="selectable">0</property>
+                    <property name="child">
+                      <object class="GtkSeparator">
+                      </object>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkListBoxRow">
+                    <property name="activatable">0</property>
+                    <property name="child">
+                      <object class="GtkBox">
+                        <property name="margin_start">16</property>
+                        <property name="margin_end">16</property>
+                        <property name="margin_top">16</property>
+                        <property name="margin_bottom">16</property>
+                        <property name="spacing">30</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Sunset command</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="hexpand">1</property>
+                            <property name="halign">end</property>
+                            <child>
+                              <object class="GtkEntry" id="sunset_entry">
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                                <property name="width_chars">28</property>
+                                <property name="truncate_multiline">1</property>
+                                <property name="placeholder_text" translatable="yes">notify-send &quot;Hello moonshine!&quot;</property>
+                                <property name="input_purpose">terminal</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton" id="sunset_clear_button">
+                                <property name="label" translatable="yes">Clear</property>
+                                <style>
+                                  <class name="destructive-action"/>
+                                </style>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="linked"/>
+                            </style>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
