@@ -71,8 +71,10 @@ sudo RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussel
 sudo rm ~/.zshrc
 
 # Clone and Link Dotfiles
-echo "${YELLOW}:: ${MAGENTA}Cloning dotfiles...${RESET}"
-git clone https://github.com/bweston6/dotfiles ~/.dotfiles # update key and change to ssh
+echo "${YELLOW}:: ${MAGENTA}Cloning dotfiles to $HOME...${RESET}"
+git clone git@github.com:bweston6/dotfiles.git ~/.dotfiles
+echo "${YELLOW}:: ${MAGENTA}Deleting initial dotfiles...${RESET}"
+sudo rm -rf /dotfiles
 echo "${YELLOW}:: ${MAGENTA}Stowing dotfiles...${RESET}"
 cd ~/.dotfiles/stow/home
 stow -t ~/ -R *
