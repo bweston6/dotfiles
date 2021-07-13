@@ -53,7 +53,7 @@ RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-
 rm ~/.zshrc
 echo "${YELLOW}:: ${MAGENTA}Installing oh-my-zsh for root...${RESET}"
 sudo RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-sudo rm ~/.zshrc
+sudo rm /root/.zshrc
 
 # Clone and Link Dotfiles
 echo "${YELLOW}:: ${MAGENTA}Cloning dotfiles to $HOME...${RESET}"
