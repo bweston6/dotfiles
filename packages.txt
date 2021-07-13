@@ -34,3 +34,4 @@ gedit-plugins
 vulkan-intel
 intel-media-driver
 sudo
+stow

@@ -20,10 +20,15 @@ sudo sed -i "s/#Color/Color/g" /etc/pacman.conf
 sudo sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 
 # Check for git and stow
-if ! command -v stow git &> /dev/null
+if ! command -v stow &> /dev/null
 then
 	echo "${YELLOW}:: ${MAGENTA}Installing prerequesites...${RESET}"
-	sudo pacman -Sy --needed git stow
+	sudo pacman -Sy --needed stow
+fi
+if ! command -v git &> /dev/null
+then
+	echo "${YELLOW}:: ${MAGENTA}Installing prerequesites...${RESET}"
+	sudo pacman -Sy --needed git
 fi
 
 # Copying Keys from USB
@@ -41,6 +46,25 @@ then
 	sudo chmod 400 ~/.ssh/*
 	gpg --import /run/media/*/KEYS/*.pgp
 fi
+
+# Installing omz
+echo "${YELLOW}:: ${MAGENTA}Installing oh-my-zsh for $USER...${RESET}"
+RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+rm ~/.zshrc
+echo "${YELLOW}:: ${MAGENTA}Installing oh-my-zsh for root...${RESET}"
+sudo RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sudo rm ~/.zshrc
+
+# Clone and Link Dotfiles
+echo "${YELLOW}:: ${MAGENTA}Cloning dotfiles to $HOME...${RESET}"
+git clone git@github.com:bweston6/dotfiles.git ~/.dotfiles
+echo "${YELLOW}:: ${MAGENTA}Deleting initial dotfiles...${RESET}"
+sudo rm -rf /dotfiles
+echo "${YELLOW}:: ${MAGENTA}Stowing dotfiles...${RESET}"
+cd ~/.dotfiles/stow/home
+stow -t ~/ -R *
+cd ~/.dotfiles/stow/root
+sudo stow -t / -R root-zsh
 
 # Installing yay and AUR Packages
 if ! command -v yay &> /dev/null
@@ -61,25 +85,6 @@ yay -Syu --needed systemd-boot-pacman-hook vi-vim-symlink chrome-gnome-shell etc
 echo "${YELLOW}:: ${MAGENTA}Installing flatpak packages...${RESET}"
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak install spotify microsoft.teams zoom
-
-# Installing omz
-echo "${YELLOW}:: ${MAGENTA}Installing oh-my-zsh for $USER...${RESET}"
-RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-rm ~/.zshrc
-echo "${YELLOW}:: ${MAGENTA}Installing oh-my-zsh for root...${RESET}"
-sudo RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-sudo rm ~/.zshrc
-
-# Clone and Link Dotfiles
-echo "${YELLOW}:: ${MAGENTA}Cloning dotfiles to $HOME...${RESET}"
-git clone git@github.com:bweston6/dotfiles.git ~/.dotfiles
-echo "${YELLOW}:: ${MAGENTA}Deleting initial dotfiles...${RESET}"
-sudo rm -rf /dotfiles
-echo "${YELLOW}:: ${MAGENTA}Stowing dotfiles...${RESET}"
-cd ~/.dotfiles/stow/home
-stow -t ~/ -R *
-cd ~/.dotfiles/stow/root
-sudo stow -t / -R root-zsh
 
 # Installing vim-plug Plugins
 echo "${YELLOW}:: ${MAGENTA}Installing vim plugins...${RESET}"
