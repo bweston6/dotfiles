@@ -23,12 +23,12 @@ sudo sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 if ! command -v stow &> /dev/null
 then
 	echo "${YELLOW}:: ${MAGENTA}Installing prerequesites...${RESET}"
-	sudo pacman -Sy --needed stow
+	sudo pacman -Sy --needed --noconfirm stow
 fi
 if ! command -v git &> /dev/null
 then
 	echo "${YELLOW}:: ${MAGENTA}Installing prerequesites...${RESET}"
-	sudo pacman -Sy --needed git
+	sudo pacman -Sy --needed --noconfirm git
 fi
 
 # Copying Keys from USB
@@ -57,7 +57,12 @@ sudo rm /root/.zshrc
 
 # Clone and Link Dotfiles
 echo "${YELLOW}:: ${MAGENTA}Cloning dotfiles to $HOME...${RESET}"
-git clone git@github.com:bweston6/dotfiles.git ~/.dotfiles
+if [[ $(shasum ~/.ssh/id_ed25519 2>/dev/null) == "d4eb9049d94cab0a6360290da475c46a5878fb90"* ]];
+then
+	git clone git@github.com:bweston6/dotfiles.git ~/.dotfiles
+else
+	git clone https://github.com/bweston6/dotfiles ~/.dotfiles
+fi
 echo "${YELLOW}:: ${MAGENTA}Deleting initial dotfiles...${RESET}"
 sudo rm -rf /dotfiles
 echo "${YELLOW}:: ${MAGENTA}Stowing dotfiles...${RESET}"
@@ -73,26 +78,26 @@ then
 	cd ~
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
-	makepkg -si
+	makepkg -si --noconfirm
 	cd ~
 	rm -rf yay
 fi
 echo "${YELLOW}:: ${MAGENTA}Updating and installing packages...${RESET}"
 cd ~/.dotfiles
-yay -Syu --needed systemd-boot-pacman-hook vi-vim-symlink chrome-gnome-shell etcher-bin gogh-git pulseaudio-modules-bt pulseeffects-legacy-git - < packages.txt
+yay -Syu --needed --noconfirm systemd-boot-pacman-hook vi-vim-symlink chrome-gnome-shell etcher-bin gogh-git pulseaudio-modules-bt pulseeffects-legacy-git - < packages.txt
 
 # Installing flatpak Packages
 echo "${YELLOW}:: ${MAGENTA}Installing flatpak packages...${RESET}"
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install spotify microsoft.teams zoom
+flatpak install -y spotify microsoft.teams zoom
 
 # Installing vim-plug Plugins
 echo "${YELLOW}:: ${MAGENTA}Installing vim plugins...${RESET}"
 vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall
 
 # Installing Terminal Theme
-echo "${YELLOW}:: ${MAGENTA}Installing \"cobalt2\" theme...${RESET}"
-echo 33 | gogh
+#echo "${YELLOW}:: ${MAGENTA}Installing \"cobalt2\" theme...${RESET}"
+#echo 33 | gogh
 
 # Logging into Accounts
 echo "${MAGENTA}Log into any online accounts (close the window to continue):${RESET}"
@@ -100,5 +105,6 @@ gnome-control-center online-accounts
 
 # Configuring dconf
 echo "${YELLOW}:: ${MAGENTA}Restoring dconf preferences...${RESET}"
+dconf reset -f /
 dconf load / < ~/.dotfiles/dconf.ini
 gnome-session-quit --no-prompt
