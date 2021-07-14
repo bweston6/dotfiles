@@ -70,7 +70,7 @@ rm -f ~/.zshrc*
 stow -t ~/ -S *
 cd ~/.dotfiles/stow/root
 sudo stow -t / -D root-zsh pacman pulseaudio
-sudo rm -f /root/.zshrc* /etc/pacman.conf /etc/pulse/daemon.conf
+sudo rm -f /root/.zshrc /etc/pacman.conf /etc/pulse/daemon.conf
 sudo stow -t / -S root-zsh pacman pulseaudio
 
 # Installing yay and AUR Packages
