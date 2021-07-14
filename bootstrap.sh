@@ -50,10 +50,8 @@ fi
 # Installing omz
 echo "${YELLOW}:: ${MAGENTA}Installing oh-my-zsh for $USER...${RESET}"
 RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-rm ~/.zshrc
 echo "${YELLOW}:: ${MAGENTA}Installing oh-my-zsh for root...${RESET}"
 sudo RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-sudo rm /root/.zshrc
 
 # Clone and Link Dotfiles
 echo "${YELLOW}:: ${MAGENTA}Cloning dotfiles to $HOME...${RESET}"
@@ -67,9 +65,13 @@ echo "${YELLOW}:: ${MAGENTA}Deleting initial dotfiles...${RESET}"
 sudo rm -rf /dotfiles
 echo "${YELLOW}:: ${MAGENTA}Stowing dotfiles...${RESET}"
 cd ~/.dotfiles/stow/home
-stow -t ~/ -R *
+stow -t ~/ -D *
+rm -f ~/.zshrc*
+stow -t ~/ -S *
 cd ~/.dotfiles/stow/root
-sudo stow -t / -R root-zsh
+sudo stow -t / -D root-zsh pacman pulseaudio
+sudo rm -f /root/.zshrc* /etc/pacman.conf /etc/pulse/daemon.conf
+sudo stow -t / -S root-zsh pacman pulseaudio
 
 # Installing yay and AUR Packages
 if ! command -v yay &> /dev/null
