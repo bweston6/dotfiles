@@ -53,4 +53,4 @@ echo "${YELLOW}:: ${MAGENTA}Inserting PARTUUID into boot entry...${RESET}"
 PARTUUID=$(findmnt /mnt -no PARTUUID)
 sed -i "s/PARTUUID=\"/PARTUUID=$PARTUUID\"/g" /mnt/boot/loader/entries/arch.conf
 
-echo "${MAGENTA}Please unmount /mnt (umount -R /mnt) and reboot. Then login and run \"bootstrap.sh\".${RESET}"
+echo "${MAGENTA}Please unmount /mnt (umount -R /mnt) and reboot. Then login and run \"/dotfiles/bootstrap.sh\".${RESET}"
