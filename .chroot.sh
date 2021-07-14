@@ -35,7 +35,9 @@ passwd
 # Creating User
 echo "${MAGENTA}Enter username for non-privileged user:${RESET}"
 read NAME
-useradd -m -G wheel -s /bin/zsh $NAME
+echo "${MAGENTA}Enter the full name of the non-privileged user:${RESET}"
+read COMMENT
+useradd -c "$COMMENT" -m -G wheel -s /bin/zsh $NAME
 echo "${MAGENTA}Enter a password for $NAME (you will soon be editing the sudoers file; uncomment wheel access):${RESET}"
 passwd $NAME
 EDITOR=vim visudo
