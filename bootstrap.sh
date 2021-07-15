@@ -86,8 +86,9 @@ then
 fi
 echo "${YELLOW}:: ${MAGENTA}Updating and installing packages...${RESET}"
 cd ~/.dotfiles
-yay -Syu --needed --noconfirm systemd-boot-pacman-hook vi-vim-symlink chrome-gnome-shell etcher-bin gogh-git pulseeffects-legacy-git - < packages.txt
-yay -Syu pulseaudio-modules-bt
+yay -Syu --needed --noconfirm systemd-boot-pacman-hook vi-vim-symlink chrome-gnome-shell etcher-bin gogh-git - < packages.txt
+echo "${MAGENTA}Ensure to not install zam-plugins and to replace pulseaudio:${RESET}"
+yay -Syu pulseaudio-modules-bt --ignore zam-plugins pulseeffects-legacy-git
 
 # Installing flatpak Packages
 echo "${YELLOW}:: ${MAGENTA}Installing flatpak packages...${RESET}"
