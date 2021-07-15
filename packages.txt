@@ -35,3 +35,6 @@ vulkan-intel
 intel-media-driver
 sudo
 stow
+aspell-en
+hunspell-en_gb
+nuspell
