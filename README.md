@@ -1,4 +1,6 @@
 # Dotfiles
+> ## From installer to desktop in 15 minutes!
+
 This repo provides my dotfiles and two main scripts:
 
 * `installer.sh` - Takes you from the arch installer to a boot-able system.
