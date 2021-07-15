@@ -1,2 +1,4 @@
 *.pyc
 /stow/home/vim/.vim/plugged/
+/stow/home/pulseeffects/.config/PulseEffects/
+!/stow/home/pulseeffects/.config/PulseEffects/output/*
