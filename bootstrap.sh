@@ -111,4 +111,5 @@ gnome-control-center online-accounts
 echo "${YELLOW}:: ${MAGENTA}Restoring dconf preferences...${RESET}"
 dconf reset -f /
 dconf load / < ~/.dotfiles/dconf.ini
-gnome-session-quit --no-prompt
+echo "${MAGENTA}It is recommended to logout to apply all changes (please accept the prompt):${RESET}"
+gnome-session-quit --logout
