@@ -69,9 +69,9 @@ stow -t ~/ -D *
 rm -f ~/.zshrc*
 stow -t ~/ -S *
 cd ~/.dotfiles/stow/root
-sudo stow -t / -D root-zsh pacman pulseaudio
-sudo rm -f /root/.zshrc /etc/pacman.conf /etc/pulse/daemon.conf
-sudo stow -t / -S root-zsh pacman pulseaudio
+sudo stow -t / -D root-zsh pacman pulseaudio mkinitcpio
+sudo rm -f /root/.zshrc /etc/pacman.conf /etc/pulse/daemon.conf /etc/mkinitcpio.conf
+sudo stow -t / -S root-zsh pacman pulseaudio mkinitcpio
 
 # Installing yay and AUR Packages
 if ! command -v yay &> /dev/null
