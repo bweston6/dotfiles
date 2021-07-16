@@ -38,3 +38,4 @@ stow
 aspell-en
 hunspell-en_gb
 nuspell
+libgit2-glib
