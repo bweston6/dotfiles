@@ -10,15 +10,6 @@ if ! ping -q -c 1 -W 1 google.com >/dev/null; then
 	exit
 fi
 
-# Installer pacman Config
-echo "${YELLOW}:: ${MAGENTA}Installing pacman config...${RESET}"
-sed -i "s/#Color/Color/g" /etc/pacman.conf
-sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
-
-# Updating Mirror List
-echo "${YELLOW}:: ${MAGENTA}Updating mirror list...${RESET}"
-reflector --sort delay -f 10 -l 20 --completion-percent 100 --save /etc/pacman.d/mirrorlist
-
 # Ask to Confirm Mountpoints
 if ! mountpoint -q -- "/mnt";
 then
@@ -29,6 +20,15 @@ then
 	echo "${MAGENTA}There is no filesystem mounted at /mnt/boot.${RESET}"
 	exit
 fi
+
+# Installer pacman Config
+echo "${YELLOW}:: ${MAGENTA}Installing pacman config...${RESET}"
+sed -i "s/#Color/Color/g" /etc/pacman.conf
+sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
+
+# Updating Mirror List
+echo "${YELLOW}:: ${MAGENTA}Updating mirror list...${RESET}"
+reflector --sort delay -f 10 -l 20 --completion-percent 100 --save /etc/pacman.d/mirrorlist
 
 # Record Hostname for System Specialisations
 echo "${MAGENTA}Please Enter a Hostname:${RESET}"

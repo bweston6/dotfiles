@@ -3,7 +3,7 @@
 YELLOW=`tput setaf 3`
 MAGENTA=`tput setaf 5`
 RESET=`tput sgr0`
-hostname=$(echo /etc/hostname)
+hostname=$(cat /etc/hostname)
 
 # Setting Localisation
 echo "${YELLOW}:: ${MAGENTA}Setting time zone...${RESET}"
@@ -17,7 +17,12 @@ echo "KEYMAP=uk" > /etc/vconsole.conf
 
 # Enabling early KMS
 echo "${YELLOW}:: ${MAGENTA}Enabling early KMS...${RESET}"
-sed -i 's/MODULES=()/MODULES=(i915)/g' /etc/mkinitcpio.conf
+if [[ $hostname == *"Desktop"* ]]
+then
+	sed -i 's/MODULES=()/MODULES=(i915)/g' /etc/mkinitcpio.conf
+else
+	sed -i 's/MODULES=()/MODULES=(amd)/g' /etc/mkinitcpio.conf
+fi
 mkinitcpio -P
 
 # Boot Manager
