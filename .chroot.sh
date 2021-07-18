@@ -3,6 +3,7 @@
 YELLOW=`tput setaf 3`
 MAGENTA=`tput setaf 5`
 RESET=`tput sgr0`
+hostname=$(echo /etc/hostname)
 
 # Setting Localisation
 echo "${YELLOW}:: ${MAGENTA}Setting time zone...${RESET}"
@@ -40,4 +41,10 @@ EDITOR=vim visudo
 
 # Enabling Services
 echo "${YELLOW}:: ${MAGENTA}Enabling services...${RESET}"
-systemctl enable --now bluetooth cups NetworkManager gdm
+if [[ $hostname == *"Laptop"* || $hostname == *"Desktop"* ]]
+then
+	systemctl enable --now bluetooth cups NetworkManager gdm
+elif [[ $hostname == *"Serv"* ]]
+then
+	# Enable server services here
+fi	
