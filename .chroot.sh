@@ -3,7 +3,9 @@
 YELLOW=`tput setaf 3`
 MAGENTA=`tput setaf 5`
 RESET=`tput sgr0`
+hostname=$(cat /etc/hostname)
 
+# Setting Localisation
 echo "${YELLOW}:: ${MAGENTA}Setting time zone...${RESET}"
 ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc
@@ -13,14 +15,14 @@ locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
 
-echo "${MAGENTA}Please Enter a Hostname:${RESET}"
-read hostname
-echo $hostname > /etc/hostname
-echo -e "127.0.0.1\tlocalhost\n::1\tlocalhost\n127.0.1.1\t$hostname.local\t$hostname" > /etc/hosts
-
 # Enabling early KMS
 echo "${YELLOW}:: ${MAGENTA}Enabling early KMS...${RESET}"
-sed -i 's/MODULES=()/MODULES=(i915)/g' /etc/mkinitcpio.conf
+if [[ $hostname == *"Desktop"* ]]
+then
+	sed -i 's/MODULES=()/MODULES=(amd)/g' /etc/mkinitcpio.conf
+else
+	sed -i 's/MODULES=()/MODULES=(i915)/g' /etc/mkinitcpio.conf
+fi
 mkinitcpio -P
 
 # Boot Manager
@@ -44,4 +46,12 @@ EDITOR=vim visudo
 
 # Enabling Services
 echo "${YELLOW}:: ${MAGENTA}Enabling services...${RESET}"
-systemctl enable --now bluetooth cups NetworkManager gdm
+if [[ $hostname == *"Laptop"* || $hostname == *"Desktop"* ]]
+then
+	systemctl enable --now bluetooth cups NetworkManager gdm
+elif [[ $hostname == *"Serv"* ]]
+then
+	:
+else
+	:
+fi	

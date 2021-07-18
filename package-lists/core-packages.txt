@@ -1,0 +1,11 @@
+base-devel
+curl
+git
+intel-ucode
+man-db
+pacman-contrib
+rsync
+stow
+sudo
+wget
+zsh
