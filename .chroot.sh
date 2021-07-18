@@ -19,9 +19,9 @@ echo "KEYMAP=uk" > /etc/vconsole.conf
 echo "${YELLOW}:: ${MAGENTA}Enabling early KMS...${RESET}"
 if [[ $hostname == *"Desktop"* ]]
 then
-	sed -i 's/MODULES=()/MODULES=(i915)/g' /etc/mkinitcpio.conf
-else
 	sed -i 's/MODULES=()/MODULES=(amd)/g' /etc/mkinitcpio.conf
+else
+	sed -i 's/MODULES=()/MODULES=(i915)/g' /etc/mkinitcpio.conf
 fi
 mkinitcpio -P
 
@@ -51,5 +51,7 @@ then
 	systemctl enable --now bluetooth cups NetworkManager gdm
 elif [[ $hostname == *"Serv"* ]]
 then
-	# Enable server services here
+	:
+else
+	:
 fi	

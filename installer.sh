@@ -36,17 +36,18 @@ read hostname
 
 # Installing Base Programs
 echo "${YELLOW}:: ${MAGENTA}Installing packages...${RESET}"
+cd package-lists
 if [[ $hostname == *"Laptop"* ]]
 then
-	pacstrap /mnt base linux linux-firmware - < core-packages.txt laptop-packages.txt
+	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt laptop-packages.txt)
 elif [[ $hostname == *"Desktop"* ]]
 then
-	pacstrap /mnt base linux linux-firmware - < core-packages.txt desktop-packages.txt
+	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt desktop-packages.txt)
 elif [[ $hostname == *"Serv"* ]]
 then
-	pacstrap /mnt base linux linux-firmware - < core-packages.txt server-packages.txt
+	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt server-packages.txt)
 else
-	pacstrap /mnt base linux linux-firmware - < core-packages.txt
+	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt)
 fi	
 
 # Write Hostname to New System
@@ -59,6 +60,8 @@ genfstab -U -f /mnt/boot /mnt > /mnt/etc/fstab
 
 # Copying Dotfiles to New System
 echo "${YELLOW}:: ${MAGENTA}Copying dotfiles to new system...${RESET}"
+cd ..
+rm -rf /mnt/dotfiles
 mkdir -p /mnt/dotfiles
 shopt -s dotglob nullglob
 cp -r ./* /mnt/dotfiles
