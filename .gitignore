@@ -1,4 +1,5 @@
 *.pyc
 /stow/home/vim/.vim/plugged/
+/stow/home/vim/.vim/spell/
 /stow/home/pulseeffects/.config/PulseEffects/
 !/stow/home/pulseeffects/.config/PulseEffects/output/*
