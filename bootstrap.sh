@@ -81,7 +81,7 @@ fi
 echo "${YELLOW}:: ${MAGENTA}Stowing dotfiles...${RESET}"
 if [[ $hostname == *"Laptop"* ]]
 then
-	HOME_PACKAGES="core* gnome* laptop*"
+	HOME_PACKAGES="core* gnome*"
 	ROOT_PACKAGES="core* gnome* laptop*"
 elif [[ $hostname == *"Desktop"* ]]
 then
@@ -125,15 +125,15 @@ echo "${YELLOW}:: ${MAGENTA}Updating and installing packages...${RESET}"
 cd ~/.dotfiles/package-lists
 if [[ $hostname == *"Laptop"* ]]
 then
-	yay -Syu --needed --removemake --noconfirm - < core-packages.txt < laptop-packages.txt < aur-core-packages.txt < aur-laptop-packages.txt
+	yay -Syu --needed --removemake --noconfirm --useask - < core-packages.txt < laptop-packages.txt < aur-core-packages.txt < aur-laptop-packages.txt
 elif [[ $hostname == *"Desktop"* ]]
 then
-	yay -Syu --needed --removemake --noconfirm - < core-packages.txt < desktop-packages.txt < aur-core-packages.txt < aur-desktop-packages.txt
+	yay -Syu --needed --removemake --noconfirm --useask - < core-packages.txt < desktop-packages.txt < aur-core-packages.txt < aur-desktop-packages.txt
 elif [[ $hostname == *"Serv"* ]]
 then
-	yay -Syu --needed --removemake --noconfirm - < core-packages.txt < server-packages.txt < aur-core-packages.txt < aur-server-packages.txt
+	yay -Syu --needed --removemake --noconfirm --useask - < core-packages.txt < server-packages.txt < aur-core-packages.txt < aur-server-packages.txt
 else
-	yay -Syu --needed --removemake --noconfirm - < core-packages.txt < aur-core-packages.txt
+	yay -Syu --needed --removemake --noconfirm --useask - < core-packages.txt < aur-core-packages.txt
 fi	
 
 # Installing vim-plug Plugins
