@@ -1,0 +1,10 @@
+certbot
+cronie
+emby-server
+fail2ban
+hdparm
+intel-media-driver
+intel-media-sdk
+lvm2
+mesa
+vulkan-intel

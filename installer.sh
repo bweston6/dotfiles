@@ -30,13 +30,32 @@ then
 	exit
 fi
 
+# Record Hostname for System Specialisations
+echo "${MAGENTA}Please Enter a Hostname:${RESET}"
+read hostname
+
 # Installing Base Programs
 echo "${YELLOW}:: ${MAGENTA}Installing packages...${RESET}"
-pacstrap /mnt base linux linux-firmware - < packages.txt
+if [[ $hostname == *"Laptop"* ]]
+then
+	pacstrap /mnt base linux linux-firmware - < core-packages.txt laptop-packages.txt
+elif [[ $hostname == *"Desktop"* ]]
+then
+	pacstrap /mnt base linux linux-firmware - < core-packages.txt desktop-packages.txt
+elif [[ $hostname == *"Serv"* ]]
+then
+	pacstrap /mnt base linux linux-firmware - < core-packages.txt server-packages.txt
+else
+	pacstrap /mnt base linux linux-firmware - < core-packages.txt
+fi	
+
+# Write Hostname to New System
+echo $hostname > /mnt/etc/hostname
+echo -e "127.0.0.1\tlocalhost\n::1\tlocalhost\n127.0.1.1\t$hostname.local\t$hostname" > /mnt/etc/hosts
 
 # Genfstab
 echo "${YELLOW}:: ${MAGENTA}Generating fstab...${RESET}"
-genfstab -U /mnt > /mnt/etc/fstab
+genfstab -U -f /mnt/boot /mnt > /mnt/etc/fstab
 
 # Copying Dotfiles to New System
 echo "${YELLOW}:: ${MAGENTA}Copying dotfiles to new system...${RESET}"
