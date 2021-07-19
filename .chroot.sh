@@ -28,7 +28,20 @@ mkinitcpio -P
 # Boot Manager
 echo "${YELLOW}:: ${MAGENTA}Installing systemd-boot...${RESET}"
 bootctl install
-cp -r /dotfiles/boot/loader /boot
+cp -r /dotfiles/systemd-boot/core-loader/* /boot/loader
+if [[ $hostname == *"Laptop"* ]]
+then
+	cp -r /dotfiles/systemd-boot/laptop-entries/* /boot/loader/entries
+elif [[ $hostname == *"Desktop"* ]]
+then
+	cp -r /dotfiles/stow/root/desktop-edid/lib/firmware /lib
+	cp -r /dotfiles/systemd-boot/desktop-entries/* /boot/loader/entries
+elif [[ $hostname == *"Serv"* ]]
+then
+	cp -r /dotfiles/systemd-boot/server-entries/* /boot/loader/entries
+else
+	cp -r /dotfiles/systemd-boot/core-entries/* /boot/loader/entries
+fi
 
 # Setting root Password
 echo "${MAGENTA}Please enter a root password:${RESET}"

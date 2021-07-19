@@ -86,7 +86,7 @@ then
 elif [[ $hostname == *"Desktop"* ]]
 then
 	HOME_PACKAGES="core* gnome*"
-	ROOT_PACKAGES="core* gnome*"
+	ROOT_PACKAGES="core* gnome* desktop*"
 elif [[ $hostname == *"Serv"* ]]
 then
 	HOME_PACKAGES="core*"
@@ -105,7 +105,7 @@ stow -t ~/ -S $HOME_PACKAGES
 # / Dotfiles
 cd ~/.dotfiles/stow/root
 sudo stow -t / -D $ROOT_PACKAGES
-sudo rm -f /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/pulse/daemon.conf /etc/mkinitcpio.conf /etc/systemd/network/20-wired.network
+sudo rm -f /etc/pacman.conf /root/.zshrc /lib/firmware/edid/edid.bin /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/pulse/daemon.conf /etc/mkinitcpio.conf /etc/systemd/network/20-wired.network
 sudo stow -t / -S $ROOT_PACKAGES
 
 # Installing yay
