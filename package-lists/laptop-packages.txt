@@ -25,7 +25,9 @@ marker
 networkmanager
 noto-fonts-cjk
 noto-fonts-extra
+ntfs-3g
 nuspell
 telegram-desktop
+texlive-core
 vulkan-intel
 zathura-pdf-mupdf

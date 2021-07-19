@@ -1,6 +1,7 @@
 base-devel
 curl
 git
+glances
 intel-ucode
 man-db
 pacman-contrib

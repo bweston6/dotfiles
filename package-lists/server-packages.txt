@@ -5,6 +5,9 @@ fail2ban
 hdparm
 intel-media-driver
 intel-media-sdk
+linux-lts
+linux-lts-headers
 lvm2
 mesa
+vim
 vulkan-intel

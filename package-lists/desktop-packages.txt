@@ -26,7 +26,10 @@ mesa-vdpau
 networkmanager
 noto-fonts-cjk
 noto-fonts-extra
+ntfs-3g
 nuspell
 telegram-desktop
+texlive-core
+virt-manager
 vulkan-radeon
 zathura-pdf-mupdf
