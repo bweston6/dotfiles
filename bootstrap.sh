@@ -126,6 +126,8 @@ cd ~/.dotfiles/package-lists
 if [[ $hostname == *"Laptop"* ]]
 then
 	yay -Syu --needed --removemake --noconfirm --useask $(cat core-packages.txt laptop-packages.txt aur-core-packages.txt aur-laptop-packages.txt)
+	echo "[Desktop Entry] Hidden=true" > /tmp/1
+	find /usr -name "*lsp_plug*desktop" 2>/dev/null | cut -f 5 -d '/' | xargs -I {} cp /tmp/1 ~/.local/share/applications/{}
 elif [[ $hostname == *"Desktop"* ]]
 then
 	yay -Syu --needed --removemake --noconfirm --useask $(cat core-packages.txt desktop-packages.txt aur-core-packages.txt aur-desktop-packages.txt)
