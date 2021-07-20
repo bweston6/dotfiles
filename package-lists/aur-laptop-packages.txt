@@ -1,5 +1,6 @@
 chrome-gnome-shell
 etcher-bin
 gogh-git
+lsp-plugins
 pulseaudio-modules-bt
 pulseeffects-legacy
