@@ -81,7 +81,7 @@ fi
 echo "${YELLOW}:: ${MAGENTA}Stowing dotfiles...${RESET}"
 if [[ $hostname == *"Laptop"* ]]
 then
-	HOME_PACKAGES="core* gnome*"
+	HOME_PACKAGES="core* gnome* laptop*"
 	ROOT_PACKAGES="core* gnome* laptop*"
 elif [[ $hostname == *"Desktop"* ]]
 then
