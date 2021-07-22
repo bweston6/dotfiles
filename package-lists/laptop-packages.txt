@@ -19,6 +19,7 @@ gvim
 hunspell-en_gb
 ibus
 intel-media-driver
+jdk-openjdk
 libgit2-glib
 libreoffice-fresh
 marker

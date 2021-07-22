@@ -18,6 +18,7 @@ gparted
 gvim
 hunspell-en_gb
 ibus
+jdk-openjdk
 libgit2-glib
 libreoffice-fresh
 libva-mesa-driver
