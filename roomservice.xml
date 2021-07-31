@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<manifest>
-<project name="LineageOS/android_device_motorola_peregrine" path="device/motorola/peregrine" remote="github" revision="cm-14.1" />
-<project name="LineageOS/android_device_motorola_msm8226-common" path="device/motorola/msm8226-common" remote="github" revision="cm-14.1" />
-<project name="LineageOS/android_device_qcom_common" path="device/qcom/common" remote="github" revision="cm-14.1" />
-<project name="LineageOS/android_kernel_motorola_msm8226" path="kernel/motorola/msm8226" remote="github" revision="cm-14.1" />
-<project name="TheMuppets/proprietary_vendor_motorola" path="vendor/motorola" remote="github" revision="cm-14.1" />
-<project name="LineageOS/android_packages_resources_devicesettings" path="packages/resources/devicesettings" remote="github" revision="cm-14.1"/>
-</manifest>
