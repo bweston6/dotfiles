@@ -61,7 +61,7 @@ EDITOR=vim visudo
 echo "${YELLOW}:: ${MAGENTA}Enabling services...${RESET}"
 if [[ $hostname == *"Laptop"* || $hostname == *"Desktop"* ]]
 then
-	systemctl enable --now bluetooth cups NetworkManager gdm
+	systemctl enable --now bluetooth cups NetworkManager intel-undervolt gdm
 elif [[ $hostname == *"Serv"* ]]
 then
 	:
