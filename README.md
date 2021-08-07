@@ -12,11 +12,12 @@ Both of these scripts aim to be idempotent such that if there is an error or you
 There are three main classes of machine that the scripts can configure:
 
 * `Desktop` - Must have `Desktop` in the hostname.
-	* The current configuration on my desktop computer: running Gnome and with GPU pass-through for windows virtualisation.
+	* The previous configuration on my desktop computer: running Gnome.
 * `Laptop` - Must have `Laptop` in the hostname.
-	* The current configuration on my laptop: running Gnome and with EQ for the speakers.
+	* The current configuration on my laptop: running Gnome, with EQ for the speakers, eGPU support and 105mV undervolt.
 * `Server` - Must have `Serv` in the hostname.
-	* The current configuration for my media server. 
+	* The current configuration for my media server.
+		* Partially implemented.
 
 If none of the above strings are found in the target machine's hostname then a generic install is performed. This includes minimal programs and only dotfiles for command-line programs installed. 
 
