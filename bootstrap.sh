@@ -105,7 +105,7 @@ stow -t ~/ -S $HOME_PACKAGES
 # / Dotfiles
 cd ~/.dotfiles/stow/root
 sudo stow -t / -D $ROOT_PACKAGES
-sudo rm -f /etc/pacman.conf /root/.zshrc /lib/firmware/edid/edid.bin /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/pulse/daemon.conf /etc/intel-undervolt.conf /etc/mkinitcpio.conf /etc/systemd/network/20-wired.network
+sudo rm -f /etc/pacman.conf /root/.zshrc /lib/firmware/edid/edid.bin /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf /etc/mkinitcpio.conf /etc/systemd/network/20-wired.network
 sudo stow -t / -S $ROOT_PACKAGES
 
 # Installing yay
@@ -141,6 +141,12 @@ fi
 # Installing vim-plug Plugins
 echo "${YELLOW}:: ${MAGENTA}Installing vim plugins...${RESET}"
 vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall
+
+# Laptop Specific
+if [[ $hostname == *"Laptop"* ]]
+then
+	sudo systemctl restart intel-undervolt
+fi
 
 # Gnome Specific
 if [[ $hostname == *"Laptop"* || $hostname == *"Desktop"* ]]
