@@ -59,9 +59,13 @@ EDITOR=vim visudo
 
 # Enabling Services
 echo "${YELLOW}:: ${MAGENTA}Enabling services...${RESET}"
+if [[ $hostname == *"Laptop"* ]]
+then
+	sudo systemctl enable intel-undervolt
+fi
 if [[ $hostname == *"Laptop"* || $hostname == *"Desktop"* ]]
 then
-	systemctl enable --now bluetooth cups NetworkManager intel-undervolt gdm
+	systemctl enable --now bluetooth cups NetworkManager gdm
 elif [[ $hostname == *"Serv"* ]]
 then
 	:
