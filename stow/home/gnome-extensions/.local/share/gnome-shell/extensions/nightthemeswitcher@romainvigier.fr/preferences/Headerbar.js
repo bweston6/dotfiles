@@ -1,64 +1,47 @@
-/*
-Night Theme Switcher Gnome Shell extension
+// SPDX-FileCopyrightText: 2020, 2021 Romain Vigier <contact AT romainvigier.fr>
+// SPDX-License-Identifier: GPL-3.0-or-later
 
-Copyright (C) 2020 Romain Vigier
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program. If not, see <http s ://www.gnu.org/licenses/>.
-*/
-
-const { GLib, Gtk } = imports.gi;
+const { GLib, GObject, Gtk } = imports.gi;
 const { extensionUtils } = imports.misc;
 
 const Me = extensionUtils.getCurrentExtension();
 
-const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
-const _ = Gettext.gettext;
 
-const utils = Me.imports.utils;
-
-
-var Headerbar = class {
-    constructor(stack) {
-        this._builder = new Gtk.Builder();
-        this._builder.add_from_file(GLib.build_filenamev([Me.path, 'preferences', 'ui', 'headerbar.ui']));
-
-        this.widget = this._builder.get_object('headerbar');
-
-        this._connect(stack);
-
-        return this.widget;
+var Headerbar = GObject.registerClass({
+    GTypeName: 'Headerbar',
+    Template: `file://${GLib.build_filenamev([Me.path, 'preferences', 'ui', 'Headerbar.ui'])}`,
+    Properties: {
+        preferences: GObject.ParamSpec.object(
+            'preferences',
+            'Preferences',
+            'A Preferences stack',
+            GObject.ParamFlags.READWRITE,
+            Gtk.Stack.$gtype
+        ),
+    },
+}, class Headerbar extends Gtk.HeaderBar {
+    onPreferencesChanged(headerbar) {
+        headerbar.title_widget = null;
+        if (!headerbar.preferences)
+            return;
+        const pages = headerbar.preferences.pages;
+        const box = new Gtk.Box({ orientation: 'horizontal', css_classes: ['linked'] });
+        for (let i = 0; i < pages.get_n_items(); i++) {
+            const page = pages.get_item(i);
+            const button = new Gtk.ToggleButton({ active: pages.is_selected(i) });
+            const buttonBox = new Gtk.Box({ orientation: 'horizontal', margin_start: 12, margin_end: 12, spacing: 6 });
+            buttonBox.append(new Gtk.Image({ icon_name: page.icon_name }));
+            buttonBox.append(new Gtk.Label({ label: page.title }));
+            button.set_child(buttonBox);
+            button.connect('clicked', () => {
+                pages.select_item(i, true);
+                button.active = true;
+            });
+            pages.connect('selection-changed', () => {
+                button.active = pages.is_selected(i);
+            });
+            box.append(button);
+        }
+        headerbar.title_widget = box;
     }
-
-    _connect(stack) {
-        const scheduleRadio = this._builder.get_object('schedule_radio');
-        scheduleRadio.connect('clicked', () => stack.set_visible_child_name('schedule'));
-
-        const gtkThemeRadio = this._builder.get_object('gtk_theme_radio');
-        gtkThemeRadio.connect('clicked', () => stack.set_visible_child_name('gtk-theme'));
-
-        const shellThemeRadio = this._builder.get_object('shell_theme_radio');
-        shellThemeRadio.connect('clicked', () => stack.set_visible_child_name('shell-theme'));
-
-        const iconThemeRadio = this._builder.get_object('icon_theme_radio');
-        iconThemeRadio.connect('clicked', () => stack.set_visible_child_name('icon-theme'));
-
-        const cursorThemeRadio = this._builder.get_object('cursor_theme_radio');
-        cursorThemeRadio.connect('clicked', () => stack.set_visible_child_name('cursor-theme'));
-
-        const backgroundsRadio = this._builder.get_object('backgrounds_radio');
-        backgroundsRadio.connect('clicked', () => stack.set_visible_child_name('backgrounds'));
-
-        const commandsRadio = this._builder.get_object('commands_radio');
-        commandsRadio.connect('clicked', () => stack.set_visible_child_name('commands'));
-    }
-};
+});

@@ -1,20 +1,5 @@
-/*
-Night Theme Switcher Gnome Shell extension
-
-Copyright (C) 2020 Romain Vigier
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program. If not, see <http s ://www.gnu.org/licenses/>.
-*/
+// SPDX-FileCopyrightText: 2020, 2021 Romain Vigier <contact AT romainvigier.fr>
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 const { extensionUtils } = imports.misc;
 const Signals = imports.signals;
@@ -37,6 +22,7 @@ var TimeSettings = class {
         this._manualTimeSourceChangedConnect = this.settings.connect('changed::manual-time-source', this._onManualTimeSourceChanged.bind(this));
         this._nightlightFollowDisableConnect = this.settings.connect('changed::nightlight-follow-disable', this._onNightlightFollowDisableChanged.bind(this));
         this._alwaysEnableOndemandConnect = this.settings.connect('changed::always-enable-ondemand', this._onAlwaysEnableOndemandChanged.bind(this));
+        this._ondemandTimeChangedConnect = this.settings.connect('changed::ondemand-time', this._onOndemandTimeChanged.bind(this));
         this._ondemandKeybindingChangedConnect = this.settings.connect('changed::nightthemeswitcher-ondemand-keybinding', this._onOndemandKeybindingChanged.bind(this));
         this._ondemandButtonPlacementChangedConnect = this.settings.connect('changed::ondemand-button-placement', this._onOndemandButtonPlacementChanged.bind(this));
         logDebug('System time signals connected.');
@@ -48,6 +34,7 @@ var TimeSettings = class {
         this.settings.disconnect(this._manualTimeSourceChangedConnect);
         this.settings.disconnect(this._nightlightFollowDisableConnect);
         this.settings.disconnect(this._alwaysEnableOndemandConnect);
+        this.settings.disconnect(this._ondemandTimeChangedConnect);
         this.settings.disconnect(this._ondemandKeybindingChangedConnect);
         this.settings.disconnect(this._ondemandButtonPlacementChangedConnect);
         logDebug('Time settings signals disconnected.');
@@ -157,6 +144,11 @@ var TimeSettings = class {
     _onAlwaysEnableOndemandChanged(_settings, _changedKey) {
         logDebug(`Always enable on-demand timer has been ${this.alwaysEnableOndemand ? 'ena' : 'disa'}bled.`);
         this.emit('always-enable-ondemand-changed', this.alwaysEnableOndemand);
+    }
+
+    _onOndemandTimeChanged(_settings, _changedKey) {
+        logDebug(`On-demand time has changed to ${this.ondemandTime}.`);
+        this.emit('ondemand-time-changed', this.ondemandTime);
     }
 
     _onOndemandKeybindingChanged(_settings, _changedKey) {

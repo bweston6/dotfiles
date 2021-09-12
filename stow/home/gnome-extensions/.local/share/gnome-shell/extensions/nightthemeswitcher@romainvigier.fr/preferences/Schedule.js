@@ -1,244 +1,149 @@
-/*
-Night Theme Switcher Gnome Shell extension
+// SPDX-FileCopyrightText: 2020, 2021 Romain Vigier <contact AT romainvigier.fr>
+// SPDX-License-Identifier: GPL-3.0-or-later
 
-Copyright (C) 2020 Romain Vigier
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program. If not, see <http s ://www.gnu.org/licenses/>.
-*/
-
-const { Gio, GLib, Gtk } = imports.gi;
+const { Gio, GLib, GObject, Gtk } = imports.gi;
 const { extensionUtils } = imports.misc;
 
 const Me = extensionUtils.getCurrentExtension();
 
-const { OndemandKeyboardShortcutDialog } = Me.imports.preferences.OndemandKeyboardShortcutDialog;
+const utils = Me.imports.utils;
+
+const { DropDownChoice } = Me.imports.preferences.DropDownChoice;
 
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
 
-var SchedulePreferences = class {
-    constructor(settings) {
-        this._builder = new Gtk.Builder();
-        this._builder.add_from_file(GLib.build_filenamev([Me.path, 'preferences', 'ui', 'schedule.ui']));
+var Schedule = GObject.registerClass({
+    GTypeName: 'Schedule',
+    Template: `file://${GLib.build_filenamev([Me.path, 'preferences', 'ui', 'Schedule.ui'])}`,
+    InternalChildren: [
+        'manual_time_source_switch',
+        'time_source_dropdown',
+        'always_show_ondemand_switch',
+        'nightlight_preferences_revealer',
+        'nightlight_follow_disable_switch',
+        'schedule_preferences_revealer',
+        'schedule_sunrise_time_chooser',
+        'schedule_sunset_time_chooser',
+        'ondemand_preferences_revealer',
+        'ondemand_shortcut_button',
+        'ondemand_button_location_combo',
+    ],
+    Properties: {
+        settings: GObject.ParamSpec.object(
+            'settings',
+            'Settings',
+            'Time GSettings',
+            GObject.ParamFlags.READWRITE,
+            Gio.Settings.$gtype
+        ),
+    },
+}, class Schedule extends Gtk.ScrolledWindow {
+    _init(props = {}) {
+        super._init(props);
+        this.settings = extensionUtils.getSettings(utils.getSettingsSchema('time'));
 
-        this.widget = this._builder.get_object('schedule');
-        this.name = 'schedule';
-        this.title = _('Schedule');
-
-        this._connectSettings(settings);
-    }
-
-    _connectSettings(settings) {
-        const autoSwitch = this._builder.get_object('auto_switch');
-        settings.time.settings.bind(
+        this.settings.bind(
             'manual-time-source',
-            autoSwitch,
-            'active',
-            Gio.SettingsBindFlags.INVERT_BOOLEAN
-        );
-
-        const alwaysEnableOndemandSwitch = this._builder.get_object('always_enable_ondemand_switch');
-        settings.time.settings.bind(
-            'always-enable-ondemand',
-            alwaysEnableOndemandSwitch,
+            this._manual_time_source_switch,
             'active',
             Gio.SettingsBindFlags.DEFAULT
         );
 
-        const manual = this._builder.get_object('manual');
-        settings.time.settings.bind(
-            'manual-time-source',
-            manual,
-            'sensitive',
-            Gio.SettingsBindFlags.DEFAULT
-        );
+        const choiceFilter = new Gtk.BoolFilter({ expression: Gtk.PropertyExpression.new(DropDownChoice, null, 'enabled') });
 
-        const manualNightlightRadio = this._builder.get_object('manual_nightlight_radio');
-        const updateManualNightlightRadioActivity = () => {
-            manualNightlightRadio.active = settings.time.timeSource === 'nightlight';
-        };
-        settings.time.connect('time-source-changed', () => updateManualNightlightRadioActivity());
-        settings.system.colorSettings.bind(
+        const colorSettings = new Gio.Settings({ schema: 'org.gnome.settings-daemon.plugins.color' });
+        const nightlightChoice = new DropDownChoice({ id: 'nightlight', title: _('Night Light') });
+        nightlightChoice.connect('notify::enabled', () => choiceFilter.changed(Gtk.FilterChange.DIFFERENT));
+        colorSettings.bind(
             'night-light-enabled',
-            manualNightlightRadio,
-            'sensitive',
-            Gio.SettingsBindFlags.DEFAULT
-        );
-        manualNightlightRadio.connect('toggled', () => {
-            if (manualNightlightRadio.active)
-                settings.time.timeSource = 'nightlight';
-        });
-        updateManualNightlightRadioActivity();
-
-        const manualLocationRadio = this._builder.get_object('manual_location_radio');
-        const updateManualLocationRadioActivity = () => {
-            manualLocationRadio.active = settings.time.timeSource === 'location';
-        };
-        settings.time.connect('time-source-changed', () => updateManualLocationRadioActivity());
-        settings.system.locationSettings.bind(
+            nightlightChoice,
             'enabled',
-            manualLocationRadio,
-            'sensitive',
-            Gio.SettingsBindFlags.DEFAULT
+            Gio.SettingsBindFlags.GET
         );
-        manualLocationRadio.connect('toggled', () => {
-            if (manualLocationRadio.active)
-                settings.time.timeSource = 'location';
+
+        const locationSettings = new Gio.Settings({ schema: 'org.gnome.system.location' });
+        const locationChoice = new DropDownChoice({ id: 'location', title: _('Location Services') });
+        locationChoice.connect('notify::enabled', () => choiceFilter.changed(Gtk.FilterChange.DIFFERENT));
+        locationSettings.bind(
+            'enabled',
+            locationChoice,
+            'enabled',
+            Gio.SettingsBindFlags.GET
+        );
+
+        const timeSources = Gio.ListStore.new(DropDownChoice);
+        timeSources.splice(0, 0, [
+            nightlightChoice,
+            locationChoice,
+            new DropDownChoice({ id: 'schedule', title: _('Manual schedule') }),
+            new DropDownChoice({ id: 'ondemand', title: _('On-demand') }),
+        ]);
+
+        this._time_source_dropdown.model = new Gtk.FilterListModel({
+            model: timeSources,
+            filter: choiceFilter,
         });
-        updateManualLocationRadioActivity();
-
-        const manualScheduleRadio = this._builder.get_object('manual_schedule_radio');
-        const updateManualScheduleRadioActivity = () => {
-            manualScheduleRadio.active = settings.time.timeSource === 'schedule';
+        this._time_source_dropdown.expression = Gtk.PropertyExpression.new(DropDownChoice, null, 'title');
+        this._time_source_dropdown.connect('notify::selected-item', () => this.settings.set_string('time-source', this._time_source_dropdown.selected_item.id));
+        const updateTimeSourceDropDownSelected = () => {
+            this._time_source_dropdown.selected = utils.findItemPositionInModel(this._time_source_dropdown.model, item => item.id === this.settings.get_string('time-source'));
         };
-        settings.time.connect('time-source-changed', () => updateManualScheduleRadioActivity());
-        manualScheduleRadio.connect('toggled', () => {
-            if (manualScheduleRadio.active)
-                settings.time.timeSource = 'schedule';
-        });
-        updateManualScheduleRadioActivity();
+        this.settings.connect('changed::time-source', () => updateTimeSourceDropDownSelected());
+        updateTimeSourceDropDownSelected();
 
-        const manualOndemandRadio = this._builder.get_object('manual_ondemand_radio');
-        const updateManualOndemandRadioActivity = () => {
-            manualOndemandRadio.active = settings.time.timeSource === 'ondemand';
-        };
-        settings.time.connect('time-source-changed', () => updateManualOndemandRadioActivity());
-        manualOndemandRadio.connect('toggled', () => {
-            if (manualOndemandRadio.active)
-                settings.time.timeSource = 'ondemand';
-        });
-        updateManualOndemandRadioActivity();
-
-        const manualPrefsStack = this._builder.get_object('manual_prefs_stack');
-        const updateManualPrefsStackVisible = () => {
-            switch (settings.time.timeSource) {
-            case 'nightlight':
-                manualPrefsStack.set_visible_child_name('nightlight');
-                break;
-            case 'schedule':
-                manualPrefsStack.set_visible_child_name('schedule_times');
-                break;
-            default:
-                manualPrefsStack.set_visible_child_name('none');
-            }
-        };
-        settings.time.connect('time-source-changed', () => updateManualPrefsStackVisible());
-        updateManualPrefsStackVisible();
-
-        const nightlightFollowDisableSwitch = this._builder.get_object('nightlight_follow_disable_switch');
-        settings.time.settings.bind(
-            'nightlight-follow-disable',
-            nightlightFollowDisableSwitch,
+        this.settings.bind(
+            'always-enable-ondemand',
+            this._always_show_ondemand_switch,
             'active',
             Gio.SettingsBindFlags.DEFAULT
         );
 
-        const scheduleTimesSunriseHoursSpin = this._builder.get_object('schedule_times_sunrise_hours_spin');
-        scheduleTimesSunriseHoursSpin.value = Math.trunc(settings.time.scheduleSunrise);
-        scheduleTimesSunriseHoursSpin.connect('output', () => {
-            const text = scheduleTimesSunriseHoursSpin.adjustment.value.toString().padStart(2, '0');
-            scheduleTimesSunriseHoursSpin.set_text(text);
-            return true;
-        });
-        scheduleTimesSunriseHoursSpin.connect('value-changed', () => {
-            const oldTime = settings.time.scheduleSunrise;
-            const oldHour = Math.trunc(oldTime);
-            const newMinutes = oldTime - oldHour;
-            const newTime = scheduleTimesSunriseHoursSpin.value + newMinutes;
-            settings.time.scheduleSunrise = newTime;
-        });
+        this.settings.bind(
+            'nightlight-follow-disable',
+            this._nightlight_follow_disable_switch,
+            'active',
+            Gio.SettingsBindFlags.DEFAULT
+        );
 
-        const scheduleTimesSunriseMinutesSpin = this._builder.get_object('schedule_times_sunrise_minutes_spin');
-        scheduleTimesSunriseMinutesSpin.value = Math.round((settings.time.scheduleSunrise - Math.trunc(settings.time.scheduleSunrise)) * 60);
-        scheduleTimesSunriseMinutesSpin.connect('output', () => {
-            const text = scheduleTimesSunriseMinutesSpin.adjustment.value.toString().padStart(2, '0');
-            scheduleTimesSunriseMinutesSpin.set_text(text);
-            return true;
-        });
-        scheduleTimesSunriseMinutesSpin.connect('value-changed', () => {
-            const hour = Math.trunc(settings.time.scheduleSunrise);
-            const newMinutes = scheduleTimesSunriseMinutesSpin.value / 60;
-            const newTime = hour + newMinutes;
-            settings.time.scheduleSunrise = newTime;
-        });
+        this.settings.bind(
+            'schedule-sunrise',
+            this._schedule_sunrise_time_chooser,
+            'time',
+            Gio.SettingsBindFlags.DEFAULT
+        );
 
-        const scheduleTimesSunsetHoursSpin = this._builder.get_object('schedule_times_sunset_hours_spin');
-        scheduleTimesSunsetHoursSpin.value = Math.trunc(settings.time.scheduleSunset);
-        scheduleTimesSunsetHoursSpin.connect('output', () => {
-            const text = scheduleTimesSunsetHoursSpin.adjustment.value.toString().padStart(2, '0');
-            scheduleTimesSunsetHoursSpin.set_text(text);
-            return true;
-        });
-        scheduleTimesSunsetHoursSpin.connect('value-changed', () => {
-            const oldTime = settings.time.scheduleSunset;
-            const oldHour = Math.trunc(oldTime);
-            const newMinutes = oldTime - oldHour;
-            const newTime = scheduleTimesSunsetHoursSpin.value + newMinutes;
-            settings.time.scheduleSunset = newTime;
-        });
+        this.settings.bind(
+            'schedule-sunset',
+            this._schedule_sunset_time_chooser,
+            'time',
+            Gio.SettingsBindFlags.DEFAULT
+        );
 
-        const scheduleTimesSunsetMinutesSpin = this._builder.get_object('schedule_times_sunset_minutes_spin');
-        scheduleTimesSunsetMinutesSpin.value = Math.round((settings.time.scheduleSunset - Math.trunc(settings.time.scheduleSunset)) * 60);
-        scheduleTimesSunsetMinutesSpin.connect('output', () => {
-            const text = scheduleTimesSunsetMinutesSpin.adjustment.value.toString().padStart(2, '0');
-            scheduleTimesSunsetMinutesSpin.set_text(text);
-            return true;
+        this.settings.connect('changed::nightthemeswitcher-ondemand-keybinding', () => {
+            this._ondemand_shortcut_button.keybinding = this.settings.get_strv('nightthemeswitcher-ondemand-keybinding')[0];
         });
-        scheduleTimesSunsetMinutesSpin.connect('value-changed', () => {
-            const hour = Math.trunc(settings.time.scheduleSunset);
-            const newMinutes = scheduleTimesSunsetMinutesSpin.value / 60;
-            const newTime = hour + newMinutes;
-            settings.time.scheduleSunset = newTime;
+        this._ondemand_shortcut_button.connect('notify::keybinding', () => {
+            this.settings.set_strv('nightthemeswitcher-ondemand-keybinding', [this._ondemand_shortcut_button.keybinding]);
         });
+        this._ondemand_shortcut_button.keybinding = this.settings.get_strv('nightthemeswitcher-ondemand-keybinding')[0];
 
-        const ondemand = this._builder.get_object('ondemand');
-        const updateOndemandVisibility = () => {
-            ondemand.visible = settings.time.alwaysEnableOndemand || settings.time.timeSource === 'ondemand';
-        };
-        settings.time.connect('always-enable-ondemand-changed', () => updateOndemandVisibility());
-        settings.time.connect('time-source-changed', () => updateOndemandVisibility());
-        updateOndemandVisibility();
-
-        const ondemandShortcutButton = this._builder.get_object('ondemand_shortcut_button');
-        const updateOndemandShortcutButtonLabel = () => {
-            const label = settings.time.ondemandKeybinding;
-            ondemandShortcutButton.label = label || _('Choose');
-        };
-        settings.time.connect('ondemand-keybinding-changed', () => updateOndemandShortcutButtonLabel());
-        ondemandShortcutButton.connect('clicked', () => {
-            const dialog = new OndemandKeyboardShortcutDialog(settings);
-            dialog.set_transient_for(this.widget.get_root());
-            dialog.present();
-        });
-        updateOndemandShortcutButtonLabel();
-
-        const ondemandShortcutClearButton = this._builder.get_object('ondemand_shortcut_clear_button');
-        ondemandShortcutClearButton.connect('clicked', () => {
-            settings.time.ondemandKeybinding = '';
-        });
-        const updateOndemandShortcutClearButtonVisibility = () => {
-            ondemandShortcutClearButton.visible = !!settings.time.ondemandKeybinding;
-        };
-        settings.time.connect('ondemand-keybinding-changed', () => updateOndemandShortcutClearButtonVisibility());
-        updateOndemandShortcutClearButtonVisibility();
-
-        const ondemandButtonPlacementCombo = this._builder.get_object('ondemand_button_placement_combo');
-        settings.time.settings.bind(
+        this.settings.bind(
             'ondemand-button-placement',
-            ondemandButtonPlacementCombo,
+            this._ondemand_button_location_combo,
             'active-id',
             Gio.SettingsBindFlags.DEFAULT
         );
+
+        const updatePreferencesVisibility = () => {
+            const timeSource = this.settings.get_string('time-source');
+            this._nightlight_preferences_revealer.reveal_child = timeSource === 'nightlight';
+            this._schedule_preferences_revealer.reveal_child = timeSource === 'schedule';
+            this._ondemand_preferences_revealer.reveal_child = timeSource === 'ondemand' || this.settings.get_boolean('always-enable-ondemand');
+        };
+        this.settings.connect('changed::time-source', () => updatePreferencesVisibility());
+        this.settings.connect('changed::always-enable-ondemand', () => updatePreferencesVisibility());
+        updatePreferencesVisibility();
     }
-};
+});

@@ -1,20 +1,5 @@
-/*
-Night Theme Switcher Gnome Shell extension
-
-Copyright (C) 2020 Romain Vigier
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program. If not, see <http s ://www.gnu.org/licenses/>.
-*/
+// SPDX-FileCopyrightText: 2020, 2021 Romain Vigier <contact AT romainvigier.fr>
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 const { Gdk, Gio, GLib, Gtk } = imports.gi;
 const { extensionUtils } = imports.misc;
@@ -309,4 +294,20 @@ function findShellAggregateMenuItemPosition(menuItem) {
     const menu = imports.ui.main.panel.statusArea.aggregateMenu.menu;
     const items = menu._getMenuItems();
     return items.indexOf(menuItem);
+}
+
+/**
+ * Find an item in a `Gio.ListModel`.
+ *
+ * @param {Gio.ListModel} model The ListModel to search.
+ * @param {Function} findFunction The function used to find the item. Gets the item as argument.
+ * @returns {(*|undefined)} The found item or `undefined`.
+ */
+function findItemPositionInModel(model, findFunction) {
+    const nItems = model.get_n_items();
+    for (let i = 0; i < nItems; i++) {
+        if (findFunction(model.get_item(i)))
+            return i;
+    }
+    return undefined;
 }

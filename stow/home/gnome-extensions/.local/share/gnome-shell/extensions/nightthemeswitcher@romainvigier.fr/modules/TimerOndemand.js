@@ -1,20 +1,5 @@
-/*
-Night Theme Switcher Gnome Shell extension
-
-Copyright (C) 2020 Romain Vigier
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program. If not, see <http s ://www.gnu.org/licenses/>.
-*/
+// SPDX-FileCopyrightText: 2020, 2021 Romain Vigier <contact AT romainvigier.fr>
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 const { Clutter, Gio, GLib, GObject, Meta, Shell, St } = imports.gi;
 const { extensionUtils } = imports.misc;
@@ -75,12 +60,17 @@ var TimerOndemand = class {
 
     _connectSettings() {
         logDebug('Connecting On-demand Timer to settings...');
+        this._ondemandTimeConnect = e.settings.time.connect('ondemand-time-changed', this._onOndemandTimeChanged.bind(this));
         this._ondemandKeybindingConnect = e.settings.time.connect('ondemand-keybinding-changed', this._onOndemandKeybindingChanged.bind(this));
         this._ondemandButtonPlacementConnect = e.settings.time.connect('ondemand-button-placement-changed', this._onOndemandButtonPlacementChanged.bind(this));
     }
 
     _disconnectSettings() {
         logDebug('Disconnecting On-demand Timer from settings...');
+        if (this._ondemandTimeConnect) {
+            e.settings.time.disconnect(this._ondemandTimeConnect);
+            this._ondemandTimeConnect = null;
+        }
         if (this._ondemandKeybindingConnect) {
             e.settings.time.disconnect(this._ondemandKeybindingConnect);
             this._ondemandKeybindingConnect = null;
@@ -105,6 +95,10 @@ var TimerOndemand = class {
     }
 
 
+    _onOndemandTimeChanged(_settings, _time) {
+        this.emit('time-changed', this.time);
+    }
+
     _onOndemandKeybindingChanged(_settings, _keybinding) {
         this._removeKeybinding();
         this._addKeybinding();
@@ -116,6 +110,7 @@ var TimerOndemand = class {
     }
 
     _onTimeChanged(_timer, _newTime) {
+        e.settings.time.ondemandTime = e.timer.time;
         this._updateButton();
     }
 

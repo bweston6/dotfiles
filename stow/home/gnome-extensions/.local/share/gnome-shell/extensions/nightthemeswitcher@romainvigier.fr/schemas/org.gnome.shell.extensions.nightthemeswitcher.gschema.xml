@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: 2021 Romain Vigier <contact AT romainvigier.fr>
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
 <schemalist gettext-domain="nightthemeswitcher@romainvigier.fr">
 	<schema id="org.gnome.shell.extensions.nightthemeswitcher" path="/org/gnome/shell/extensions/nightthemeswitcher/">
 		<key name="settings-version" type="i">
