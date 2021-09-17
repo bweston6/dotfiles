@@ -16,14 +16,14 @@ echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
 
 # Enabling early KMS
-echo "${YELLOW}:: ${MAGENTA}Enabling early KMS...${RESET}"
-if [[ $hostname == *"Desktop"* ]]
-then
-	sed -i 's/MODULES=()/MODULES=(amd)/g' /etc/mkinitcpio.conf
-else
-	sed -i 's/MODULES=()/MODULES=(i915)/g' /etc/mkinitcpio.conf
-fi
-mkinitcpio -P
+#echo "${YELLOW}:: ${MAGENTA}Enabling early KMS...${RESET}"
+#if [[ $hostname == *"Desktop"* ]]
+#then
+#	sed -i 's/MODULES=()/MODULES=(amd)/g' /etc/mkinitcpio.conf
+#else
+#	sed -i 's/MODULES=()/MODULES=(i915)/g' /etc/mkinitcpio.conf
+#fi
+#mkinitcpio -P
 
 # Boot Manager
 echo "${YELLOW}:: ${MAGENTA}Installing systemd-boot...${RESET}"
@@ -34,7 +34,6 @@ then
 	cp -r /dotfiles/systemd-boot/laptop-entries/* /boot/loader/entries
 elif [[ $hostname == *"Desktop"* ]]
 then
-	cp -r /dotfiles/stow/root/desktop-edid/lib/firmware /lib
 	cp -r /dotfiles/systemd-boot/desktop-entries/* /boot/loader/entries
 elif [[ $hostname == *"Serv"* ]]
 then
@@ -65,7 +64,7 @@ then
 fi
 if [[ $hostname == *"Laptop"* || $hostname == *"Desktop"* ]]
 then
-	systemctl enable --now bluetooth cups NetworkManager gdm
+	systemctl enable --now avahi-daemon bluetooth cups NetworkManager gdm 
 elif [[ $hostname == *"Serv"* ]]
 then
 	:

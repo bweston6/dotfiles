@@ -27,8 +27,8 @@ sed -i "s/#Color/Color/g" /etc/pacman.conf
 sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 
 # Updating Mirror List
-echo "${YELLOW}:: ${MAGENTA}Updating mirror list...${RESET}"
-reflector --sort delay -f 10 -l 20 --completion-percent 100 --save /etc/pacman.d/mirrorlist
+#echo "${YELLOW}:: ${MAGENTA}Updating mirror list...${RESET}"
+#reflector --sort delay -f 10 -l 20 --completion-percent 100 --save /etc/pacman.d/mirrorlist
 
 # Record Hostname for System Specialisations
 echo "${MAGENTA}Please Enter a Hostname:${RESET}"
@@ -47,7 +47,7 @@ elif [[ $hostname == *"Serv"* ]]
 then
 	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt server-packages.txt)
 else
-	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt)
+	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt) vim
 fi	
 
 # Write Hostname to New System

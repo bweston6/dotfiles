@@ -99,13 +99,13 @@ fi
 # $HOME Dotfiles
 cd ~/.dotfiles/stow/home
 stow -t ~/ -D $HOME_PACKAGES
-rm -rf ~/.gitconfig ~/.vimrc ~/.vim/autoload ~/.zshrc ~/.local/share/backgrounds ~/.local/share/gnome-shell/extensisions ~/.config/PulseEffects/output
+rm -rf ~/.gitconfig ~/.vimrc ~/.vim/autoload ~/.zshrc ~/.local/share/gnome-shell/extensisions ~/Templates ~/.config/PulseEffects/output
 stow -t ~/ -S $HOME_PACKAGES
 
 # / Dotfiles
 cd ~/.dotfiles/stow/root
 sudo stow -t / -D $ROOT_PACKAGES
-sudo rm -f /etc/pacman.conf /root/.zshrc /lib/firmware/edid/edid.bin /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf /etc/mkinitcpio.conf /etc/systemd/network/20-wired.network
+sudo rm -f /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf /etc/systemd/network/20-wired.network
 sudo stow -t / -S $ROOT_PACKAGES
 
 # Installing yay
