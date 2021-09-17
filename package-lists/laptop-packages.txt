@@ -23,7 +23,9 @@ intel-undervolt
 jdk-openjdk
 libgit2-glib
 libreoffice-fresh
+libva-mesa-driver
 marker
+mesa-vdpau
 networkmanager
 noto-fonts-cjk
 noto-fonts-extra
@@ -32,4 +34,5 @@ nuspell
 telegram-desktop
 texlive-core
 vulkan-intel
+vulkan-radeon
 zathura-pdf-mupdf

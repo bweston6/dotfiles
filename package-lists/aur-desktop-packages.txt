@@ -2,4 +2,3 @@ chrome-gnome-shell
 etcher-bin
 gogh-git
 pulseaudio-modules-bt
-vendor-reset-dkms-git
