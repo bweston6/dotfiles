@@ -11,6 +11,7 @@ geary
 gedit-plugins
 gimp
 gnome
+gnome-packagekit
 gnome-software-packagekit-plugin
 gnome-todo
 gnome-tweaks
