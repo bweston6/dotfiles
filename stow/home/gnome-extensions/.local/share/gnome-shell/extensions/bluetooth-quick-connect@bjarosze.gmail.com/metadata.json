@@ -5,9 +5,10 @@
   "name": "Bluetooth quick connect",
   "settings-schema": "org.gnome.shell.extensions.bluetooth-quick-connect",
   "shell-version": [
-    "40"
+    "40",
+    "41"
   ],
   "url": "https://github.com/bjarosze/gnome-bluetooth-quick-connect",
   "uuid": "bluetooth-quick-connect@bjarosze.gmail.com",
-  "version": 22
+  "version": 23
 }
