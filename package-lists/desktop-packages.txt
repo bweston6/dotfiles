@@ -1,4 +1,6 @@
 aspell-en
+mathjax2
+pandoc
 bluez-utils
 celluloid
 cups
@@ -32,6 +34,5 @@ ntfs-3g
 nuspell
 telegram-desktop
 texlive-core
-virt-manager
 vulkan-radeon
 zathura-pdf-mupdf

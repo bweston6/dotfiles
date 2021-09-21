@@ -26,12 +26,14 @@ libgit2-glib
 libreoffice-fresh
 libva-mesa-driver
 marker
+mathjax2
 mesa-vdpau
 networkmanager
 noto-fonts-cjk
 noto-fonts-extra
 ntfs-3g
 nuspell
+pandoc
 telegram-desktop
 texlive-core
 vulkan-intel
