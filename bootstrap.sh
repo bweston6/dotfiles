@@ -105,7 +105,7 @@ stow -t ~/ -S $HOME_PACKAGES
 # / Dotfiles
 cd ~/.dotfiles/stow/root
 sudo stow -t / -D $ROOT_PACKAGES
-sudo rm -f /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/geoclue/geoclue.conf /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf /etc/systemd/network/20-wired.network
+sudo rm -f /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf /etc/systemd/network/20-wired.network
 sudo stow -t / -S $ROOT_PACKAGES
 sudo mkinitcpio -P
 
