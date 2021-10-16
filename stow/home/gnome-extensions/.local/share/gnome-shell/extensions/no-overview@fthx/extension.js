@@ -22,14 +22,21 @@ class Extension {
         Main.layoutManager.connect('startup-complete', () => {
             Main.sessionMode.hasOverview = this._realHasOverview
         });
+        // handle Ubuntu's method
+        if (Main.layoutManager.startInOverview) {
+            Main.layoutManager.startInOverview = false;
+        }
     }
 
     disable() {
         Main.sessionMode.hasOverview = this._realHasOverview;
+        // handle Ubuntu's method
+        if (Main.layoutManager.startInOverview) {
+            Main.layoutManager.startInOverview = true;
+        }
     }
 }
 
 function init() {
 	return new Extension();
 }
-
