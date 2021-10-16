@@ -11,6 +11,7 @@ ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc
 echo "${YELLOW}:: ${MAGENTA}Setting locale...${RESET}"
 sed -i 's/#en_GB.UTF-8/en_GB.UTF-8/g' /etc/locale.gen
+sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
