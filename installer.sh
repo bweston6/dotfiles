@@ -25,6 +25,7 @@ fi
 echo "${YELLOW}:: ${MAGENTA}Installing pacman config...${RESET}"
 sed -i "s/#Color/Color/g" /etc/pacman.conf
 sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
+sed -i "s/#[multilib]\n#Include = \/etc\/pacman.d\/mirrorlist/[multilib]\nInclude = \/etc\/pacman.d\/mirrorlist/g" /etc/pacman.conf
 
 # Updating Mirror List
 #echo "${YELLOW}:: ${MAGENTA}Updating mirror list...${RESET}"
@@ -36,6 +37,7 @@ read hostname
 
 # Installing Base Programs
 echo "${YELLOW}:: ${MAGENTA}Installing packages...${RESET}"
+pacman -Sy --noconfirm archlinux-keyring
 cd package-lists
 if [[ $hostname == *"Laptop"* ]]
 then
