@@ -24,6 +24,7 @@ intel-undervolt
 jdk-openjdk
 lib32-mesa
 lib32-systemd
+lib32-vulkan-intel
 libgit2-glib
 libreoffice-fresh
 libva-mesa-driver
