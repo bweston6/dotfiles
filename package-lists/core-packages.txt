@@ -5,6 +5,7 @@ glances
 intel-ucode
 man-db
 pacman-contrib
+python-defusedxml
 rsync
 stow
 sudo
