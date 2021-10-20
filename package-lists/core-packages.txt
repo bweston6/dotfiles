@@ -1,8 +1,11 @@
+base
 base-devel
 curl
 git
 glances
 intel-ucode
+linux
+linux-firmware
 man-db
 pacman-contrib
 python-defusedxml
@@ -11,3 +14,4 @@ stow
 sudo
 wget
 zsh
+

@@ -83,30 +83,55 @@ if [[ $hostname == *"Laptop"* ]]
 then
 	HOME_PACKAGES="core* gnome* laptop*"
 	ROOT_PACKAGES="core* gnome* laptop*"
+	cd ~/.dotfiles/stow/root
+	sudo stow -t / -D $ROOT_PACKAGES
+	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf
+	sudo stow -t / -S $ROOT_PACKAGES
+
+	cd ~/.dotfiles/stow/home
+	stow -t ~/ -D $HOME_PACKAGES
+	rm -rf ~/.gitconfig ~/.vimrc ~/.vim/autoload ~/.zshrc ~/.local/share/gnome-shell/extensisions ~/Templates ~/.config/PulseEffects/output
+	stow -t ~/ -S $HOME_PACKAGES
 elif [[ $hostname == *"Desktop"* ]]
 then
 	HOME_PACKAGES="core* gnome*"
 	ROOT_PACKAGES="core* gnome* desktop*"
+	cd ~/.dotfiles/stow/root
+	sudo stow -t / -D $ROOT_PACKAGES
+	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf
+	sudo stow -t / -S $ROOT_PACKAGES
+
+	cd ~/.dotfiles/stow/home
+	stow -t ~/ -D $HOME_PACKAGES
+	rm -rf ~/.gitconfig ~/.vimrc ~/.vim/autoload ~/.zshrc ~/.local/share/gnome-shell/extensisions ~/Templates
+	stow -t ~/ -S $HOME_PACKAGES
 elif [[ $hostname == *"Serv"* ]]
 then
 	HOME_PACKAGES="core*"
 	ROOT_PACKAGES="core* server*"
+	cd ~/.dotfiles/stow/root
+	sudo stow -t / -D $ROOT_PACKAGES
+	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /etc/systemd/network/20-wired.network
+	sudo stow -t / -S $ROOT_PACKAGES
+
+	cd ~/.dotfiles/stow/home
+	stow -t ~/ -D $HOME_PACKAGES
+	rm -rf ~/.gitconfig ~/.vimrc ~/.vim/autoload ~/.zshrc
+	stow -t ~/ -S $HOME_PACKAGES
 else
 	HOME_PACKAGES="core*"
 	ROOT_PACKAGES="core* server*"
+	cd ~/.dotfiles/stow/root
+	sudo stow -t / -D $ROOT_PACKAGES
+	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc
+	sudo stow -t / -S $ROOT_PACKAGES
+
+	cd ~/.dotfiles/stow/home
+	stow -t ~/ -D $HOME_PACKAGES
+	rm -rf ~/.gitconfig ~/.vimrc ~/.vim/autoload ~/.zshrc
+	stow -t ~/ -S $HOME_PACKAGES
 fi	
 
-# $HOME Dotfiles
-cd ~/.dotfiles/stow/home
-stow -t ~/ -D $HOME_PACKAGES
-rm -rf ~/.gitconfig ~/.vimrc ~/.vim/autoload ~/.zshrc ~/.local/share/gnome-shell/extensisions ~/Templates ~/.config/PulseEffects/output
-stow -t ~/ -S $HOME_PACKAGES
-
-# / Dotfiles
-cd ~/.dotfiles/stow/root
-sudo stow -t / -D $ROOT_PACKAGES
-sudo rm -f /etc/mkinitcpio.conf /etc/environment /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf /etc/systemd/network/20-wired.network
-sudo stow -t / -S $ROOT_PACKAGES
 sudo mkinitcpio -P
 
 # Installing yay
@@ -124,20 +149,30 @@ fi
 # Updating and Installing Packages
 echo "${YELLOW}:: ${MAGENTA}Updating and installing packages...${RESET}"
 cd ~/.dotfiles/package-lists
+yay -D --asdeps $(yay -Qq)
 if [[ $hostname == *"Laptop"* ]]
 then
+	yay -D --asexplicit $(cat core-packages.txt laptop-packages.txt aur-core-packages.txt aur-laptop-packages.txt) $(yay -Sgq $(cat core-packages.txt laptop-packages.txt aur-core-packages.txt aur-laptop-packages.txt))
 	yay -Syu --needed --removemake --noconfirm --useask $(cat core-packages.txt laptop-packages.txt aur-core-packages.txt aur-laptop-packages.txt)
 	echo "[Desktop Entry] Hidden=true" > /tmp/1
 	find /usr -name "*lsp_plug*desktop" 2>/dev/null | cut -f 5 -d '/' | xargs -I {} cp /tmp/1 ~/.local/share/applications/{}
 elif [[ $hostname == *"Desktop"* ]]
 then
+	yay -D --asexplicit $(cat core-packages.txt desktop-packages.txt aur-core-packages.txt aur-desktop-packages.txt) $(yay -Sgq $(cat core-packages.txt desktop-packages.txt aur-core-packages.txt aur-desktop-packages.txt))
 	yay -Syu --needed --removemake --noconfirm --useask $(cat core-packages.txt desktop-packages.txt aur-core-packages.txt aur-desktop-packages.txt)
 elif [[ $hostname == *"Serv"* ]]
 then
+	yay -D --asexplicit $(cat core-packages.txt server-packages.txt aur-core-packages.txt aur-server-packages.txt) $(yay -Sgq $(cat core-packages.txt server-packages.txt aur-core-packages.txt aur-server-packages.txt))
 	yay -Syu --needed --removemake --noconfirm --useask $(cat core-packages.txt server-packages.txt aur-core-packages.txt aur-server-packages.txt)
 else
+	yay -D --asexplicit $(cat core-packages.txt aur-core-packages.txt) $(yay -Sgq $(cat core-packages.txt aur-core-packages.txt))
 	yay -Syu --needed --removemake --noconfirm --useask $(cat core-packages.txt aur-core-packages.txt)
 fi	
+
+
+# Removing unlisted packages
+echo "${YELLOW}:: ${MAGENTA}Removing unlisted packages...${RESET}"
+yay -Qtdq | yay -Rns -
 
 # Installing vim-plug Plugins
 echo "${YELLOW}:: ${MAGENTA}Installing vim plugins...${RESET}"

@@ -11,3 +11,4 @@ lvm2
 mesa
 vim
 vulkan-intel
+vulkan-mesa-layers

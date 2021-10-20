@@ -65,7 +65,7 @@ then
 fi
 if [[ $hostname == *"Laptop"* || $hostname == *"Desktop"* ]]
 then
-	systemctl enable --now avahi-daemon bluetooth cups NetworkManager gdm 
+	systemctl enable avahi-daemon bluetooth cups NetworkManager power-profiles-daemon gdm 
 elif [[ $hostname == *"Serv"* ]]
 then
 	:

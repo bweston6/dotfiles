@@ -41,15 +41,15 @@ pacman -Sy --noconfirm archlinux-keyring
 cd package-lists
 if [[ $hostname == *"Laptop"* ]]
 then
-	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt laptop-packages.txt)
+	pacstrap /mnt $(cat core-packages.txt laptop-packages.txt)
 elif [[ $hostname == *"Desktop"* ]]
 then
-	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt desktop-packages.txt)
+	pacstrap /mnt $(cat core-packages.txt desktop-packages.txt)
 elif [[ $hostname == *"Serv"* ]]
 then
-	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt server-packages.txt)
+	pacstrap /mnt $(cat core-packages.txt server-packages.txt)
 else
-	pacstrap /mnt base linux linux-firmware $(cat core-packages.txt) vim
+	pacstrap /mnt $(cat core-packages.txt) vim
 fi	
 
 # Write Hostname to New System
