@@ -31,7 +31,7 @@ function init() {
  */
 function buildPrefsWidget() {
     const preferences = new Preferences();
-    preferences.connect('notify::root', () => {
+    GLib.idle_add(GLib.PRIORITY_DEFAULT, () => {
         const window = preferences.get_root();
         window.add_css_class('nightthemeswitcher');
         const headerbar = new Headerbar({ preferences });

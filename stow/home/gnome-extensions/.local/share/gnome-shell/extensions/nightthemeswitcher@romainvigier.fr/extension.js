@@ -9,6 +9,8 @@ const { extensionManager } = imports.ui.main;
 
 const Me = extensionUtils.getCurrentExtension();
 
+const { logDebug } = Me.imports.utils;
+const { Settings } = Me.imports.settings.Settings;
 const { Timer } = Me.imports.modules.Timer;
 const { GtkThemer } = Me.imports.modules.GtkThemer;
 const { ShellThemer } = Me.imports.modules.ShellThemer;
@@ -19,6 +21,7 @@ const { Commander } = Me.imports.modules.Commander;
 
 
 var enabled = false;
+var settings = null;
 var timer = null;
 var gtkThemer = null;
 var shellThemer = null;
@@ -32,9 +35,9 @@ var commander = null;
  * Extension initialization.
  */
 function init() {
-    console.debug('Initializing extension...');
-    extensionUtils.initTranslations();
-    console.debug('Extension initialized.');
+    logDebug('Initializing extension...');
+    extensionUtils.initTranslations(Me.metadata['gettext-domain']);
+    logDebug('Extension initialized.');
 }
 
 /**
@@ -49,7 +52,8 @@ function enable() {
  * When the extension is started, we create and enable all the modules.
  */
 function start() {
-    console.debug('Enabling extension...');
+    logDebug('Enabling extension...');
+    settings = new Settings();
     timer = new Timer();
     gtkThemer = new GtkThemer();
     shellThemer = new ShellThemer();
@@ -58,6 +62,7 @@ function start() {
     backgrounder = new Backgrounder();
     commander = new Commander();
 
+    settings.enable();
     timer.enable();
     gtkThemer.enable();
     shellThemer.enable();
@@ -67,14 +72,14 @@ function start() {
     commander.enable();
 
     enabled = true;
-    console.debug('Extension enabled.');
+    logDebug('Extension enabled.');
 }
 
 /**
  * When the extension is disabled, we disable and remove all the modules.
  */
 function disable() {
-    console.debug('Disabling extension...');
+    logDebug('Disabling extension...');
     enabled = false;
 
     gtkThemer.disable();
@@ -84,7 +89,9 @@ function disable() {
     backgrounder.disable();
     commander.disable();
     timer.disable();
+    settings.disable();
 
+    settings = null;
     timer = null;
     gtkThemer = null;
     shellThemer = null;
@@ -92,7 +99,7 @@ function disable() {
     cursorThemer = null;
     backgrounder = null;
     commander = null;
-    console.debug('Extension disabled.');
+    logDebug('Extension disabled.');
 }
 
 /**
@@ -100,13 +107,13 @@ function disable() {
  */
 function _waitForExtensionManager() {
     return new Promise(resolve => {
-        console.debug('Waiting for Extension Manager initialization...');
+        logDebug('Waiting for Extension Manager initialization...');
         GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
             while (!extensionManager._initialized)
                 continue;
             return false;
         });
-        console.debug('Extension Manager initialized.');
+        logDebug('Extension Manager initialized.');
         resolve();
     });
 }

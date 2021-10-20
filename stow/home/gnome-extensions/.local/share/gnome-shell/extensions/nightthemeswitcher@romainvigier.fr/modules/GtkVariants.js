@@ -2,12 +2,6 @@
 // SPDX-FileCopyrightText: 2020 Matti Hyttinen
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-const { extensionUtils } = imports.misc;
-
-const Me = extensionUtils.getCurrentExtension();
-
-const { Time } = Me.imports.enums.Time;
-
 /**
  * The magic of guessing theme variants happens here.
  *
@@ -36,59 +30,56 @@ var GtkVariants = class {
         const variants = new Map();
 
         if (name.includes('Adapta')) {
-            variants.set(Time.DAY, name.replace('-Nokto', ''));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace('Adapta', 'Adapta-Nokto'));
+            variants.set('day', name.replace('-Nokto', ''));
+            variants.set('night', variants.get('day').replace('Adapta', 'Adapta-Nokto'));
         } else if (name.includes('Arc')) {
-            variants.set(Time.DAY, name.replace(/-Dark(?!er)/, ''));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace(/Arc(-Darker)?/, 'Arc-Dark'));
+            variants.set('day', name.replace(/-Dark(?!er)/, ''));
+            variants.set('night', variants.get('day').replace(/Arc(-Darker)?/, 'Arc-Dark'));
         } else if (name.match('Cabinet')) {
-            variants.set(Time.DAY, name.replace(/-Dark(?!er)/, '-Light'));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace(/(-Light|-Darker)/, '-Dark'));
+            variants.set('day', name.replace(/-Dark(?!er)/, '-Light'));
+            variants.set('night', variants.get('day').replace(/(-Light|-Darker)/, '-Dark'));
         } else if (name.match(/^(Canta|ChromeOS|Materia|Orchis).*-compact/)) {
-            variants.set(Time.DAY, name.replace('-dark', ''));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace(/(-light)?-compact/, '-dark-compact'));
+            variants.set('day', name.replace('-dark', ''));
+            variants.set('night', variants.get('day').replace(/(-light)?-compact/, '-dark-compact'));
         } else if (name.includes('Flat-Remix-GTK')) {
             const isSolid = name.includes('-Solid');
             const withoutBorder = name.includes('-NoBorder');
             const basename = name.split('-').slice(0, 4).join('-');
-            variants.set(Time.DAY, basename + (name.includes('-Darker') ? '-Darker' : '') + (isSolid ? '-Solid' : ''));
-            variants.set(Time.NIGHT, basename + (name.includes('-Darkest') ? '-Darkest' : '-Dark') + (isSolid ? '-Solid' : '') + (withoutBorder ? '-NoBorder' : ''));
+            variants.set('day', basename + (name.includes('-Darker') ? '-Darker' : '') + (isSolid ? '-Solid' : ''));
+            variants.set('night', basename + (name.includes('-Darkest') ? '-Darkest' : '-Dark') + (isSolid ? '-Solid' : '') + (withoutBorder ? '-NoBorder' : ''));
         } else if (name.includes('HighContrast')) {
-            variants.set(Time.DAY, 'HighContrast');
-            variants.set(Time.NIGHT, 'HighContrastInverse');
+            variants.set('day', 'HighContrast');
+            variants.set('night', 'HighContrastInverse');
         } else if (name.match(/^(Layan|Macwaita|Matcha|Nextwaita)/)) {
             const basename = name.split('-')[0];
-            variants.set(Time.DAY, name.replace('-dark', ''));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace(new RegExp(`${basename}(-light)?`), `${basename}-dark`));
+            variants.set('day', name.replace('-dark', ''));
+            variants.set('night', variants.get('day').replace(new RegExp(`${basename}(-light)?`), `${basename}-dark`));
         } else if (name.match(/^Mc-?OS-CTLina-Gnome/)) {
             const version = name.split('-').pop();
-            variants.set(Time.DAY, `McOS-CTLina-Gnome-${version}`);
-            variants.set(Time.NIGHT, `Mc-OS-CTLina-Gnome-Dark-${version}`);
+            variants.set('day', `McOS-CTLina-Gnome-${version}`);
+            variants.set('night', `Mc-OS-CTLina-Gnome-Dark-${version}`);
         } else if (name.match(/^(Mojave|WhiteSur)/)) {
-            variants.set(Time.DAY, name.replace('-dark', '-light'));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace('-light', '-dark'));
+            variants.set('day', name.replace('-dark', '-light'));
+            variants.set('night', variants.get('day').replace('-light', '-dark'));
         } else if (name.includes('Plata')) {
-            variants.set(Time.DAY, name.replace('-Noir', ''));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace(/Plata(-Lumine)?/, 'Plata-Noir'));
+            variants.set('day', name.replace('-Noir', ''));
+            variants.set('night', variants.get('day').replace(/Plata(-Lumine)?/, 'Plata-Noir'));
         } else if (name.match(/^Prof-Gnome-(.+)-3(.*)/)) {
-            variants.set(Time.DAY, name.replace(/-Dark(?!er)/, '-Light'));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace(/(-Light(-DS)?|-Darker)/, '-Dark'));
+            variants.set('day', name.replace(/-Dark(?!er)/, '-Light'));
+            variants.set('night', variants.get('day').replace(/(-Light(-DS)?|-Darker)/, '-Dark'));
         } else if (name.includes('Simply_Circles')) {
-            variants.set(Time.DAY, name.replace('_Dark', '_Light'));
-            variants.set(Time.NIGHT, name.replace('_Light', '_Dark'));
+            variants.set('day', name.replace('_Dark', '_Light'));
+            variants.set('night', name.replace('_Light', '_Dark'));
         } else if (name.includes('Teja')) {
             const darkVariant = `_${name.replace('_Light').split('_')[1] || 'Dark'}`;
-            variants.set(Time.DAY, name.replace(/(_Dark(est)?|_Black)/, ''));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace('_Light', '') + darkVariant);
+            variants.set('day', name.replace(/(_Dark(est)?|_Black)/, ''));
+            variants.set('night', variants.get('day').replace('_Light', '') + darkVariant);
         } else if (name.includes('vimix')) {
-            variants.set(Time.DAY, name.replace('-dark', ''));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace(/vimix(-light)?/, 'vimix-dark'));
-        } else if (name.includes('Zorin')) {
-            variants.set(Time.DAY, name.replace('-Dark', '-Light'));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace('-Light', '-Dark'));
+            variants.set('day', name.replace('-dark', ''));
+            variants.set('night', variants.get('day').replace(/vimix(-light)?/, 'vimix-dark'));
         } else {
-            variants.set(Time.DAY, name.replace(/-dark(?!er)(est)?/, ''));
-            variants.set(Time.NIGHT, variants.get(Time.DAY).replace(/(-light|-darker)/, '') + (name.includes('-darkest') ? '-darkest' : '-dark'));
+            variants.set('day', name.replace(/-dark(?!er)(est)?/, ''));
+            variants.set('night', variants.get('day').replace(/(-light|-darker)/, '') + (name.includes('-darkest') ? '-darkest' : '-dark'));
         }
 
         return variants;

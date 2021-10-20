@@ -5,9 +5,9 @@
   "name": "Night Theme Switcher",
   "settings-schema": "org.gnome.shell.extensions.nightthemeswitcher",
   "shell-version": [
-    "41"
+    "40"
   ],
   "url": "https://nightthemeswitcher.romainvigier.fr",
   "uuid": "nightthemeswitcher@romainvigier.fr",
-  "version": 53
+  "version": 51
 }

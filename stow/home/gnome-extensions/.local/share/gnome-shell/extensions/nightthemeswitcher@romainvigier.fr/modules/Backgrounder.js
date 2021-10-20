@@ -1,15 +1,12 @@
 // SPDX-FileCopyrightText: 2020, 2021 Romain Vigier <contact AT romainvigier.fr>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-const { Gio } = imports.gi;
 const { extensionUtils } = imports.misc;
 
 const Me = extensionUtils.getCurrentExtension();
 
 const e = Me.imports.extension;
-const utils = Me.imports.utils;
-
-const { Time } = Me.imports.enums.Time;
+const { logDebug } = Me.imports.utils;
 
 /**
  * The Backgrounder is responsible for changing the desktop background
@@ -20,117 +17,111 @@ const { Time } = Me.imports.enums.Time;
  */
 var Backgrounder = class {
     constructor() {
-        this._backgroundsSettings = extensionUtils.getSettings(utils.getSettingsSchema('backgrounds'));
-        this._systemBackgroundSettings = new Gio.Settings({ schema: 'org.gnome.desktop.background' });
-        this._settingsConnections = [];
-        this._statusConnection = null;
-        this._timerConnection = null;
+        this._statusChangedConnect = null;
+        this._backgroundChangedConnect = null;
+        this._systemBackgroundChangedConnect = null;
+        this._backgroundChangedConnect = null;
     }
 
     enable() {
-        console.debug('Enabling Backgrounder...');
+        logDebug('Enabling Backgrounder...');
         this._watchStatus();
-        if (this._backgroundsSettings.get_boolean('enabled')) {
+        if (e.settings.backgrounds.enabled) {
             this._connectSettings();
             this._connectTimer();
-            this._updateSystemBackground(e.timer.time);
+            this._changeSystemBackground(e.timer.time);
         }
-        console.debug('Backgrounder enabled.');
+        logDebug('Backgrounder enabled.');
     }
 
     disable() {
-        console.debug('Disabling Backgrounder...');
+        logDebug('Disabling Backgrounder...');
         this._disconnectTimer();
         this._disconnectSettings();
         this._unwatchStatus();
-        console.debug('Backgrounder disabled.');
+        logDebug('Backgrounder disabled.');
     }
 
 
     _watchStatus() {
-        console.debug('Watching backgrounds status...');
-        this._statusConnection = this._backgroundsSettings.connect('changed::enabled', this._onStatusChanged.bind(this));
+        logDebug('Watching backgrounds status...');
+        this._statusChangedConnect = e.settings.backgrounds.connect('status-changed', this._onStatusChanged.bind(this));
     }
 
     _unwatchStatus() {
-        if (this._statusConnection) {
-            this._backgroundsSettings.disconnect(this._statusConnection);
-            this._statusConnection = null;
+        if (this._statusChangedConnect) {
+            e.settings.backgrounds.disconnect(this._statusChangedConnect);
+            this._statusChangedConnect = null;
         }
-        console.debug('Stopped watching backgrounds status.');
+        logDebug('Stopped watching backgrounds status.');
     }
 
     _connectSettings() {
-        console.debug('Connecting Backgrounder to settings...');
-        this._settingsConnections.push({
-            settings: this._backgroundsSettings,
-            id: this._backgroundsSettings.connect('changed::day', this._onDayBackgroundChanged.bind(this)),
-        });
-        this._settingsConnections.push({
-            settings: this._backgroundsSettings,
-            id: this._backgroundsSettings.connect('changed::night', this._onNightBackgroundChanged.bind(this)),
-        });
-        this._settingsConnections.push({
-            settings: this._systemBackgroundSettings,
-            id: this._systemBackgroundSettings.connect('changed::picture-uri', this._onSystemBackgroundChanged.bind(this)),
-        });
+        logDebug('Connecting Backgrounder to settings...');
+        this._backgroundChangedConnect = e.settings.backgrounds.connect('background-changed', this._onBackgroundChanged.bind(this));
+        this._systemBackgroundChangedConnect = e.settings.system.connect('background-changed', this._onSystemBackgroundChanged.bind(this));
     }
 
     _disconnectSettings() {
-        this._settingsConnections.forEach(connection => connection.settings.disconnect(connection.id));
-        this._settingsConnections = [];
-        console.debug('Disconnected Backgrounder from settings.');
+        if (this._backgroundChangedConnect) {
+            e.settings.backgrounds.disconnect(this._backgroundChangedConnect);
+            this._backgroundChangedConnect = null;
+        }
+        if (this._systemBackgroundChangedConnect) {
+            e.settings.system.disconnect(this._systemBackgroundChangedConnect);
+            this._systemBackgroundChangedConnect = null;
+        }
+        logDebug('Disconnected Backgrounder from settings.');
     }
 
     _connectTimer() {
-        console.debug('Connecting Backgrounder to Timer...');
-        this._timerConnection = e.timer.connect('time-changed', this._onTimeChanged.bind(this));
+        logDebug('Connecting Backgrounder to Timer...');
+        this._backgroundChangedConnect = e.timer.connect('time-changed', this._onTimeChanged.bind(this));
     }
 
     _disconnectTimer() {
-        if (this._timerConnection) {
-            e.timer.disconnect(this._timerConnection);
-            this._timerConnection = null;
+        if (this._backgroundChangedConnect) {
+            e.timer.disconnect(this._backgroundChangedConnect);
+            this._backgroundChangedConnect = null;
         }
-        console.debug('Disconnected Backgrounder from Timer.');
+        logDebug('Disconnected Backgrounder from Timer.');
     }
 
 
-    _onStatusChanged() {
-        console.debug(`Backgrounds switching has been ${this._backgroundsSettings.get_boolean('enabled') ? 'enabled' : 'disabled'}.`);
+    _onStatusChanged(_settings, _enabled) {
         this.disable();
         this.enable();
     }
 
-    _onDayBackgroundChanged() {
-        console.debug(`Day background changed to '${this._backgroundsSettings.get_string('day')}'.`);
-        this._updateSystemBackground();
+    _onBackgroundChanged(_settings, changedBackgroundTime) {
+        if (changedBackgroundTime === e.timer.time)
+            this._changeSystemBackground(changedBackgroundTime);
     }
 
-    _onNightBackgroundChanged() {
-        console.debug(`Night background changed to '${this._backgroundsSettings.get_string('night')}'.`);
-        this._updateSystemBackground();
+    _onSystemBackgroundChanged(_settings, newBackground) {
+        switch (e.timer.time) {
+        case 'day':
+            e.settings.backgrounds.day = newBackground;
+            break;
+        case 'night':
+            e.settings.backgrounds.night = newBackground;
+        }
     }
 
-    _onSystemBackgroundChanged() {
-        console.debug(`System background changed to '${this._systemBackgroundSettings.get_string('picture-uri')}'.`);
-        this._updateCurrentBackground();
-    }
-
-    _onTimeChanged() {
-        this._updateSystemBackground();
+    _onTimeChanged(_timer, newTime) {
+        this._changeSystemBackground(newTime);
     }
 
 
-    _updateCurrentBackground() {
-        if (e.timer.time === Time.UNKNOWN)
-            return;
-        this._backgroundsSettings.set_string(e.timer.time, this._systemBackgroundSettings.get_string('picture-uri'));
-    }
-
-    _updateSystemBackground() {
-        if (e.timer.time === Time.UNKNOWN || !this._backgroundsSettings.get_string(e.timer.time))
-            return;
-        this._systemBackgroundSettings.set_string('picture-uri', this._backgroundsSettings.get_string(e.timer.time));
+    _changeSystemBackground(time) {
+        switch (time) {
+        case 'day':
+            if (e.settings.backgrounds.day)
+                e.settings.system.background = e.settings.backgrounds.day;
+            break;
+        case 'night':
+            if (e.settings.backgrounds.night)
+                e.settings.system.background = e.settings.backgrounds.night;
+        }
     }
 };

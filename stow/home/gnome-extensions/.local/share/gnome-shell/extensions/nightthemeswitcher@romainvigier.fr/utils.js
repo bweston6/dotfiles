@@ -5,10 +5,33 @@ const { Gdk, Gio, GLib, Gtk } = imports.gi;
 const { extensionUtils } = imports.misc;
 
 const Me = extensionUtils.getCurrentExtension();
+const config = Me.imports.config;
 
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
+
+/**
+ * Output a debug message to the console if the debug config is active.
+ *
+ * @param {string} message The message to log.
+ */
+function logDebug(message) {
+    if (config.debug)
+        log(`[DEBUG] ${Me.metadata.name}: ${message}`);
+}
+
+/**
+ * Log an error and show a notification if it has a message.
+ *
+ * @param {Error} error The error to log.
+ */
+function notifyError(error) {
+    if (config.debug)
+        logError(error, Me.metadata.name);
+    if (error.message && imports.ui)
+        imports.ui.main.notifyError(Me.metadata.name, error.message);
+}
 
 /**
  * Build the full settings schema from a subschema.
@@ -174,7 +197,7 @@ function getUserthemesSettings() {
  */
 function getShellThemeStylesheet(theme) {
     const themeName = theme ? `'${theme}'` : 'default';
-    console.debug(`Getting the ${themeName} theme shell stylesheet...`);
+    logDebug(`Getting the ${themeName} theme shell stylesheet...`);
     let stylesheet = null;
     if (theme) {
         const stylesheetPaths = getResourcesDirsPaths('themes').map(path => GLib.build_filenamev([path, theme, 'gnome-shell', 'gnome-shell.css']));
@@ -192,10 +215,10 @@ function getShellThemeStylesheet(theme) {
  * @param {string} stylesheet The shell stylesheet to apply.
  */
 function applyShellStylesheet(stylesheet) {
-    console.debug('Applying shell stylesheet...');
+    logDebug('Applying shell stylesheet...');
     imports.ui.main.setThemeStylesheet(stylesheet);
     imports.ui.main.loadTheme();
-    console.debug('Shell stylesheet applied.');
+    logDebug('Shell stylesheet applied.');
 }
 
 /**
