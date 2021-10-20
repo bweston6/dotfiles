@@ -1,13 +1,16 @@
 // SPDX-FileCopyrightText: 2020, 2021 Romain Vigier <contact AT romainvigier.fr>
 // SPDX-License-Identifier: GPL-3.0-or-later
 
+const { Gio } = imports.gi;
 const { extensionUtils } = imports.misc;
 const { main } = imports.ui;
 
 const Me = extensionUtils.getCurrentExtension();
 
 const e = Me.imports.extension;
-const { logDebug } = Me.imports.utils;
+const utils = Me.imports.utils;
+
+const { Time } = Me.imports.enums.Time;
 
 
 /**
@@ -16,113 +19,117 @@ const { logDebug } = Me.imports.utils;
  */
 var IconThemer = class {
     constructor() {
-        this._statusChangedConnect = null;
-        this._variantChangedConnect = null;
-        this._systemIconThemeChangedConnect = null;
-        this._timeChangedConnect = null;
+        this._iconVariantsSettings = extensionUtils.getSettings(utils.getSettingsSchema('icon-variants'));
+        this._interfaceSettings = new Gio.Settings({ schema: 'org.gnome.desktop.interface' });
+        this._settingsConnections = [];
+        this._statusConnection = null;
+        this._timerConnection = null;
     }
 
     enable() {
-        logDebug('Enabling Icon Themer...');
+        console.debug('Enabling Icon Themer...');
         this._watchStatus();
-        if (e.settings.iconVariants.enabled) {
+        if (this._iconVariantsSettings.get_boolean('enabled')) {
             this._connectSettings();
             this._connectTimer();
-            this._setSystemVariant(e.timer.time);
+            this._updateSystemIconTheme();
         }
-        logDebug('Icon Themer enabled.');
+        console.debug('Icon Themer enabled.');
     }
 
     disable() {
-        logDebug('Disabling Icon Themer...');
+        console.debug('Disabling Icon Themer...');
         this._disconnectTimer();
         this._disconnectSettings();
         this._unwatchStatus();
-        logDebug('Icon Themer disabled.');
+        console.debug('Icon Themer disabled.');
     }
 
 
     _watchStatus() {
-        logDebug('Watching icon variants status...');
-        this._statusChangedConnect = e.settings.iconVariants.connect('status-changed', this._onStatusChanged.bind(this));
+        console.debug('Watching icon variants status...');
+        this._statusConnection = this._iconVariantsSettings.connect('changed::enabled', this._onStatusChanged.bind(this));
     }
 
     _unwatchStatus() {
-        if (this._statusChangedConnect) {
-            e.settings.iconVariants.disconnect(this._statusChangedConnect);
-            this._statusChangedConnect = null;
+        if (this._statusConnection) {
+            this._iconVariantsSettings.disconnect(this._statusConnection);
+            this._statusConnection = null;
         }
-        logDebug('Stopped watching icon variants status.');
+        console.debug('Stopped watching icon variants status.');
     }
 
     _connectSettings() {
-        logDebug('Connecting Icon Themer to settings...');
-        this._variantChangedConnect = e.settings.iconVariants.connect('variant-changed', this._onVariantChanged.bind(this));
-        this._systemIconThemeChangedConnect = e.settings.system.connect('icon-theme-changed', this._onSystemIconThemeChanged.bind(this));
+        console.debug('Connecting Icon Themer to settings...');
+        this._settingsConnections.push({
+            settings: this._iconVariantsSettings,
+            id: this._iconVariantsSettings.connect('changed::day', this._onDayVariantChanged.bind(this)),
+        });
+        this._settingsConnections.push({
+            settings: this._iconVariantsSettings,
+            id: this._iconVariantsSettings.connect('changed::night', this._onNightVariantChanged.bind(this)),
+        });
+        this._settingsConnections.push({
+            settings: this._interfaceSettings,
+            id: this._interfaceSettings.connect('changed::icon-theme', this._onSystemIconThemeChanged.bind(this)),
+        });
     }
 
     _disconnectSettings() {
-        if (this._variantChangedConnect) {
-            e.settings.iconVariants.disconnect(this._variantChangedConnect);
-            this._variantChangedConnect = null;
-        }
-        if (this._systemIconThemeChangedConnect) {
-            e.settings.system.disconnect(this._systemIconThemeChangedConnect);
-            this._systemIconThemeChangedConnect = null;
-        }
-        logDebug('Disconnected Icon Themer from settings.');
+        this._settingsConnections.forEach(connection => connection.settings.disconnect(connection.id));
+        this._settingsConnections = [];
+        console.debug('Disconnected Icon Themer from settings.');
     }
 
     _connectTimer() {
-        logDebug('Connecting Icon Themer to Timer...');
-        this._timeChangedConnect = e.timer.connect('time-changed', this._onTimeChanged.bind(this));
+        console.debug('Connecting Icon Themer to Timer...');
+        this._timerConnection = e.timer.connect('time-changed', this._onTimeChanged.bind(this));
     }
 
     _disconnectTimer() {
-        if (this._timeChangedConnect) {
-            e.timer.disconnect(this._timeChangedConnect);
-            this._timeChangedConnect = null;
+        if (this._timerConnection) {
+            e.timer.disconnect(this._timerConnection);
+            this._timerConnection = null;
         }
-        logDebug('Disconnected Icon Themer from Timer.');
+        console.debug('Disconnected Icon Themer from Timer.');
     }
 
 
-    _onStatusChanged(_settings, _enabled) {
+    _onStatusChanged() {
+        console.debug(`Icon variants switching has been ${this._iconVariantsSettings.get_boolean('enabled') ? 'enabled' : 'disabled'}.`);
         this.disable();
         this.enable();
     }
 
-    _onVariantChanged(_settings, changedVariantTime) {
-        if (changedVariantTime === e.timer.time)
-            this._setSystemVariant(changedVariantTime);
+    _onDayVariantChanged() {
+        console.debug(`Day icon variant changed to '${this._iconVariantsSettings.get_string('day')}'.`);
+        this._updateSystemIconTheme();
     }
 
-    _onSystemIconThemeChanged(_settings, newTheme) {
-        switch (e.timer.time) {
-        case 'day':
-            e.settings.iconVariants.day = newTheme;
-            break;
-        case 'night':
-            e.settings.iconVariants.night = newTheme;
-        }
-        this._setSystemVariant(e.timer.time);
+    _onNightVariantChanged() {
+        console.debug(`Night icon variant changed to '${this._iconVariantsSettings.get_string('night')}'.`);
+        this._updateSystemIconTheme();
     }
 
-    _onTimeChanged(_timer, newTime) {
-        this._setSystemVariant(newTime);
+    _onSystemIconThemeChanged() {
+        console.debug(`System icon theme changed to '${this._iconVariantsSettings.get_string('icon-theme')}'.`);
+        this._updateCurrentVariant();
+    }
+
+    _onTimeChanged() {
+        this._updateSystemIconTheme();
     }
 
 
-    _setSystemVariant(time) {
-        logDebug(`Setting the icon ${time} variant...`);
-        switch (time) {
-        case 'day':
-            if (e.settings.iconVariants.day)
-                e.settings.system.iconTheme = e.settings.iconVariants.day;
-            break;
-        case 'night':
-            if (e.settings.iconVariants.night)
-                e.settings.system.iconTheme = e.settings.iconVariants.night;
-        }
+    _updateCurrentVariant() {
+        if (e.timer.time === Time.UNKNOWN)
+            return;
+        this._iconVariantsSettings.set_string(e.timer.time, this._interfaceSettings.get_string('icon-theme'));
+    }
+
+    _updateSystemIconTheme() {
+        if (e.timer.time === Time.UNKNOWN || !this._iconVariantsSettings.get_string(e.timer.time))
+            return;
+        this._interfaceSettings.set_string('icon-theme', this._iconVariantsSettings.get_string(e.timer.time));
     }
 };

@@ -7,8 +7,9 @@ const Signals = imports.signals;
 
 const Me = extensionUtils.getCurrentExtension();
 
-const e = Me.imports.extension;
-const { logDebug } = Me.imports.utils;
+const utils = Me.imports.utils;
+
+const { Time } = Me.imports.enums.Time;
 
 
 /**
@@ -29,40 +30,41 @@ var TimerLocation = class {
         this._previouslyDaytime = null;
         // Before we have the location suntimes, we'll use the manual schedule
         // times
+        const timeSettings = extensionUtils.getSettings(utils.getSettingsSchema('time'));
         this._suntimes = new Map([
-            ['sunrise', e.settings.time.scheduleSunrise],
-            ['sunset', e.settings.time.scheduleSunrise],
+            ['sunrise', timeSettings.get_double('schedule-sunrise')],
+            ['sunset', timeSettings.get_double('schedule-sunset')],
         ]);
         this._geoclue = null;
-        this._geoclueConnect = null;
+        this._geoclueConnection = null;
         this._timeChangeTimer = null;
         this._regularlyUpdateSuntimesTimer = null;
     }
 
     enable() {
-        logDebug('Enabling Location Timer...');
+        console.debug('Enabling Location Timer...');
         this._connectToGeoclue();
         this._watchForTimeChange();
         this._regularlyUpdateSuntimes();
-        logDebug('Location Timer enabled.');
+        console.debug('Location Timer enabled.');
     }
 
     disable() {
-        logDebug('Disabling Location Timer...');
+        console.debug('Disabling Location Timer...');
         this._stopRegularlyUpdatingSuntimes();
         this._stopWatchingForTimeChange();
         this._disconnectFromGeoclue();
-        logDebug('Location Timer disabled.');
+        console.debug('Location Timer disabled.');
     }
 
 
     get time() {
-        return this._isDaytime() ? 'day' : 'night';
+        return this._isDaytime() ? Time.DAY : Time.NIGHT;
     }
 
 
     _connectToGeoclue() {
-        logDebug('Connecting to GeoClue...');
+        console.debug('Connecting to GeoClue...');
         Geoclue.Simple.new(
             'org.gnome.Shell',
             Geoclue.AccuracyLevel.CITY,
@@ -72,24 +74,24 @@ var TimerLocation = class {
     }
 
     _disconnectFromGeoclue() {
-        logDebug('Disconnecting from GeoClue...');
-        if (this._geoclueConnect) {
-            this._geoclue.disconnect(this._geoclueConnect);
-            this._geoclueConnect = null;
+        console.debug('Disconnecting from GeoClue...');
+        if (this._geoclueConnection) {
+            this._geoclue.disconnect(this._geoclueConnection);
+            this._geoclueConnection = null;
         }
-        logDebug('Disconnected from GeoClue.');
+        console.debug('Disconnected from GeoClue.');
     }
 
 
     _onGeoclueReady(_, result) {
         this._geoclue = Geoclue.Simple.new_finish(result);
-        this._geoclueConnect = this._geoclue.connect('notify::location', this._onLocationUpdated.bind(this));
-        logDebug('Connected to GeoClue.');
+        this._geoclueConnection = this._geoclue.connect('notify::location', this._onLocationUpdated.bind(this));
+        console.debug('Connected to GeoClue.');
         this._onLocationUpdated();
     }
 
     _onLocationUpdated(_geoclue, _location) {
-        logDebug('Location has changed.');
+        console.debug('Location has changed.');
         this._updateLocation();
         this._updateSuntimes();
     }
@@ -97,13 +99,13 @@ var TimerLocation = class {
 
     _updateLocation() {
         if (this._geoclue) {
-            logDebug('Updating location...');
+            console.debug('Updating location...');
             const { latitude, longitude } = this._geoclue.get_location();
             this.location = new Map([
                 ['latitude', latitude],
                 ['longitude', longitude],
             ]);
-            logDebug(`Current location: (${latitude};${longitude})`);
+            console.debug(`Current location: (${latitude};${longitude})`);
         }
     }
 
@@ -111,7 +113,7 @@ var TimerLocation = class {
         if (!this.location)
             return;
 
-        logDebug('Updating sun times...');
+        console.debug('Updating sun times...');
 
         Math.rad = degrees => degrees * Math.PI / 180;
         Math.deg = radians => radians * 180 / Math.PI;
@@ -153,11 +155,11 @@ var TimerLocation = class {
 
         this._suntimes.set('sunrise', sunrise);
         this._suntimes.set('sunset', sunset);
-        logDebug(`New sun times: (sunrise: ${sunrise}; sunset: ${sunset})`);
+        console.debug(`New sun times: (sunrise: ${sunrise}; sunset: ${sunset})`);
     }
 
     _regularlyUpdateSuntimes() {
-        logDebug('Regularly updating sun times...');
+        console.debug('Regularly updating sun times...');
         this._regularlyUpdateSuntimesTimer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 3600, () => {
             this._updateSuntimes();
             return true; // Repeat the loop
@@ -167,7 +169,7 @@ var TimerLocation = class {
     _stopRegularlyUpdatingSuntimes() {
         GLib.Source.remove(this._regularlyUpdateSuntimesTimer);
         this._regularlyUpdateSuntimesTimer = null;
-        logDebug('Stopped regularly updating sun times.');
+        console.debug('Stopped regularly updating sun times.');
     }
 
     _isDaytime() {
@@ -177,7 +179,7 @@ var TimerLocation = class {
     }
 
     _watchForTimeChange() {
-        logDebug('Watching for time change...');
+        console.debug('Watching for time change...');
         this._timeChangeTimer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 1, () => {
             if (!Me.imports.extension.enabled) {
                 // The extension doesn't exist anymore, quit the loop
@@ -193,7 +195,7 @@ var TimerLocation = class {
 
     _stopWatchingForTimeChange() {
         GLib.Source.remove(this._timeChangeTimer);
-        logDebug('Stopped watching for time change.');
+        console.debug('Stopped watching for time change.');
     }
 };
 Signals.addSignalMethods(TimerLocation.prototype);

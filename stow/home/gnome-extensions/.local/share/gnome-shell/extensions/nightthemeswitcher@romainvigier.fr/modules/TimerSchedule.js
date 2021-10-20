@@ -7,8 +7,9 @@ const Signals = imports.signals;
 
 const Me = extensionUtils.getCurrentExtension();
 
-const e = Me.imports.extension;
-const { logDebug } = Me.imports.utils;
+const utils = Me.imports.utils;
+
+const { Time } = Me.imports.enums.Time;
 
 
 /**
@@ -21,37 +22,38 @@ const { logDebug } = Me.imports.utils;
  */
 var TimerSchedule = class {
     constructor() {
+        this._timeSettings = extensionUtils.getSettings(utils.getSettingsSchema('time'));
         this._previouslyDaytime = null;
         this._timeChangeTimer = null;
     }
 
     enable() {
-        logDebug('Enabling Schedule Timer...');
+        console.debug('Enabling Schedule Timer...');
         this._watchForTimeChange();
         this.emit('time-changed', this.time);
-        logDebug('Schedule Timer enabled.');
+        console.debug('Schedule Timer enabled.');
     }
 
     disable() {
-        logDebug('Disabling Schedule Timer...');
+        console.debug('Disabling Schedule Timer...');
         this._stopWatchingForTimeChange();
-        logDebug('Schedule Timer disabled.');
+        console.debug('Schedule Timer disabled.');
     }
 
 
     get time() {
-        return this._isDaytime() ? 'day' : 'night';
+        return this._isDaytime() ? Time.DAY : Time.NIGHT;
     }
 
 
     _isDaytime() {
         const time = GLib.DateTime.new_now_local();
         const hour = time.get_hour() + time.get_minute() / 60 + time.get_second() / 3600;
-        return hour >= e.settings.time.scheduleSunrise && hour <= e.settings.time.scheduleSunset;
+        return hour >= this._timeSettings.get_double('schedule-sunrise') && hour <= this._timeSettings.get_double('schedule-sunset');
     }
 
     _watchForTimeChange() {
-        logDebug('Watching for time change...');
+        console.debug('Watching for time change...');
         this._timeChangeTimer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT, 1, () => {
             if (!Me.imports.extension.enabled) {
                 // The extension doesn't exist anymore, quit the loop
@@ -67,7 +69,7 @@ var TimerSchedule = class {
 
     _stopWatchingForTimeChange() {
         GLib.Source.remove(this._timeChangeTimer);
-        logDebug('Stopped watching for time change.');
+        console.debug('Stopped watching for time change.');
     }
 };
 Signals.addSignalMethods(TimerSchedule.prototype);
