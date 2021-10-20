@@ -16,7 +16,7 @@ if ! ping -q -c 1 -W 1 google.com >/dev/null; then
 fi
 
 # Set pacman Config
-if ! [[ $(shasum /etc/pacman.conf 2>/dev/null) == "daaea8de47cb04df54255831cd7c74cd4c09fc9a"* ]];
+if ! [[ $(shasum /etc/pacman.conf 2>/dev/null) == "04afd4589cfb743be2ade474cd42e6d61de54d3b"* ]];
 then
 	echo "${YELLOW}:: ${MAGENTA}Installing pacman config...${RESET}"
 	sudo sed -i "s/#Color/Color/g" /etc/pacman.conf
@@ -85,8 +85,9 @@ then
 	ROOT_PACKAGES="core* gnome* laptop*"
 	cd ~/.dotfiles/stow/root
 	sudo stow -t / -D $ROOT_PACKAGES
-	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf
+	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /etc/geoclue/geoclue.conf /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf
 	sudo stow -t / -S $ROOT_PACKAGES
+	sudo systemctl restart geoclue
 
 	cd ~/.dotfiles/stow/home
 	stow -t ~/ -D $HOME_PACKAGES
@@ -98,8 +99,9 @@ then
 	ROOT_PACKAGES="core* gnome* desktop*"
 	cd ~/.dotfiles/stow/root
 	sudo stow -t / -D $ROOT_PACKAGES
-	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf
+	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /etc/geoclue/geoclue.conf /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf
 	sudo stow -t / -S $ROOT_PACKAGES
+	sudo systemctl restart geoclue
 
 	cd ~/.dotfiles/stow/home
 	stow -t ~/ -D $HOME_PACKAGES
