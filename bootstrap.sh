@@ -85,9 +85,8 @@ then
 	ROOT_PACKAGES="core* gnome* laptop*"
 	cd ~/.dotfiles/stow/root
 	sudo stow -t / -D $ROOT_PACKAGES
-	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /etc/geoclue/geoclue.conf /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf
+	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules /etc/intel-undervolt.conf
 	sudo stow -t / -S $ROOT_PACKAGES
-	sudo systemctl restart geoclue
 
 	cd ~/.dotfiles/stow/home
 	stow -t ~/ -D $HOME_PACKAGES
@@ -99,9 +98,8 @@ then
 	ROOT_PACKAGES="core* gnome* desktop*"
 	cd ~/.dotfiles/stow/root
 	sudo stow -t / -D $ROOT_PACKAGES
-	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /etc/geoclue/geoclue.conf /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf
+	sudo rm -rf /etc/mkinitcpio.conf /etc/pacman.conf /root/.zshrc /usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg /etc/environment /usr/share/com.github.fabiocolacio.marker/scripts/mermaid/mermaid.min.js /usr/lib/systemd/system/packagekit-offline-update.service /etc/pulse/daemon.conf
 	sudo stow -t / -S $ROOT_PACKAGES
-	sudo systemctl restart geoclue
 
 	cd ~/.dotfiles/stow/home
 	stow -t ~/ -D $HOME_PACKAGES
@@ -135,6 +133,15 @@ else
 fi	
 
 sudo mkinitcpio -P
+
+# Fixing Geoclue
+if ! [[ $(shasum /etc/geoclue/geoclue.conf 2>/dev/null) == "5a60cf8f74710c8399a6ead2c13b076994d56b85"* ]];
+then
+	echo "${YELLOW}:: ${MAGENTA}Configuring Geoclue...${RESET}"
+	sudo sed -i "s/#url=https:\/\/location.services.mozilla.com\/v1\/geolocate?key=YOUR_KEY/url=https:\/\/location.services.mozilla.com\/v1\/geolocate?key=geoclue/g" /etc/geoclue/geoclue.conf
+	sudo sed -i "s/#submission-url=https:\/\/location.services.mozilla.com\/v1\/submit?key=YOUR_KEY/submission-url=https:\/\/location.services.mozilla.com\/v1\/submit?key=geoclue/g" /etc/geoclue/geoclue.conf
+	sudo systemctl restart geoclue
+fi
 
 # Installing yay
 if ! command -v yay &> /dev/null
