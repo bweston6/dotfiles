@@ -4,12 +4,12 @@ Plug 'ajh17/VimCompletesMe'
 call plug#end()
 
 set spelllang=en_gb
-set spell
 imap <c-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 nmap <c-f> [s1z=<c-o>
 
 set number
 set relativenumber
+set tabstop=4
 
 set mouse=a
 set clipboard=unnamedplus
