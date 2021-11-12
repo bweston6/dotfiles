@@ -9,7 +9,9 @@ nmap <c-f> [s1z=<c-o>
 
 set number
 set relativenumber
-set tabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 
 set mouse=a
 set clipboard=unnamedplus
