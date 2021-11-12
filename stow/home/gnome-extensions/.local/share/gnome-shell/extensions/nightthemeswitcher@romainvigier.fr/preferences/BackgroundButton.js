@@ -6,8 +6,6 @@ const { extensionUtils } = imports.misc;
 
 const Me = extensionUtils.getCurrentExtension();
 
-const utils = Me.imports.utils;
-
 
 var BackgroundButton = GObject.registerClass({
     GTypeName: 'BackgroundButton',

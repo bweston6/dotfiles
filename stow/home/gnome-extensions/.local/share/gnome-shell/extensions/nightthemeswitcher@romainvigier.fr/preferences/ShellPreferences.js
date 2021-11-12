@@ -5,13 +5,11 @@ const { Gio, GLib, GObject, Gtk } = imports.gi;
 const { extensionUtils } = imports.misc;
 
 const Me = extensionUtils.getCurrentExtension();
+const _ = extensionUtils.gettext;
 
 const utils = Me.imports.utils;
 
 const { DropDownChoice } = Me.imports.preferences.DropDownChoice;
-
-const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
-const _ = Gettext.gettext;
 
 
 var ShellPreferences = GObject.registerClass({
