@@ -38,11 +38,13 @@ marker
 mathjax2
 mesa-vdpau
 networkmanager
+networkmanager-openvpn
 noto-fonts-cjk
 noto-fonts-extra
 ntfs-3g
 nuspell
 pandoc
+plantuml
 power-profiles-daemon
 steam
 telegram-desktop
