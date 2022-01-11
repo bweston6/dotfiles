@@ -9,6 +9,7 @@
         name:
           - htop
           - screen
+          - python3-psutil
 
     - name: Copy Wallpaper
       copy:
