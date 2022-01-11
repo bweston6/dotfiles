@@ -9,3 +9,20 @@
         name:
           - htop
           - screen
+
+    - name: Copy Wallpaper
+      copy:
+        src: stow/root/gnome-backgrounds/usr/share/backgrounds/gnome/bell_heather_spekes_mill.jpg
+        dest: /usr/share/backgrounds/
+        owner: root
+        group: root
+
+    - name: Set Wallpaper
+      dconf:
+        key: "/org/gnome/desktop/background/picture-uri"
+        value: "'file:///usr/share/backgrounds/bell_heather_spekes_mill.jpg'"
+
+    - name: Set Wallpaper Postition
+      dconf:
+        key: "/org/gnome/dekstop/background/picture-options"
+        value: "'zoom'"
