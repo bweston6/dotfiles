@@ -18,11 +18,13 @@
         group: root
 
     - name: Set Wallpaper
+      become_user: pi
       dconf:
         key: "/org/gnome/desktop/background/picture-uri"
         value: "'file:///usr/share/backgrounds/bell_heather_spekes_mill.jpg'"
 
     - name: Set Wallpaper Postition
+      become_user: pi
       dconf:
         key: "/org/gnome/dekstop/background/picture-options"
         value: "'zoom'"
