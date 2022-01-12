@@ -1,12 +1,2 @@
 [Laptop]
-*Laptop*.local
-
-[Desktop]
-*Desktop*.local
-
-[Server]
-*Serv*.local
-
-[Pi]
-*pi*
-*Pi*
+laptop ansible_host=*Laptop*
