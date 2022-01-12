@@ -1,11 +1,8 @@
-Bens-Laptop-Arch.local
-ArchServ.local
-
 [Laptop]
-Bens-Laptop-Arch
+Bens-Laptop-Arch.local
 
 [Server]
-ArchServ
+ArchServ.local
 
 [Pi]
 PiTV
