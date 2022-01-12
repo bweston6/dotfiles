@@ -10,6 +10,3 @@
 [Pi]
 *pi*
 *Pi*
-
-[all:vars]
-ansible_connection=local
