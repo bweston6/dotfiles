@@ -9,4 +9,3 @@
         name:
           - htop
           - screen
-          - python3-psutil
