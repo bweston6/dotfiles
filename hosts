@@ -1,11 +1,11 @@
 [Laptop]
-*Laptop*
+*Laptop*.local
 
 [Desktop]
-*Desktop*
+*Desktop*.local
 
 [Server]
-*Serv*
+*Serv*.local
 
 [Pi]
 *pi*
