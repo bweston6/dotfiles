@@ -1,0 +1,37 @@
+---
+- name: Test Internet and DNS on 8.8.8.8
+  ansible.builtin.shell: ping -q -c 1 -W 1 google.com
+  changed_when: false
+
+- name: Set Pacman Config
+  ansible.builtin.replace:
+    path: /etc/pacman.conf
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.replace }}"
+  loop:
+    - {regexp: "#Color", replace: "Color"}
+    - {regexp: "#ParallelDownloads", replace: "ParallelDownloads"}
+    -
+      regexp: |
+        #\[multilib\]
+        #Include = /etc/pacman.d/mirrorlist
+      replace: |
+        [multilib]
+        Include = /etc/pacman.d/mirrorlist
+
+- name: Installing ohmyzsh for user
+  ansible.builtin.shell:
+    cmd: RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    creates: ~/.oh-my-zsh
+- name: Installing ohmyzsh for root
+  ansible.builtin.shell:
+    cmd: RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    creates: /root/.oh-my-zsh
+  become: true
+# - name: Installing common dotfiles
+# include geoclue fix
+# - name: Installing yay
+# - name: Updating packages
+# - name: Installing packages
+# - name: Removing unlisted packages
+# - name: Installing vim-plug plugins
