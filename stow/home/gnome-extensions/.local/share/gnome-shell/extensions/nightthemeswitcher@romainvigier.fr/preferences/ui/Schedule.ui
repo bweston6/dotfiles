@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: 2021 Romain Vigier <contact AT romainvigier.fr>
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+<interface domain="nightthemeswitcher@romainvigier.fr">
+  <template class="Schedule" parent="GtkScrolledWindow">
+    <property name="propagate-natural-height">True</property>
+    <property name="hscrollbar-policy">never</property>
+    <child>
+      <object class="GtkViewport">
+        <property name="scroll-to-focus">True</property>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="width-request">600</property>
+            <property name="halign">center</property>
+            <property name="margin-start">36</property>
+            <property name="margin-end">36</property>
+            <property name="margin-top">36</property>
+            <property name="margin-bottom">36</property>
+            <child>
+              <object class="PreferencesList">
+                <property name="margin-bottom">36</property>
+                <child>
+                  <object class="PreferenceRow">
+                    <property name="title" translatable="yes">Manual time source</property>
+                    <property name="subtitle" translatable="yes">The extension will try to use Night Light or Location Services to automatically set your current sunrise and sunset times if they are enabled. If you prefer, you can manually choose a time source.</property>
+                    <property name="activatable-widget">
+                      <object class="GtkSwitch" id="manual_time_source_switch"/>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="PreferenceRow">
+                    <property name="title" translatable="yes">Time source</property>
+                    <property name="sensitive" bind-source="manual_time_source_switch" bind-property="active" bind-flags="sync-create"/>
+                    <property name="activatable-widget">
+                      <object class="GtkDropDown" id="time_source_dropdown"/>
+                    </property>
+                  </object>
+                </child>
+                <child>
+                  <object class="PreferenceRow">
+                    <property name="title" translatable="yes">Always show on-demand controls</property>
+                    <property name="subtitle" translatable="yes">Allows you to override the current time when using a schedule.</property>
+                    <property name="activatable-widget">
+                      <object class="GtkSwitch" id="always_show_ondemand_switch"/>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkRevealer" id="nightlight_preferences_revealer">
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">8</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Night Light</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="PreferencesList">
+                        <property name="margin-bottom">36</property>
+                        <child>
+                          <object class="PreferenceRow">
+                            <property name="title" translatable="yes"><![CDATA[Follow <i>Disable until tomorrow</i>]]></property>
+                            <property name="subtitle" translatable="yes">When Night Light is temporarily disabled, the extension will switch to day variants.</property>
+                            <property name="activatable-widget">
+                              <object class="GtkSwitch" id="nightlight_follow_disable_switch"/>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkRevealer" id="schedule_preferences_revealer">
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">8</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Manual schedule times</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="PreferencesList">
+                        <property name="margin-bottom">36</property>
+                        <child>
+                          <object class="PreferenceRow">
+                            <property name="title" translatable="yes">Sunrise</property>
+                            <property name="activatable-widget">
+                              <object class="TimeChooser" id="schedule_sunrise_time_chooser"/>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="PreferenceRow">
+                            <property name="title" translatable="yes">Sunset</property>
+                            <property name="activatable-widget">
+                              <object class="TimeChooser" id="schedule_sunset_time_chooser"/>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkRevealer" id="ondemand_preferences_revealer">
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">8</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">On-demand</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="PreferencesList">
+                        <property name="margin-bottom">36</property>
+                        <child>
+                          <object class="PreferenceRow">
+                            <property name="title" translatable="yes">Keyboard shortcut</property>
+                            <property name="activatable-widget">
+                              <object class="ShortcutButton" id="ondemand_shortcut_button"/>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="PreferenceRow">
+                            <property name="title" translatable="yes">Button location</property>
+                            <property name="activatable-widget">
+                              <object class="GtkComboBoxText" id="ondemand_button_location_combo">
+                                <property name="active-id">panel</property>
+                                <items>
+                                  <item id="none" translatable="yes">None</item>
+                                  <item id="panel" translatable="yes">Top bar</item>
+                                  <item id="menu" translatable="yes">System menu</item>
+                                </items>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

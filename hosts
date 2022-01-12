@@ -1,5 +1,15 @@
-[local]
-localhost
+[Laptop]
+*Laptop*
 
-[local:vars]
+[Desktop]
+*Desktop*
+
+[Server]
+*Serv*
+
+[Pi]
+*pi*
+*Pi*
+
+[all:vars]
 ansible_connection=local

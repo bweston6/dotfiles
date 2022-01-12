@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: 2021 Romain Vigier <contact AT romainvigier.fr>
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+<interface domain="nightthemeswitcher@romainvigier.fr">
+  <template class="ShortcutButton" parent="GtkStack">
+    <property name="hhomogeneous">False</property>
+    <signal name="notify::keybinding" handler="onKeybindingChanged" swapped="no"/>
+    <child>
+      <object class="GtkStackPage">
+        <property name="name">choose</property>
+        <property name="child">
+          <object class="GtkButton" id="choose_button">
+            <property name="label" translatable="yes">Choose…</property>
+            <signal name="clicked" handler="onChooseButtonClicked" swapped="no"/>
+          </object>
+        </property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkStackPage">
+        <property name="name">edit</property>
+        <property name="child">
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <style>
+              <class name="linked"/>
+            </style>
+            <child>
+              <object class="GtkButton" id="change_button">
+                <property name="tooltip-text" translatable="yes">Change keyboard shortcut</property>
+                <signal name="clicked" handler="onChangeButtonClicked" swapped="no"/>
+                <child>
+                  <object class="GtkShortcutLabel">
+                    <property name="accelerator" bind-source="ShortcutButton" bind-property="keybinding"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="clear_button">
+                <property name="label" translatable="yes">Clear</property>
+                <property name="icon-name">edit-delete-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Clear</property>
+                <signal name="clicked" handler="onClearButtonClicked" swapped="no"/>
+                <style>
+                  <class name="destructive-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+  <object class="GtkWindow" id="dialog">
+    <property name="modal">True</property>
+    <property name="default_width">440</property>
+    <property name="default_height">200</property>
+    <property name="hide-on-close">True</property>
+    <property name="decorated">False</property>
+    <style>
+      <class name="toolbox"/>
+    </style>
+    <child>
+      <object class="GtkWindowHandle">
+        <property name="vexpand">True</property>
+        <property name="hexpand">True</property>
+        <child>
+          <object class="GtkOverlay">
+            <child type="overlay">
+              <object class="GtkCenterBox">
+                <property name="valign">start</property>
+                <property name="margin-start">6</property>
+                <property name="margin-end">6</property>
+                <property name="margin-top">6</property>
+                <child type="start">
+                  <object class="GtkWindowControls">
+                    <property name="side">start</property>
+                  </object>
+                </child>
+                <child type="end">
+                  <object class="GtkWindowControls">
+                    <property name="side">end</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <child>
+                  <object class="GtkLabel">
+                    <property name="vexpand">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="margin-start">36</property>
+                    <property name="margin-end">36</property>
+                    <property name="margin-top">36</property>
+                    <property name="margin-bottom">36</property>
+                    <property name="label" translatable="yes">Press your keyboard shortcut…</property>
+                    <property name="justify">center</property>
+                    <property name="wrap">True</property>
+                    <style>
+                      <class name="large-title"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkEventControllerKey">
+        <signal name="key-pressed" handler="onKeyPressed" swapped="no"/>
+      </object>
+    </child>
+  </object>
+</interface>

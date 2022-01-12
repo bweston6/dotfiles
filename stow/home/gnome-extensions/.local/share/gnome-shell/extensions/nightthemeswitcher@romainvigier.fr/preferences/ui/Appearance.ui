@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: 2021 Romain Vigier <contact AT romainvigier.fr>
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+<interface domain="nightthemeswitcher@romainvigier.fr">
+  <template class="Appearance" parent="GtkScrolledWindow">
+    <property name="propagate-natural-height">True</property>
+    <property name="hscrollbar-policy">never</property>
+    <child>
+      <object class="GtkViewport">
+        <property name="scroll-to-focus">True</property>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="width-request">600</property>
+            <property name="halign">center</property>
+            <property name="margin-start">36</property>
+            <property name="margin-end">36</property>
+            <property name="margin-top">36</property>
+            <property name="margin-bottom">36</property>
+            <child>
+              <object class="GtkPreferences"/>
+            </child>
+            <child>
+              <object class="ShellPreferences"/>
+            </child>
+            <child>
+              <object class="IconPreferences"/>
+            </child>
+            <child>
+              <object class="CursorPreferences"/>
+            </child>
+            <child>
+              <object class="BackgroundsPreferences"/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
