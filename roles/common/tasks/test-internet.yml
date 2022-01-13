@@ -1,4 +1,0 @@
----
-- name: Test Internet and DNS on 8.8.8.8
-  ansible.netcommon.net_ping:
-      dest: 8.8.8.8

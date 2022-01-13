@@ -1,0 +1,23 @@
+---
+common_packages:
+  - base
+  - base-devel
+  - curl
+  - git
+  - glances
+  - intel-ucode
+  - linux
+  - linux-firmware
+  - man-db
+  - pacman-contrib
+  - python-defusedxml
+  - rsync
+  - stow
+  - sudo
+  - wget
+  - zsh
+
+aur_common_packages:
+  - systemd-boot-pacman-hook
+  - vi-vim-symlink
+  - yay
