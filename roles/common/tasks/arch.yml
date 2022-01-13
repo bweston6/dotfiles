@@ -8,8 +8,7 @@
   loop:
     - {regexp: "#Color", replace: "Color"}
     - {regexp: "#ParallelDownloads", replace: "ParallelDownloads"}
-    -
-      regexp: |
+    - regexp: |
         #\[multilib\]
         #Include = /etc/pacman.d/mirrorlist
       replace: |

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: 2021 Romain Vigier <contact AT romainvigier.fr>
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+<interface domain="nightthemeswitcher@romainvigier.fr">
+  <template class="Preferences" parent="GtkStack">
+    <property name="interpolate-size">True</property>
+    <property name="vhomogeneous">True</property>
+    <property name="transition-type">crossfade</property>
+    <child>
+      <object class="GtkStackPage">
+        <property name="name">schedule</property>
+        <property name="title" translatable="yes">Schedule</property>
+        <property name="icon-name">nightthemeswitcher-schedule-symbolic</property>
+        <property name="child">
+          <object class="Schedule"/>
+        </property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkStackPage">
+        <property name="name">appearance</property>
+        <property name="title" translatable="yes">Appearance</property>
+        <property name="icon-name">nightthemeswitcher-appearance-symbolic</property>
+        <property name="child">
+          <object class="Appearance"/>
+        </property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkStackPage">
+        <property name="name">commands</property>
+        <property name="title" translatable="yes">Commands</property>
+        <property name="icon-name">nightthemeswitcher-commands-symbolic</property>
+        <property name="child">
+          <object class="Commands"/>
+        </property>
+      </object>
+    </child>
+  </template>
+</interface>

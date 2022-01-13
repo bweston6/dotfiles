@@ -1,0 +1,41 @@
+---
+- name: Installing Gnome Dotfiles for user
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "~/"
+  loop:
+    - "user/extensions/"
+    - "user/templates/"
+
+- name: Installing Gnome Dotfiles for root
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "~/"
+  loop:
+    - "root/backgrounds/"
+    - "root/environment/"
+    - "root/marker-mermaid/"
+    - "root/pulseaudio/"
+
+- include_tasks: arch.yml
+  when: ansible_facts['os_family'] == 'Archlinux'
+
+- include_tasks: debian.yml
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Installing Flatpack Packages
+  community.general.flatpak:
+    name: "{{ flatpak_gnome_packages }}"
+    state: present
+
+- name: Configuring dconf
+  community.general.dconf:
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
+    state: present
+  loop: "{{ gnome_dconf }}"
+
+- name: Logging into Accounts
+  ansible.builtin.shell:
+    cmd: gnome-control-center online-accounts
+    creates: ~/.config/goa-1.0/accounts.conf

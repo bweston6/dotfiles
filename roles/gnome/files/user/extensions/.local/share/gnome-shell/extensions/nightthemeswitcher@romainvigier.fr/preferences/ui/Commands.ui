@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: 2021 Romain Vigier <contact AT romainvigier.fr>
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+<interface domain="nightthemeswitcher@romainvigier.fr">
+  <template class="Commands" parent="GtkScrolledWindow">
+    <property name="propagate-natural-height">True</property>
+    <property name="hscrollbar-policy">never</property>
+    <child>
+      <object class="GtkViewport">
+        <property name="scroll-to-focus">True</property>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="width-request">600</property>
+            <property name="halign">center</property>
+            <property name="margin-start">36</property>
+            <property name="margin-end">36</property>
+            <property name="margin-top">36</property>
+            <property name="margin-bottom">36</property>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="spacing">8</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label" translatable="yes">Run commands</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">True</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="enabled_switch">
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkRevealer">
+                    <property name="reveal-child" bind-source="enabled_switch" bind-property="active" bind-flags="sync-create"/>
+                    <child>
+                      <object class="PreferencesList">
+                        <property name="margin-bottom">36</property>
+                        <child>
+                          <object class="PreferenceRow">
+                            <property name="title" translatable="yes">Sunrise</property>
+                            <property name="activatable-widget">
+                              <object class="ClearableEntry" id="sunrise_entry">
+                                <property name="placeholder-text" translatable="yes" comments="Don't translate the `notify-send` command.">notify-send "Hello sunshine!"</property>
+                                <property name="input-purpose">terminal</property>
+                                <property name="width-chars">28</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="PreferenceRow">
+                            <property name="title" translatable="yes">Sunset</property>
+                            <property name="activatable-widget">
+                              <object class="ClearableEntry" id="sunset_entry">
+                                <property name="placeholder-text" translatable="yes" comments="Don't translate the `notify-send` command.">notify-send "Hello moonshine!"</property>
+                                <property name="input-purpose">terminal</property>
+                                <property name="width-chars">28</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

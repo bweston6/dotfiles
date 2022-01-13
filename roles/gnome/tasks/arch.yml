@@ -1,0 +1,7 @@
+---
+- name: Installing Gnome Packages
+  community.general.pacman:
+    executable: yay
+    update_cache: yes
+    name: "{{ gnome_packages + aur_gnome_packages }}"
+    state: present

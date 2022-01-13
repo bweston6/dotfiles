@@ -40,13 +40,11 @@
     regexp: "{{ item.regexp }}"
     replace: "{{ item.replace }}"
   loop:
-    -
-      regexp: |
+    - regexp: |
         #url=https://location\.services\.mozilla\.com/v1/geolocate\?key=YOUR_KEY
       replace: |
         url=https://location.services.mozilla.com/v1/geolocate?key=geoclue
-    - 
-      regexp: |
+    - regexp: |
         #submission-url=https://location\.services\.mozilla\.com/v1/submit\?key=YOUR_KEY
       replace: |
         submission-url=https://location.services.mozilla.com/v1/submit?key=geoclue
