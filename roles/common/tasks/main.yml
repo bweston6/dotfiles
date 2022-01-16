@@ -12,10 +12,10 @@
 - name: Setting Shell to zsh
   become: true
   ansible.builtin.user:
-    name: {{ item }}
+    name: "{{ item }}"
     shell: /usr/bin/zsh
   loop:
-    - {{ ansible_env.USER }}
+    - "{{ ansible_env.USER }}"
     - root
 
 - name: Installing ohmyzsh for user
