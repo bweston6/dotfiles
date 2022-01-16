@@ -9,19 +9,24 @@
 - include_tasks: debian.yml
   when: ansible_facts['os_family'] == 'Debian'
 
+- name: Setting Shell to zsh
+  become: true
+  ansible.builtin.user:
+    name: {{ item }}
+    shell: /usr/bin/zsh
+  loop:
+    - {{ ansible_env.USER }}
+    - root
+
 - name: Installing ohmyzsh for user
   ansible.builtin.shell:
-    cmd: |
-      sudo usermod --shell $(which zsh) $(id -nu 1000)
-      RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    cmd: RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     creates: ~/.oh-my-zsh
 
 - name: Installing ohmyzsh for root
   become: true
   ansible.builtin.shell:
-    cmd: |
-      sudo usermod --shell $(which zsh) root
-      RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    cmd: RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     creates: /root/.oh-my-zsh
 
 - name: Installing Common Dotfiles for user
