@@ -1,5 +1,6 @@
 ---
 - name: Installing Common Packages
+  become: True
   ansible.builtin.apt:
     update_cache: yes
     name: "{{ debian_common_packages }}"
@@ -17,6 +18,7 @@
   when: "'glances' not in ansible_facts.packages"
 
 - name: Updating Packages
+  become: True
   ansible.builtin.apt:
     update_cache: yes
     upgrade: dist
