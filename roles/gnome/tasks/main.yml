@@ -1,16 +1,20 @@
 ---
 - name: Installing Gnome Dotfiles for user
-  ansible.builtin.copy:
+  ansible.posix.synchronize:
     src: "{{ item }}"
     dest: "~/"
+    recursive: yes
+    archive: no
+    checksum: yes
   loop:
     - "user/extensions/"
     - "user/templates/"
 
 - name: Installing Gnome Dotfiles for root
+  become: true
   ansible.builtin.copy:
     src: "{{ item }}"
-    dest: "~/"
+    dest: "/"
   loop:
     - "root/backgrounds/"
     - "root/environment/"
@@ -31,9 +35,9 @@
 - name: Configuring dconf
   community.general.dconf:
     key: '{{ item.key }}'
-    value: '{{ item.value }}'
+    value: '{{ item.value | string }}'
     state: present
-  loop: "{{ gnome_dconf }}"
+  with_items: '{{ gnome_dconf }}'
 
 - name: Logging into Accounts
   ansible.builtin.shell:

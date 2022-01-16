@@ -29,7 +29,7 @@
   ansible.builtin.copy:
     backup: true
     src: "{{ item }}"
-    dest: /
+    dest: "/"
   loop:
     - "root/zsh/"
 
@@ -58,3 +58,5 @@
 - name: Installing/Updating vim-plug plugins
   ansible.builtin.shell:
     cmd: vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall
+  register: vimplug
+  changed_when: "'already up-to-date' not in vimplug.stdout"

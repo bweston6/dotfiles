@@ -1,0 +1,24 @@
+---
+- name: Installing Common Packages
+  ansible.builtin.apt:
+    update_cache: yes
+    name: "{{ debian_common_packages }}"
+    state: present
+
+- name: Gather Package Facts 
+  ansible.builtin.package_facts:
+
+- name: Installing glances via pip
+  become: True
+  ansible.builtin.pip:
+    name: glances
+    state: present
+    umask: "0022"
+  when: "'glances' not in ansible_facts.packages"
+
+- name: Updating Packages
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+
+# - name: Removing unlisted packages

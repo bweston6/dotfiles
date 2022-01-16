@@ -17,3 +17,10 @@ aur_common_packages:
   - systemd-boot-pacman-hook
   - vi-vim-symlink
   - yay
+
+debian_common_packages:
+  - curl
+  - git
+  - python3-pip
+  - wget
+  - zsh
