@@ -11,13 +11,17 @@
 
 - name: Installing ohmyzsh for user
   ansible.builtin.shell:
-    cmd: RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    cmd: |
+      sudo usermod --shell $(which zsh) $(id -nu 1000)
+      RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     creates: ~/.oh-my-zsh
 
 - name: Installing ohmyzsh for root
   become: true
   ansible.builtin.shell:
-    cmd: RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    cmd: |
+      sudo usermod --shell $(which zsh) root
+      RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     creates: /root/.oh-my-zsh
 
 - name: Installing Common Dotfiles for user
