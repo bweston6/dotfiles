@@ -1,4 +1,15 @@
 ---
+- include_tasks: arch.yml
+  when: ansible_facts['os_family'] == 'Archlinux'
+
+- include_tasks: debian.yml
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Installing Flatpack Packages
+  community.general.flatpak:
+    name: "{{ flatpak_gnome_packages }}"
+    state: present
+
 - name: Installing Gnome Dotfiles for user
   ansible.posix.synchronize:
     src: "{{ item }}"
@@ -20,17 +31,6 @@
     - "root/environment/"
     - "root/marker-mermaid/"
     - "root/pulseaudio/"
-
-- include_tasks: arch.yml
-  when: ansible_facts['os_family'] == 'Archlinux'
-
-- include_tasks: debian.yml
-  when: ansible_facts['os_family'] == 'Debian'
-
-- name: Installing Flatpack Packages
-  community.general.flatpak:
-    name: "{{ flatpak_gnome_packages }}"
-    state: present
 
 - name: Configuring dconf
   community.general.dconf:
