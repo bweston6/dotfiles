@@ -1,7 +1,7 @@
 ---
-- name: Installing Laptop Packages
+- name: 'installing laptop packages'
   community.general.pacman:
-    executable: yay
-    update_cache: yes
-    name: "{{ laptop_packages }}"
-    state: present
+    executable: 'yay'
+    update_cache: true
+    name: '{{ laptop_packages }}'
+    state: 'present'

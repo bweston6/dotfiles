@@ -1,31 +1,33 @@
 ---
-- name: Set Pacman Config
-  become: true
+- name: 'set pacman config'
   ansible.builtin.replace:
-    path: /etc/pacman.conf
-    regexp: "{{ item.regexp }}"
-    replace: "{{ item.replace }}"
+    path: '/etc/pacman.conf'
+    regexp: '{{ item.regexp }}'
+    replace: '{{ item.replace }}'
   loop:
-    - {regexp: "#Color", replace: "Color"}
-    - {regexp: "#ParallelDownloads", replace: "ParallelDownloads"}
+    - regexp: '#Color'
+      replace: 'Color'
+    - regexp: '#ParallelDownloads'
+      replace: 'ParallelDownloads'
     - regexp: |
         #\[multilib\]
         #Include = /etc/pacman.d/mirrorlist
       replace: |
         [multilib]
         Include = /etc/pacman.d/mirrorlist
+  become: true
 
-- name: Gather Package Facts 
+- name: 'gather package facts'
   ansible.builtin.package_facts:
 
-- name: Installing AUR Dependancies
-  become: true
+- name: 'installing AUR dependancies'
   community.general.pacman:
-    name: base-devel
-    state: present
-  when: "'yay' not in ansible_facts.packages"
+    name: 'base-devel'
+    state: 'present'
+  become: true
+  when: '"yay" not in ansible_facts.packages'
 
-- name: Installing yay
+- name: 'installing yay'
   ansible.builtin.shell:
     cmd: |
       cd ~
@@ -34,19 +36,19 @@
       makepkg -si --noconfirm
       cd ~
       rm -rf yay
-  when: "'yay' not in ansible_facts.packages"
+  when: '"yay" not in ansible_facts.packages'
 
-- name: Updating Packages
+- name: 'updating packages'
   community.general.pacman:
-    executable: yay
-    update_cache: yes
-    upgrade: yes
+    executable: 'yay'
+    update_cache: true
+    upgrade: true
 
-- name: Installing Common Packages
+- name: 'installing common packages'
   community.general.pacman:
-    executable: yay
-    update_cache: yes
-    name: "{{ common_packages + aur_common_packages }}"
-    state: present
+    executable: 'yay'
+    update_cache: true
+    name: '{{ common_packages + aur_common_packages }}'
+    state: 'present'
 
-# - name: Removing unlisted packages
+# - name: 'removing unlisted packages'

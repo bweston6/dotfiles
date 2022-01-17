@@ -1,16 +1,16 @@
 ---
 laptop_packages:
-  - intel-media-driver
-  - intel-ucode
-  - intel-undervolt
-  - lib32-mesa
-  - lib32-vulkan-intel
-  - lib32-vulkan-mesa-layers
-  - lib32-vulkan-radeon
-  - libva-mesa-driver
-  - linux
-  - mesa
-  - power-profiles-daemon
-  - vulkan-intel
-  - vulkan-mesa-layers
-  - vulkan-radeon
+  - 'intel-media-driver'
+  - 'intel-ucode'
+  - 'intel-undervolt'
+  - 'lib32-mesa'
+  - 'lib32-vulkan-intel'
+  - 'lib32-vulkan-mesa-layers'
+  - 'lib32-vulkan-radeon'
+  - 'libva-mesa-driver'
+  - 'linux'
+  - 'mesa'
+  - 'power-profiles-daemon'
+  - 'vulkan-intel'
+  - 'vulkan-mesa-layers'
+  - 'vulkan-radeon'

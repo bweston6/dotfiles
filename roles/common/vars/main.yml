@@ -1,26 +1,26 @@
 ---
 common_packages:
-  - base
-  - base-devel
-  - curl
-  - git
-  - glances
-  - linux-firmware
-  - man-db
-  - pacman-contrib
-  - python-defusedxml
-  - sudo
-  - wget
-  - zsh
+  - 'base'
+  - 'base-devel'
+  - 'curl'
+  - 'git'
+  - 'glances'
+  - 'linux-firmware'
+  - 'man-db'
+  - 'pacman-contrib'
+  - 'python-defusedxml'
+  - 'sudo'
+  - 'wget'
+  - 'zsh'
 
 aur_common_packages:
-  - systemd-boot-pacman-hook
-  - vi-vim-symlink
-  - yay
+  - 'systemd-boot-pacman-hook'
+  - 'vi-vim-symlink'
+  - 'yay'
 
 debian_common_packages:
-  - curl
-  - git
-  - python3-pip
-  - wget
-  - zsh
+  - 'curl'
+  - 'git'
+  - 'python3-pip'
+  - 'wget'
+  - 'zsh'

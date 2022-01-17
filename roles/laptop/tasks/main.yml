@@ -1,29 +1,37 @@
 ---
-- include_tasks: arch.yml
+- include_tasks: 'arch.yml'
   when: ansible_facts['os_family'] == 'Archlinux'
 
-- include_tasks: debian.yml
+- include_tasks: 'debian.yml'
   when: ansible_facts['os_family'] == 'Debian'
 
-- name: Removing lsp-plugins Desktop Entries
+- name: 'removing lsp-plugins desktop entries'
   ansible.builtin.shell:
     cmd: |
-      echo "[Desktop Entry] Hidden=true" > /tmp/1
-      find /usr -name "*lsp_plug*desktop" 2>/dev/null | cut -f 5 -d '/' | xargs -I {} cp /tmp/1 ~/.local/share/applications/{}
-    creates: ~/.local/share/applications/*lsp_plug*desktop
+      echo '[Desktop Entry] Hidden=true' > /tmp/1
+      find /usr -name "*lsp_plug*desktop" 2>/dev/null | cut -f 5 -d '/' | xargs -I {} cp '/tmp/1' "~/.local/share/applications/{}"
+    creates: '~/.local/share/applications/*lsp_plug*desktop'
 
-- name: Installing Laptop Dotfiles for user
+- name: 'installing laptop dotfiles for user'
   ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "~/"
+    src: '{{ item }}'
+    dest: '~/'
+    directory_mode: 0755
+    mode: 0644
+    group: 1000
+    owner: 1000
   loop:
-    - "user/pulseeffects/"
+    - 'user/pulseeffects/'
 
-- name: Installing Laptop Dotfiles for root
+- name: 'installing laptop dotfiles for root'
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: '/'
+    directory_mode: 0755
+    mode: 0644
+    group: 0
+    owner: 0
+  loop:
+    - 'root/egpu/'
+    - 'root/mkinitcpio/'
   become: true
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "/"
-  loop:
-    - "root/egpu/"
-    - "root/mkinitcpio/"

@@ -1,61 +1,64 @@
 ---
-- include_tasks: arch.yml
+- include_tasks: 'arch.yml'
   when: ansible_facts['os_family'] == 'Archlinux'
 
-- include_tasks: debian.yml
+- include_tasks: 'debian.yml'
   when: ansible_facts['os_family'] == 'Debian'
 
-- name: Installing Flatpack Packages
+- name: 'installing flatpack packages'
   community.general.flatpak:
-    name: "{{ flatpak_gnome_packages }}"
-    state: present
+    name: '{{ flatpak_gnome_packages }}'
+    state: 'present'
 
-- name: Installing Gnome Dotfiles for user
+- name: 'installing gnome dotfiles for user'
   ansible.posix.synchronize:
-    src: "{{ item }}"
-    dest: "~/"
-    recursive: yes
-    archive: no
-    checksum: yes
+    archive: false
+    checksum: true
+    src: '{{ item }}'
+    dest: '~/'
+    group: true
+    owner: true
+    perms: true
+    recursive: true
   loop:
-    - "user/extensions/"
-    - "user/templates/"
+    - 'user/extensions/'
+    - 'user/templates/'
 
-- name: Installing Gnome Dotfiles for root
-  become: true
+- name: 'installing gnome dotfiles for root'
   ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "/"
+    src: '{{ item }}'
+    dest: '/'
+    directory_mode: 0755
+    mode: 0644
+    group: 0
+    owner: 0
   loop:
-    - "root/backgrounds/"
-    - "root/environment/"
-    - "root/marker-mermaid/"
-    - "root/pulseaudio/"
-
-- name: Installing Geoclue Fix
+    - 'root/backgrounds/'
+    - 'root/environment/'
+    - 'root/marker-mermaid/'
+    - 'root/pulseaudio/'
   become: true
-  ansible.builtin.replace:
-    path: /etc/geoclue/geoclue.conf
-    regexp: "{{ item.regexp }}"
-    replace: "{{ item.replace }}"
-  loop:
-    - regexp: |
-        #url=https://location\.services\.mozilla\.com/v1/geolocate\?key=YOUR_KEY
-      replace: |
-        url=https://location.services.mozilla.com/v1/geolocate?key=geoclue
-    - regexp: |
-        #submission-url=https://location\.services\.mozilla\.com/v1/submit\?key=YOUR_KEY
-      replace: |
-        submission-url=https://location.services.mozilla.com/v1/submit?key=geoclue
 
-- name: Configuring dconf
+- name: 'installing geoclue fix'
+  ansible.builtin.replace:
+    path: '/etc/geoclue/geoclue.conf'
+    regexp: '{{ item.regexp }}'
+    replace: '{{ item.replace }}'
+  loop:
+    - regexp: '#url=https://location\.services\.mozilla\.com/v1/geolocate\?key=YOUR_KEY'
+      replace: 'url=https://location.services.mozilla.com/v1/geolocate?key=geoclue'
+    - regexp: 'submission-url=https://location\.services\.mozilla\.com/v1/submit\?key=YOUR_KEY'
+      replace: 'submission-url=https://location.services.mozilla.com/v1/submit?key=geoclue'
+  become: true
+
+- name: 'configuring dconf'
   community.general.dconf:
     key: '{{ item.key }}'
     value: '{{ item.value | string }}'
-    state: present
+    state: 'present'
   with_items: '{{ gnome_dconf }}'
 
-- name: Logging into Accounts
-  ansible.builtin.shell:
-    cmd: gnome-control-center online-accounts
-    creates: ~/.config/goa-1.0/accounts.conf
+- name: 'logging into accounts'
+  ansible.builtin.command:
+    cmd: 'gnome-control-center online-accounts'
+    creates: '~/.config/goa-1.0/accounts.conf'
