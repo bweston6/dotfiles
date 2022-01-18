@@ -3,5 +3,5 @@
   community.general.pacman:
     executable: 'yay'
     update_cache: true
-    name: '{{ laptop_packages }}'
+    name: '{{ laptop_packages  + aur_laptop_packages}}'
     state: 'present'

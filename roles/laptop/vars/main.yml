@@ -14,3 +14,9 @@ laptop_packages:
   - 'vulkan-intel'
   - 'vulkan-mesa-layers'
   - 'vulkan-radeon'
+
+aur_laptop_packages:
+  - 'calf'
+  - 'libfprint-2-tod1-broadcom'
+  - 'lsp-plugins'
+  - 'pulseeffects-legacy'

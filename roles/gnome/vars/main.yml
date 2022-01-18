@@ -13,6 +13,7 @@ gnome_packages:
   - 'geary'
   - 'gedit-plugins'
   - 'gimp'
+  - 'gitg'
   - 'gnome'
   - 'gnome-packagekit'
   - 'gnome-software-packagekit-plugin'
@@ -37,12 +38,16 @@ gnome_packages:
   - 'telegram-desktop'
   - 'texlive-core'
   - 'ttf-liberation'
+  - 'wine'
+  - 'wine-gecko'
+  - 'wine-mono'
   - 'zathura-pdf-mupdf'
 
 aur_gnome_packages:
   - 'chrome-gnome-shell'
   - 'etcher-bin'
   - 'pulseaudio-modules-bt'
+  - 'setzer'
 
 flatpak_gnome_packages:
   - 'com.spotify.Client'
