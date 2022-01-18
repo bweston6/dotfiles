@@ -38,19 +38,7 @@ read hostname
 # Installing Base Programs
 echo "${YELLOW}:: ${MAGENTA}Installing packages...${RESET}"
 pacman -Sy --noconfirm archlinux-keyring
-cd package-lists
-if [[ $hostname == *"Laptop"* ]]
-then
-	pacstrap /mnt $(cat core-packages.txt laptop-packages.txt)
-elif [[ $hostname == *"Desktop"* ]]
-then
-	pacstrap /mnt $(cat core-packages.txt desktop-packages.txt)
-elif [[ $hostname == *"Serv"* ]]
-then
-	pacstrap /mnt $(cat core-packages.txt server-packages.txt)
-else
-	pacstrap /mnt $(cat core-packages.txt) vim
-fi	
+pacstrap /mnt ansible base networkmanager
 
 # Write Hostname to New System
 echo $hostname > /mnt/etc/hostname
