@@ -1,3 +1,0 @@
-systemd-boot-pacman-hook
-vi-vim-symlink
-yay

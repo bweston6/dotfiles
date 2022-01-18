@@ -1,6 +1,0 @@
-chrome-gnome-shell
-etcher-bin
-pulseaudio-modules-bt
-lsp-plugins
-calf
-pulseeffects-legacy
