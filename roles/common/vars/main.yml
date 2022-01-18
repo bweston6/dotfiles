@@ -1,5 +1,6 @@
 ---
 common_packages:
+  - 'ansible'
   - 'base'
   - 'base-devel'
   - 'curl'
@@ -9,6 +10,7 @@ common_packages:
   - 'man-db'
   - 'pacman-contrib'
   - 'python-defusedxml'
+  - 'rsync'
   - 'wget'
   - 'zsh'
 
@@ -18,8 +20,10 @@ aur_common_packages:
   - 'yay'
 
 debian_common_packages:
+  - 'ansible'
   - 'curl'
   - 'git'
   - 'python3-pip'
+  - 'rsync'
   - 'wget'
   - 'zsh'
