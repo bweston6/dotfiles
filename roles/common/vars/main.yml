@@ -9,7 +9,6 @@ common_packages:
   - 'man-db'
   - 'pacman-contrib'
   - 'python-defusedxml'
-  - 'sudo'
   - 'wget'
   - 'zsh'
 
