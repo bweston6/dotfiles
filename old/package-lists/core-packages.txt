@@ -3,15 +3,9 @@ base-devel
 curl
 git
 glances
-intel-ucode
-linux
 linux-firmware
 man-db
 pacman-contrib
 python-defusedxml
-rsync
-stow
-sudo
 wget
 zsh
-
