@@ -38,7 +38,7 @@ read hostname
 # Installing Base Programs
 echo "${YELLOW}:: ${MAGENTA}Installing packages...${RESET}"
 pacman -Sy --noconfirm archlinux-keyring
-pacstrap /mnt ansible base networkmanager zsh
+pacstrap /mnt ansible base linux networkmanager zsh
 
 # Write Hostname to New System
 echo $hostname > /mnt/etc/hostname
