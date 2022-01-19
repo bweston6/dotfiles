@@ -15,7 +15,6 @@ gnome_packages:
   - 'gimp'
   - 'gitg'
   - 'gnome'
-  - 'gnome-packagekit'
   - 'gnome-software-packagekit-plugin'
   - 'gnome-themes-extra'
   - 'gnome-todo'
