@@ -54,3 +54,13 @@
     update_cache: true
 
 # - name: 'removing unlisted packages'
+
+- name: 'copying ssh keys'
+  ansible.builtin.copy:
+    backup: true
+    src: 'user/keys/'
+    dest: '~/'
+    directory_mode: 0755
+    mode: 0400
+    group: 1000
+    owner: 1000
