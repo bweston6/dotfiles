@@ -27,16 +27,12 @@ sed -i "s/#Color/Color/g" /etc/pacman.conf
 sed -i "s/#ParallelDownloads/ParallelDownloads/g" /etc/pacman.conf
 sed -i "s/#[multilib]\n#Include = \/etc\/pacman.d\/mirrorlist/[multilib]\nInclude = \/etc\/pacman.d\/mirrorlist/g" /etc/pacman.conf
 
-# Updating Mirror List
-#echo "${YELLOW}:: ${MAGENTA}Updating mirror list...${RESET}"
-#reflector --sort delay -f 10 -l 20 --completion-percent 100 --save /etc/pacman.d/mirrorlist
-
 # Record Hostname for System Specialisations
 echo "${MAGENTA}Please Enter a Hostname:${RESET}"
 read hostname
 
-# Installing Base Programs
-echo "${YELLOW}:: ${MAGENTA}Installing packages...${RESET}"
+# Installing minimum viable system
+echo "${YELLOW}:: ${MAGENTA}Installing system...${RESET}"
 pacman -Sy --noconfirm archlinux-keyring
 pacstrap /mnt ansible base linux linux-firmware networkmanager sudo vim zsh
 
@@ -59,9 +55,12 @@ cp -r ./* /mnt/dotfiles
 echo "${YELLOW}:: ${MAGENTA}Chrooting into new system...${RESET}"
 arch-chroot /mnt /dotfiles/.chroot.sh
 
+# Cleaning up Files
+rm -rf /mnt/dotfiles
+
 # Configuring Bootloader
 echo "${YELLOW}:: ${MAGENTA}Inserting PARTUUID into boot entry...${RESET}"
 PARTUUID=$(findmnt /mnt -no PARTUUID)
 sed -i "s/PARTUUID=\"/PARTUUID=$PARTUUID\"/g" /mnt/boot/loader/entries/arch.conf
 
-echo "${MAGENTA}Please unmount /mnt (umount -R /mnt) and reboot. Then login and run \"/dotfiles/bootstrap.sh\".${RESET}"
+echo "${MAGENTA}Please reboot and continue with the ansible part of the installation.${RESET}"
