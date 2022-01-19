@@ -17,6 +17,7 @@ gnome_packages:
   - 'gnome'
   - 'gnome-packagekit'
   - 'gnome-software-packagekit-plugin'
+  - 'gnome-themes-extra'
   - 'gnome-todo'
   - 'gnome-tweaks'
   - 'gparted'
@@ -273,3 +274,5 @@ gnome_dconf:
     value: "false"
   - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/visible-name"
     value: "'Cobalt 2'"
+  - key: "/org/gtk/settings/file-chooser/sort-directories-first"
+    value: "true"
