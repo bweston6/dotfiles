@@ -2,6 +2,31 @@
 - name: 'installing gnome packages'
   community.general.pacman:
     executable: 'yay'
-    update_cache: true
+    extra_args: '--removemake --useask --ask=4'
     name: '{{ gnome_packages + aur_gnome_packages }}'
     state: 'present'
+    update_cache: true
+
+- name: 'copying ssh keys'
+  ansible.builtin.copy:
+    backup: true
+    src: 'user/keys/'
+    dest: '~/'
+    directory_mode: 0755
+    mode: 0400
+    group: 1000
+    owner: 1000
+
+- name: 'check if ssh key is on keyring'
+  ansible.builtin.command:
+    cmd: 'ssh-add -l'
+  changed_when: false
+  ignore_errors: true
+  register: 'keys'
+
+- name: 'adding ssh key to keyring'
+  ansible.builtin.shell:
+    cmd: |
+      eval $(ssh-agent)
+      ssh-add ~/.ssh/id_ed25519
+  when: 'keys.stdout.find("b.weston60@gmail.com") == -1'

@@ -2,6 +2,7 @@
 - name: 'installing laptop packages'
   community.general.pacman:
     executable: 'yay'
-    update_cache: true
+    extra_args: '--removemake'
     name: '{{ laptop_packages  + aur_laptop_packages}}'
     state: 'present'
+    update_cache: true

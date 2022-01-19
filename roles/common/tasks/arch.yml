@@ -24,6 +24,7 @@
   community.general.pacman:
     name: 'base-devel'
     state: 'present'
+    update_cache: true
   become: true
   when: '"yay" not in ansible_facts.packages'
 
@@ -47,8 +48,9 @@
 - name: 'installing common packages'
   community.general.pacman:
     executable: 'yay'
-    update_cache: true
+    extra_args: '--removemake'
     name: '{{ common_packages + aur_common_packages }}'
     state: 'present'
+    update_cache: true
 
 # - name: 'removing unlisted packages'

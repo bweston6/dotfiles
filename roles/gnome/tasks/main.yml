@@ -57,8 +57,3 @@
     value: '{{ item.value | string }}'
     state: 'present'
   with_items: '{{ gnome_dconf }}'
-
-- name: 'logging into accounts'
-  ansible.builtin.command:
-    cmd: 'gnome-control-center online-accounts'
-    creates: '~/.config/goa-1.0/accounts.conf'
