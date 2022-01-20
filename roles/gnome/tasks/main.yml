@@ -51,6 +51,23 @@
       replace: 'submission-url=https://location.services.mozilla.com/v1/submit?key=geoclue'
   become: true
 
+- name: 'configuring ddcutil permissions'
+  ansible.builtin.copy:
+    src: '/usr/share/ddcutil/data/45-ddcutil-i2c.rules'
+    dest: '/etc/udev/rules.d'
+    mode: 0644
+    group: 0
+    owner: 0
+  become: true
+
+- name: 'adding user to i2c group'
+  ansible.builtin.user:
+    append: true
+    groups:
+      - 'i2c'
+    name: '{{ ansible_env.USER }}'
+  become: true
+
 - name: 'configuring dconf'
   community.general.dconf:
     key: '{{ item.key }}'
