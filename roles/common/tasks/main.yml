@@ -54,11 +54,19 @@
     group: 0
     owner: 0
   loop:
+    - 'user/vim/'
     - 'root/zsh/'
   become: true
 
 - name: 'installing/updating vim-plug plugins'
   ansible.builtin.command:
     cmd: 'vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall'
+  register: 'vim_plug'
+  changed_when: '"already up-to-date" not in vim_plug.stdout'
+
+- name: 'installing/updating vim-plug plugins for root'
+  ansible.builtin.command:
+    cmd: 'vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall'
+  become: true
   register: 'vim_plug'
   changed_when: '"already up-to-date" not in vim_plug.stdout'
