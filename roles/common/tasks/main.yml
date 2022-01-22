@@ -60,5 +60,5 @@
 - name: 'installing/updating vim-plug plugins'
   ansible.builtin.command:
     cmd: 'vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall'
-  changed_when: '"already up-to-date" not in vim_plug.stdout'
   register: 'vim_plug'
+  changed_when: '"already up-to-date" not in vim_plug.stdout'
