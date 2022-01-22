@@ -1,0 +1,35 @@
+---
+- include_tasks: 'arch.yml'
+  when: ansible_facts['os_family'] == 'Archlinux'
+
+- include_tasks: 'debian.yml'
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: 'installing server dotfiles for user'
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: '~/'
+    directory_mode: 0755
+    mode: 0644
+    group: 1000
+    owner: 1000
+  loop:
+
+- name: 'installing server dotfiles for root'
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: '/'
+    directory_mode: 0755
+    mode: 0644
+    group: 0
+    owner: 0
+  loop:
+    - 'root/networkd/'
+  become: true
+
+- name: 'configuring boot parameters'
+  ansible.builtin.replace:
+    path: '/boot/loader/entries/arch-lts.conf'
+    regexp: '^(options\sroot=\".*\" rw)$'
+    replace: '\g<1> i915.enable_guc=2'
+  become: true

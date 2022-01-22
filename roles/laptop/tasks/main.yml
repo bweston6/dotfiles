@@ -36,3 +36,10 @@
     - 'root/egpu/'
     - 'root/mkinitcpio/'
   become: true
+
+- name: 'configuring boot parameters'
+  ansible.builtin.replace:
+    path: '/boot/loader/entries/arch.conf'
+    regexp: '^(options\sroot=\".*\" rw)$'
+    replace: '\g<1> quiet i915.enable_guc=2 i915.enable_psr=0'
+  become: true
