@@ -103,7 +103,6 @@
   ansible.builtin.service:
     enabled: true
     name: '{{ item }}'
-    state: 'started'
   loop:
     - 'NetworkManager'
     - 'bluetooth'
