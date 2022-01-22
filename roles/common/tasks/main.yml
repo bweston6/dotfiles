@@ -61,12 +61,20 @@
 - name: 'installing/updating vim-plug plugins'
   ansible.builtin.command:
     cmd: 'vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall'
-  register: 'vim_plug'
-  changed_when: '"already up-to-date" not in vim_plug.stdout'
+  changed_when: false
 
 - name: 'installing/updating vim-plug plugins for root'
   ansible.builtin.command:
     cmd: 'vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall'
   become: true
-  register: 'vim_plug'
-  changed_when: '"already up-to-date" not in vim_plug.stdout'
+  changed_when: false
+
+
+- name: 'enabling/starting common services'
+  ansible.builtin.service:
+    enabled: true
+    name: '{{ item }}'
+    state: 'started'
+  loop:
+    - 'avahi-daemon'
+  become: true
