@@ -64,3 +64,11 @@
     mode: 0400
     group: 1000
     owner: 1000
+
+- name: 'enabling systemd-boot-update service'
+  ansible.builtin.service:
+    enabled: true
+    name: '{{ item }}'
+  loop:
+    - 'systemd-boot-update'
+  become: true
