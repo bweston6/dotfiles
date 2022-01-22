@@ -8,6 +8,7 @@ common_packages:
   - 'glances'
   - 'linux-firmware'
   - 'man-db'
+  - 'nss-mdns'
   - 'pacman-contrib'
   - 'python-defusedxml'
   - 'rsync'
@@ -15,7 +16,6 @@ common_packages:
   - 'zsh'
 
 aur_common_packages:
-  - 'systemd-boot-pacman-hook'
   - 'vi-vim-symlink'
   - 'yay'
 
