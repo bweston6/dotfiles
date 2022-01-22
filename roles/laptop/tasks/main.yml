@@ -43,3 +43,12 @@
     regexp: '^(options\sroot=\".*\" rw)$'
     replace: '\g<1> quiet i915.enable_guc=2 i915.enable_psr=0'
   become: true
+
+- name: 'enabling/starting laptop services'
+  ansible.builtin.service:
+    enabled: true
+    name: '{{ item }}'
+    state: 'started'
+  loop:
+    - 'power-profiles-daemon'
+  become: true
