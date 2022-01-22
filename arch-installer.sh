@@ -34,7 +34,7 @@ read hostname
 # Installing minimum viable system
 echo "${YELLOW}:: ${MAGENTA}Installing system...${RESET}"
 pacman -Sy --noconfirm archlinux-keyring
-pacstrap /mnt ansible base linux linux-firmware networkmanager sudo vim zsh
+pacstrap /mnt ansible base git linux linux-firmware networkmanager sudo vim zsh
 
 # Write Hostname to New System
 echo $hostname > /mnt/etc/hostname
