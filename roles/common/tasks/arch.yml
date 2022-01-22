@@ -55,6 +55,11 @@
 
 # - name: 'removing unlisted packages'
 
+- name: 'checking for existing ssh key'
+  ansible.builtin.stat:
+    path: '~/.ssh/id_ed25519'
+  register: 'ssh_key'
+
 - name: 'copying ssh keys'
   ansible.builtin.copy:
     backup: true
@@ -64,6 +69,7 @@
     mode: 0400
     group: 1000
     owner: 1000
+  when: 'not ssh_key.stat.exists'
 
 - name: 'enabling systemd-boot-update service'
   ansible.builtin.service:
