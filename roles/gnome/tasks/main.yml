@@ -22,7 +22,9 @@
     recursive: true
   loop:
     - 'user/extensions/'
+    - 'user/pulseeffects/'
     - 'user/templates/'
+    - 'user/wine/'
 
 - name: 'installing gnome dotfiles for root'
   ansible.builtin.copy:
@@ -38,6 +40,22 @@
     - 'root/marker-mermaid/'
     - 'root/pulseaudio/'
   become: true
+
+- name: 'installing and configuring wine fonts'
+  ansible.builtin.command:
+    cmd: |
+      wineserver -k
+      winetricks corefonts
+      cat << EOF > /tmp/fontsmoothing
+      REGEDIT4
+      [HKEY_CURRENT_USER\Control Panel\Desktop]
+      "FontSmoothing"="2"
+      "FontSmoothingOrientation"=dword:00000001
+      "FontSmoothingType"=dword:00000002
+      "FontSmoothingGamma"=dword:00000578
+      EOF
+      WINE=${WINE:-wine} WINEPREFIX=${WINEPREFIX:-$HOME/.wine} $WINE regedit /tmp/fontsmoothing 2> /dev/null
+    creates: '~/.wine/drive_c/windows/Fonts/CALIBRI.TTF'
 
 - name: 'installing geoclue fix'
   ansible.builtin.replace:
