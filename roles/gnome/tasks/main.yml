@@ -41,10 +41,16 @@
     - 'root/pulseaudio/'
   become: true
 
-- name: 'installing and configuring wine fonts'
+- name: 'stopping wineserver'
   ansible.builtin.command:
+    cmd: 'wineserver -k'
+    creates: '~/.wine/drive_c/windows/Fonts/corefonts.installed'
+  ignore_errors: true
+
+
+- name: 'installing and configuring wine fonts'
+  ansible.builtin.shell:
     cmd: |
-      wineserver -k
       winetricks corefonts
       cat << EOF > /tmp/fontsmoothing
       REGEDIT4
@@ -55,7 +61,7 @@
       "FontSmoothingGamma"=dword:00000578
       EOF
       WINE=${WINE:-wine} WINEPREFIX=${WINEPREFIX:-$HOME/.wine} $WINE regedit /tmp/fontsmoothing 2> /dev/null
-    creates: '~/.wine/drive_c/windows/Fonts/CALIBRI.TTF'
+    creates: '~/.wine/drive_c/windows/Fonts/corefonts.installed'
 
 - name: 'installing geoclue fix'
   ansible.builtin.replace:
@@ -92,3 +98,15 @@
     value: '{{ item.value | string }}'
     state: 'present'
   with_items: '{{ gnome_dconf }}'
+
+- name: 'enabling/starting gnome services'
+  ansible.builtin.service:
+    enabled: true
+    name: '{{ item }}'
+    state: 'started'
+  loop:
+    - 'NetworkManager'
+    - 'bluetooth'
+    - 'cups'
+    - 'gdm'
+  become: true
