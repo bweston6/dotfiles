@@ -24,6 +24,14 @@
   loop:
     - 'user/pulseeffects/'
 
+- name: 'checking for stock mkinitcpio'
+  ansible.builtin.lineinfile:
+    name: '/etc/mkinitcpio.conf'
+    line: 'HOOKS=(systemd autodetect modconf block filesystems fsck)'
+    state: 'present'
+  check_mode: true
+  register: 'mkinitcpio'
+
 - name: 'installing laptop dotfiles for root'
   ansible.builtin.copy:
     src: '{{ item }}'
@@ -37,6 +45,12 @@
     - 'root/mkinitcpio/'
   become: true
 
+- name: 'building boot image with mkinitcpio'
+  ansible.builtin.command:
+    cmd: 'mkinitcpio -P'
+  become: true
+  when: 'mkinitcpio.changed'
+
 - name: 'configuring boot parameters'
   ansible.builtin.replace:
     path: '/boot/loader/entries/arch.conf'
@@ -48,7 +62,6 @@
   ansible.builtin.service:
     enabled: true
     name: '{{ item }}'
-    state: 'started'
   loop:
     - 'power-profiles-daemon'
   become: true
