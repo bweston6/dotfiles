@@ -24,26 +24,3 @@
   become: true
 
 # - name: 'removing unlisted packages'
-
-- name: 'copying ssh keys'
-  ansible.builtin.copy:
-    backup: true
-    src: 'user/keys/'
-    dest: '~/'
-    directory_mode: 0755
-    mode: 0400
-    group: 1000
-    owner: 1000
-
-- name: 'check if ssh key is on keyring'
-  ansible.builtin.shell:
-    cmd: 'ssh-add -l || /bin/true'
-  changed_when: false
-  register: 'keys'
-
-- name: 'adding ssh key to keyring'
-  ansible.builtin.shell:
-    cmd: |
-      eval $(ssh-agent)
-      ssh-add ~/.ssh/id_ed25519
-  when: '"b.weston60@gmail.com" not in keys'
