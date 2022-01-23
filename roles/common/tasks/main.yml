@@ -42,8 +42,8 @@
     dest: '~/'
     directory_mode: 0755
     mode: 0400
-    group: 1000
-    owner: 1000
+    group: '1000'
+    owner: '1000'
   when: 'not ssh_key.stat.exists'
 
 - name: 'installing common dotfiles for user'
@@ -53,8 +53,8 @@
     dest: '~/'
     directory_mode: 0755
     mode: 0644
-    group: 1000
-    owner: 1000
+    group: '1000'
+    owner: '1000'
   loop:
     - 'user/git/'
     - 'user/vim/'
@@ -67,8 +67,8 @@
     dest: '/'
     directory_mode: 0755
     mode: 0644
-    group: 0
-    owner: 0
+    group: '0'
+    owner: '0'
   loop:
     - 'user/vim/'
     - 'root/zsh/'

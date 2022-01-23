@@ -19,8 +19,8 @@
     dest: '~/'
     directory_mode: 0755
     mode: 0644
-    group: 1000
-    owner: 1000
+    group: '1000'
+    owner: '1000'
   loop:
     - 'user/pulseeffects/'
 
@@ -38,8 +38,8 @@
     dest: '/'
     directory_mode: 0755
     mode: 0644
-    group: 0
-    owner: 0
+    group: '0'
+    owner: '0'
   loop:
     - 'root/egpu/'
     - 'root/mkinitcpio/'
