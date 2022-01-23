@@ -15,6 +15,7 @@ server_packages:
   - 'networkmanager'
   - 'nginx'
   - 'openssh'
+  - 'p7zip'
   - 'screen'
   - 'vulkan-intel'
   - 'vulkan-mesa-layers'
