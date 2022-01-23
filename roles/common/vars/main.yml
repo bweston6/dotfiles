@@ -6,6 +6,7 @@ common_packages:
   - 'curl'
   - 'git'
   - 'glances'
+  - 'inetutils'
   - 'linux-firmware'
   - 'man-db'
   - 'nss-mdns'
