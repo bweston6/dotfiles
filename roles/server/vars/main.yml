@@ -1,9 +1,27 @@
 ---
 server_packages:
+  - 'certbot'
+  - 'certbot-dns-cloudflare'
+  - 'cronie'
+  - 'ddclient'
+  - 'emby-server'
+  - 'fail2ban'
+  - 'hdparm'
   - 'intel-media-driver'
   - 'intel-ucode'
   - 'linux-lts'
+  - 'linux-lts-headers'
   - 'mesa'
   - 'networkmanager'
+  - 'nginx'
+  - 'openssh'
+  - 'screen'
   - 'vulkan-intel'
   - 'vulkan-mesa-layers'
+
+aur_server_packages:
+  - 'ombi'
+  - 'radarr-nightly'
+  - 'sabnzbd'
+  - 'sonarr'
+  - 'zfs-dkms'
