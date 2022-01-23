@@ -1,3 +1,9 @@
 ---
 server_packages:
+  - 'intel-media-driver'
+  - 'intel-ucode'
+  - 'linux-lts'
+  - 'mesa'
   - 'networkmanager'
+  - 'vulkan-intel'
+  - 'vulkan-mesa-layers'
