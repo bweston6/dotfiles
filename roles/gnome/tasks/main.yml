@@ -99,7 +99,7 @@
     state: 'present'
   with_items: '{{ gnome_dconf }}'
 
-- name: 'enabling/starting gnome services'
+- name: 'enabling gnome services'
   ansible.builtin.service:
     enabled: true
     name: '{{ item }}'

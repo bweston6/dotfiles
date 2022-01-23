@@ -70,7 +70,7 @@
   changed_when: false
 
 
-- name: 'enabling/starting common services'
+- name: 'enabling common services'
   ansible.builtin.service:
     enabled: true
     name: '{{ item }}'
