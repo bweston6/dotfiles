@@ -32,8 +32,8 @@
     dest: '/'
     directory_mode: 0755
     mode: 0644
-    group: 0
-    owner: 0
+    group: '0'
+    owner: '0'
   loop:
     - 'root/backgrounds/'
     - 'root/environment/'
@@ -80,8 +80,8 @@
     src: '/usr/share/ddcutil/data/45-ddcutil-i2c.rules'
     dest: '/etc/udev/rules.d'
     mode: 0644
-    group: 0
-    owner: 0
+    group: '0'
+    owner: '0'
   become: true
 
 - name: 'adding user to i2c group'
