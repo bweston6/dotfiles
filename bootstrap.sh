@@ -25,7 +25,7 @@ elif [ "$DISTRIBUTION" = 'Debian' -o "$DISTRIBUTION" = 'Raspbian' ];
 then
 	if ! command -v 'ansible' >/dev/null 2>&1;
 	then
-		sudo apt install ansible
+		sudo apt -y install ansible
 	fi
 	# running playbook
 	PWD=$(dirname $(readlink -f $0))
