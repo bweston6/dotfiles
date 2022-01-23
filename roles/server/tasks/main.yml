@@ -19,9 +19,18 @@
 
 - name: 'configuring boot parameters'
   ansible.builtin.replace:
-    path: '/boot/loader/entries/arch-lts.conf'
-    regexp: '^(options\sroot=\".*\" rw)$'
-    replace: '\g<1> i915.enable_guc=2'
+    path: '/boot/loader/entries/arch.conf'
+    regexp: '{{ item.regexp }}'
+    replace: '{{ item.replace }}'
+  loop:
+    - regexp: '^(linux\s/vmlinuz-linux)$'
+      replace: '\g<1>-lts'
+    - regexp: '^(linux.*\n)(.*initramfs.*)$'
+      replace: '\g<1>initrd\t/intel-ucode.img\n\g<2>'
+    - regexp: '^(initrd\s/initramfs-linux).img$'
+      replace: '\g<1>-lts.img'
+    - regexp: '^(options\sroot=\".*\" rw)$'
+      replace: '\g<1> i915.enable_guc=2'
   become: true
 
 - name: 'enabling server services'
