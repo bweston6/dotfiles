@@ -54,8 +54,13 @@
 - name: 'configuring boot parameters'
   ansible.builtin.replace:
     path: '/boot/loader/entries/arch.conf'
-    regexp: '^(options\sroot=\".*\" rw)$'
-    replace: '\g<1> quiet i915.enable_guc=2 i915.enable_psr=0'
+    regexp: '{{ item.regexp }}'
+    replace: '{{ item.replace }}'
+  loop:
+    - regexp: '^(linux.*\n)(.*initramfs.*)$'
+      replace: '\g<1>initrd\t/intel-ucode.img\n\g<2>'
+    - regexp: '^(options\sroot=\".*\" rw)$'
+      replace: '\g<1> quiet i915.enable_guc=2 i915.enable_psr=0'
   become: true
 
 - name: 'enabling laptop services'
