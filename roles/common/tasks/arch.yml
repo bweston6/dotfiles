@@ -45,6 +45,11 @@
     update_cache: true
     upgrade: true
 
+- name: 'set all packages as dependancies'
+  ansible.builtin.shell:
+    cmd: 'yay -D --asdeps $(yay -Qqe)'
+  changed_when: false
+
 - name: 'installing common packages'
   community.general.pacman:
     executable: 'yay'
@@ -53,7 +58,11 @@
     state: 'present'
     update_cache: true
 
-# - name: 'removing unlisted packages'
+- name: 'set common packages to explicitly installed'
+  ansible.builtin.shell:
+    cmd: 'yay -D --asexplicit {{ (common_packages + aur_common_packages) | join(" ") }} $(yay -Sgq {{ (common_packages + aur_common_packages) | join(" ") }})'
+  changed_when: false
+  failed_when: false
 
 - name: 'checking for existing ssh key'
   ansible.builtin.stat:

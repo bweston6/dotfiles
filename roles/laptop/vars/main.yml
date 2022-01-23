@@ -11,6 +11,7 @@ laptop_packages:
   - 'linux'
   - 'mesa'
   - 'power-profiles-daemon'
+  - 'thermald'
   - 'vulkan-intel'
   - 'vulkan-mesa-layers'
   - 'vulkan-radeon'

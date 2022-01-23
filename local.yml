@@ -1,16 +1,22 @@
 ---
-- hosts: all
-  connection: local
+- hosts: 'all'
+  connection: 'local'
   roles:
-    - common
+    - 'common'
 
-- hosts: Laptop
-  connection: local
+- hosts: 'Laptop'
+  connection: 'local'
   roles:
-    - gnome
-    - laptop
+    - 'gnome'
+    - 'laptop'
 
-- hosts: Server
-  connection: local
+- hosts: 'Server'
+  connection: 'local'
   roles:
-    - server
+    - 'server'
+
+- hosts: 'all'
+  connection: 'local'
+  roles: 
+    - 'common_post_install'
+

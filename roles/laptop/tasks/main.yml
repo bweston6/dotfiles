@@ -64,4 +64,5 @@
     name: '{{ item }}'
   loop:
     - 'power-profiles-daemon'
+    - 'thermald'
   become: true
