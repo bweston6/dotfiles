@@ -1,1 +1,2 @@
 roles/*/files/** linguist-vendored
+*.yml linguist-detectable
