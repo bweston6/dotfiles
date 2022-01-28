@@ -35,6 +35,7 @@ gnome_packages:
   - 'noto-fonts-extra'
   - 'ntfs-3g'
   - 'nuspell'
+  - 'python-pexpect'
   - 'steam'
   - 'telegram-desktop'
   - 'texlive-core'
