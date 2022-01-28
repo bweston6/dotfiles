@@ -21,11 +21,11 @@ then
 	else
 		ansible-playbook $PWD/local.yml -i $PWD/hosts -l $(hostname -f) --ask-vault-pass
 	fi
-elif [ "$DISTRIBUTION" = 'Debian' ];
+elif [ "$DISTRIBUTION" = 'Debian' -o "$DISTRIBUTION" = 'Raspbian' ];
 then
 	if ! command -v 'ansible' >/dev/null 2>&1;
 	then
-		sudo apt install ansible
+		sudo apt -y install ansible
 	fi
 	# running playbook
 	PWD=$(dirname $(readlink -f $0))
