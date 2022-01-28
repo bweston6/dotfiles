@@ -1,52 +1,71 @@
 # Dotfiles
 > ## From installer to desktop in 15 minutes!
 
-This repo provides my dotfiles and two main scripts:
+This repository provides my dotfiles and two main scripts:
 
-* `installer.sh` - Takes you from the arch installer to a boot-able system.
-* `bootstrap.sh` - Takes the boot-able system and installs all dotfiles and customisations.
+* `arch-installer.sh` - An installation script for Arch Linux. See the instructions below for it's use.
+* `bootstrap.sh` - Takes an existing Arch, or Debian based system and installs my dotfiles.
 	
-Both of these scripts aim to be idempotent such that if there is an error or you want to re-run `bootstrap.sh` there will be no ill-effects.
+Both of these scripts aim to be idempotent - if there is an error, or you want to re-run `bootstrap.sh`, there will be no ill-effects.
 
-### Machine Types
+## Machine Types
 There are three main classes of machine that the scripts can configure:
 
-* `Desktop` - Must have `Desktop` in the hostname.
-	* The previous configuration on my desktop computer: running Gnome.
-* `Laptop` - Must have `Laptop` in the hostname.
-	* The current configuration on my laptop: running Gnome, with EQ for the speakers, eGPU support and 105mV undervolt.
-* `Server` - Must have `Serv` in the hostname.
-	* The current configuration for my media server.
-		* Partially implemented.
+* `Laptop` - Identified by the FQDN of `Bens-Laptop-Arch.local`.
+* `Server` - Identified by the FQDN of `ArchServ.local`.
+* `Pi` - Identified by `PiTV`, `PiRemote` or `raspberrypi` host-names.
 
-If none of the above strings are found in the target machine's hostname then a generic install is performed. This includes minimal programs and only dotfiles for command-line programs installed. 
+You can modify the `hosts` file in order to add other host-names into these classes.
+
+If none of the above strings are found in the target machine's host-name then a generic install is performed. This includes minimal programs and only dotfiles for command-line programs installed. 
 
 ## Installing
-There are two main scripts in the `.dotfiles` folder that will take you from the Arch Installer to a useable desktop. 
+Before using the bootstrap script you must have a boot-able Linux install. To quickly get an Arch install with British locale you can use the `arch-installer.sh` script
 
-1. To begin ensure that your target disk has the following partitions:
+### Using the `arch-installer.sh` Script
+
+1. This installer requires UEFI boot. To begin ensure that your target disk has the following partitions:
 	* `FAT32` partition with `esp` and `boot` flags (ideally 500MB).
 	* `ext4` partition for the root.
+	
+	I prefer to use `fdisk` to do this. You can find more information on the Arch installation guide under the [parition disks](https://wiki.archlinux.org/title/installation_guide#Partition_the_disks) section.
 
-	Any paritions you don't mount in the installer will not be touched so this should work with dual boot systems.
-1. Boot from the [Arch Installer](https://archlinux.org/download/) and connect to a network. If you have ethernet this will be done automatically. If you have wifi you should run `iwctl`.
+	Any partitions you don't mount in the installer will not be touched. Additionally, `systemd-boot` will not overwrite bootloaders from Windows or other Linux distributions if you are reusing the same boot partition.
+1. Boot from the [Arch Installer](https://archlinux.org/download/) and connect to a network - if you have Ethernet this will be done automatically, if you have WiFi you should run `iwctl`.
 1. Mount the partitions that you want to install Arch to in the following hierarchy:
 
-	| Partition | Installer Filesystem |
+	| Partition | Installer File-system |
 	| :-: | :-: |
 	| `root` | `/mnt` |
 	| `boot` | `/mnt/boot` |
 	
-	You will have to create a `boot` directory in the root of the `root` partition when you have mounted it.
-1. Clone this repo to the installer usb so that you have access to the scripts:
+	Where `boot` is `/dev/sda1` and `root` is `/dev/sda2`, you would use the following commands:
+	
+	```
+	mount /dev/sda2 /mnt
+	mkdir /mnt/boot
+	mount /dev/sda1 /mnt/boot
+	```
+1. Clone this repository to the installer USB so that you have access to the scripts:
 	
 	```
 	pacman -Sy git
 	git clone https://github.com/bweston6/dotfiles
 	```
 	
-1. Enter the dotfiles directory you have cloned and run `./installer.sh`. The scripts will prompt you with other instructions:
+1. Enter the dotfiles directory you have cloned and run `./arch-installer.sh`. The scripts will prompt you with more instructions:
 	
-	* Ensure to enter a hostname that matches your desired machine type from above.
-	* There are several checks in place to ensure that there is internet when required and that partiions are mounted. 
+	* Ensure to enter a host-name that matches your desired machine type from above.
+	* There are several checks in place to ensure that there is internet when required and that partitions are mounted. 
 	* Messages generated by the script are in pink text.
+	
+1. After booting into the installation you will have a minimal set of programs as `bootstrap.sh` is intended to configure the system. To connect to the internet you can use `nmtui` - this is a fairly intuitive ncurses interface for `NetworkManager`.
+	
+### Using the `bootstrap.sh` Script
+You should note that, for convenience, my personal ssh keys are included and encrypted with Ansible Vault. If you have your own keys you would like to install, then you can place them in the `roles/common/files/user/keys/.ssh` folder and delete the existing files.
+
+The script won't try to overwrite keys if they already exist in your `.ssh` folder. Therefore, you can create an empty file, to avoid the password prompt, with the following command:
+
+```
+touch ~/.ssh/ed25519
+```
