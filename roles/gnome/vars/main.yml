@@ -1,0 +1,286 @@
+---
+gnome_packages:
+  - 'aspell-en'
+  - 'bluez-utils'
+  - 'celluloid'
+  - 'cups'
+  - 'ddcutil'
+  - 'discord'
+  - 'displaycal'
+  - 'firefox'
+  - 'flatpak'
+  - 'fwupd'
+  - 'geary'
+  - 'gedit-plugins'
+  - 'gimp'
+  - 'gitg'
+  - 'gnome'
+  - 'gnome-software-packagekit-plugin'
+  - 'gnome-themes-extra'
+  - 'gnome-todo'
+  - 'gnome-tweaks'
+  - 'gparted'
+  - 'gvim'
+  - 'hunspell-en_gb'
+  - 'ibus'
+  - 'jdk-openjdk'
+  - 'lib32-gnutls'
+  - 'lib32-systemd'
+  - 'libreoffice-fresh'
+  - 'marker'
+  - 'mathjax2'
+  - 'networkmanager'
+  - 'networkmanager-openvpn'
+  - 'noto-fonts-cjk'
+  - 'noto-fonts-extra'
+  - 'ntfs-3g'
+  - 'nuspell'
+  - 'python-pexpect'
+  - 'steam'
+  - 'telegram-desktop'
+  - 'texlive-core'
+  - 'ttf-liberation'
+  - 'wine'
+  - 'wine-gecko'
+  - 'wine-mono'
+  - 'winetricks'
+  - 'zathura-pdf-mupdf'
+
+aur_gnome_packages:
+  - 'chrome-gnome-shell'
+  - 'etcher-bin'
+  - 'pulseaudio-modules-bt'
+  - 'setzer'
+
+flatpak_gnome_packages:
+  - 'com.spotify.Client'
+  - 'com.microsoft.Teams'
+  - 'us.zoom.Zoom'
+
+gnome_dconf:
+  - key: "/com/github/fabiocolacio/marker/preferences/editor/auto-indent"
+    value: "true"
+  - key: "/com/github/fabiocolacio/marker/preferences/editor/enable-syntax-theme"
+    value: "true"
+  - key: "/com/github/fabiocolacio/marker/preferences/editor/spell-check"
+    value: "true"
+  - key: "/com/github/fabiocolacio/marker/preferences/editor/spell-check-lang"
+    value: "'en_GB'"
+  - key: "/com/github/fabiocolacio/marker/preferences/editor/syntax-theme"
+    value: "'cobalt'"
+  - key: "/com/github/fabiocolacio/marker/preferences/editor/tab-width"
+    value: "uint32 2"
+  - key: "/com/github/fabiocolacio/marker/preferences/editor/wrap-text"
+    value: "true"
+  - key: "/com/github/fabiocolacio/marker/preferences/preview/css-theme"
+    value: "'GitHub2.css'"
+  - key: "/com/github/fabiocolacio/marker/preferences/preview/highlight-theme"
+    value: "'tomorrow-night-blue'"
+  - key: "/com/github/fabiocolacio/marker/preferences/preview/highlight-toggle"
+    value: "true"
+  - key: "/com/github/fabiocolacio/marker/preferences/preview/math-backend"
+    value: "'MathJax'"
+  - key: "/io/github/celluloid-player/celluloid/mpv-options"
+    value: "'hwdec=auto'"
+  - key: "/org/gnome/desktop/app-folders/folder-children"
+    value: "['Utilities', 'YaST', '8effdec3-ab68-4998-80d4-58d37e43d137', 'c987234f-1537-4871-bc3b-f19d2ebb8776', '2f85f263-ae71-4d9b-9cb1-3c0ff554ac49']"
+  - key: "/org/gnome/desktop/app-folders/folders/2f85f263-ae71-4d9b-9cb1-3c0ff554ac49/apps"
+    value: "['simple-scan.desktop', 'libreoffice-startcenter.desktop', 'libreoffice-base.desktop', 'libreoffice-calc.desktop', 'libreoffice-draw.desktop', 'libreoffice-impress.desktop', 'libreoffice-math.desktop', 'libreoffice-writer.desktop', 'wine-Programs-Microsoft Office-Microsoft Office Tools-Microsoft Clip Organizer.desktop', 'wine-Programs-Microsoft Office-Microsoft Office Tools-Microsoft Office 2003 Save My Settings Wizard.desktop', 'wine-Programs-Microsoft Office-Microsoft Office Tools-Microsoft Office Application Recovery.desktop', 'wine-Programs-Microsoft Office-Microsoft Office Tools-Microsoft Office Document Imaging.desktop', 'wine-Programs-Microsoft Office-Microsoft Office Excel 2003.desktop', 'wine-Programs-Microsoft Office-Microsoft Office Tools-Microsoft Office Picture Manager.desktop', 'wine-Programs-Microsoft Office-Microsoft Office PowerPoint 2003.desktop', 'wine-Programs-Microsoft Office-Microsoft Office Publisher 2003.desktop', 'wine-Programs-Microsoft Office-Microsoft Office Word 2003.desktop']"
+  - key: "/org/gnome/desktop/app-folders/folders/2f85f263-ae71-4d9b-9cb1-3c0ff554ac49/name"
+    value: "'Office'"
+  - key: "/org/gnome/desktop/app-folders/folders/8effdec3-ab68-4998-80d4-58d37e43d137/apps"
+    value: "['bssh.desktop', 'bvnc.desktop', 'avahi-discover.desktop', 'calf.desktop', 'lstopo.desktop', 'mpv.desktop', 'jconsole-java-openjdk.desktop', 'jshell-java-openjdk.desktop', 'qv4l2.desktop', 'qvidcap.desktop', 'xdvi.desktop']"
+  - key: "/org/gnome/desktop/app-folders/folders/8effdec3-ab68-4998-80d4-58d37e43d137/name"
+    value: "'System'"
+  - key: "/org/gnome/desktop/app-folders/folders/8effdec3-ab68-4998-80d4-58d37e43d137/translate"
+    value: "false"
+  - key: "/org/gnome/desktop/app-folders/folders/Utilities/apps"
+    value: "['nm-connection-editor.desktop', 'org.gnome.FileRoller.desktop', 'balena-etcher-electron.desktop', 'org.gnome.Books.desktop', 'org.gnome.Boxes.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Cheese.desktop', 'org.gnome.Contacts.desktop', 'org.gnome.baobab.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.Evince.desktop', 'org.gnome.font-viewer.desktop', 'gimp.desktop', 'gparted.desktop', 'gvim.desktop', 'yelp.desktop', 'org.gnome.eog.desktop', 'org.gnome.Logs.desktop', 'cups.desktop', 'org.gnome.Music.desktop', 'org.gnome.Photos.desktop', 'com.github.wwmm.pulseeffects.desktop', 'org.gnome.Screenshot.desktop', 'gnome-system-monitor.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Totem.desktop', 'vim.desktop', 'org.gnome.Epiphany.desktop', 'winetricks.desktop', 'org.pwmt.zathura.desktop']"
+  - key: "/org/gnome/desktop/app-folders/folders/Utilities/categories"
+    value: "['X-GNOME-Utilities']"
+  - key: "/org/gnome/desktop/app-folders/folders/Utilities/name"
+    value: "'X-GNOME-Utilities.directory'"
+  - key: "/org/gnome/desktop/app-folders/folders/Utilities/translate"
+    value: "true"
+  - key: "/org/gnome/desktop/app-folders/folders/YaST/categories"
+    value: "['X-SuSE-YaST']"
+  - key: "/org/gnome/desktop/app-folders/folders/YaST/name"
+    value: "'suse-yast.directory'"
+  - key: "/org/gnome/desktop/app-folders/folders/YaST/translate"
+    value: "true"
+  - key: "/org/gnome/desktop/app-folders/folders/c987234f-1537-4871-bc3b-f19d2ebb8776/apps"
+    value: "['displaycal-3dlut-maker.desktop', 'displaycal-curve-viewer.desktop', 'displaycal.desktop', 'displaycal-profile-info.desktop', 'displaycal-apply-profiles.desktop', 'displaycal-scripting-client.desktop', 'displaycal-synthprofile.desktop', 'displaycal-testchart-editor.desktop', 'displaycal-vrml-to-x3d-converter.desktop']"
+  - key: "/org/gnome/desktop/app-folders/folders/c987234f-1537-4871-bc3b-f19d2ebb8776/name"
+    value: "'DisplayCAL'"
+  - key: "/org/gnome/desktop/app-folders/folders/c987234f-1537-4871-bc3b-f19d2ebb8776/translate"
+    value: "false"
+  - key: "/org/gnome/desktop/background/picture-options"
+    value: "'zoom'"
+  - key: "/org/gnome/desktop/background/picture-uri"
+    value: "'file:///usr/share/backgrounds/gnome/heather_boscastle.jpg'"
+  - key: "/org/gnome/desktop/calendar/show-weekdate"
+    value: "true"
+  - key: "/org/gnome/desktop/datetime/automatic-timezone"
+    value: "true"
+  - key: "/org/gnome/desktop/input-sources/sources"
+    value: "[('xkb', 'gb')]"
+  - key: "/org/gnome/desktop/input-sources/xkb-options"
+    value: "['lv3:ralt_switch', 'compose:ralt']"
+  - key: "/org/gnome/desktop/interface/clock-format"
+    value: "'12h'"
+  - key: "/org/gnome/desktop/interface/clock-show-weekday"
+    value: "true"
+  - key: "/org/gnome/desktop/interface/show-battery-percentage"
+    value: "true"
+  - key: "/org/gnome/desktop/peripherals/mouse/accel-profile"
+    value: "'flat'"
+  - key: "/org/gnome/desktop/peripherals/touchpad/tap-to-click"
+    value: "true"
+  - key: "/org/gnome/desktop/peripherals/touchpad/two-finger-scrolling-enabled"
+    value: "true"
+  - key: "/org/gnome/desktop/screensaver/picture-options"
+    value: "'zoom'"
+  - key: "/org/gnome/desktop/screensaver/picture-uri"
+    value: "'file:///usr/share/backgrounds/gnome/heather_boscastle.jpg'"
+  - key: "/org/gnome/desktop/wm/keybindings/switch-applications"
+    value: "['<Super>Tab']"
+  - key: "/org/gnome/desktop/wm/keybindings/switch-applications-backward"
+    value: "['<Shift><Super>Tab']"
+  - key: "/org/gnome/desktop/wm/keybindings/switch-windows"
+    value: "['<Alt>Tab']"
+  - key: "/org/gnome/desktop/wm/keybindings/switch-windows-backward"
+    value: "['<Shift><Alt>Tab']"
+  - key: "/org/gnome/desktop/wm/keybindings/toggle-fullscreen"
+    value: "['<Alt>Return']"
+  - key: "/org/gnome/desktop/wm/preferences/button-layout"
+    value: "'appmenu:minimize,maximize,close'"
+  - key: "/org/gnome/desktop/wm/preferences/resize-with-right-button"
+    value: "true"
+  - key: "/org/gnome/gedit/preferences/editor/display-right-margin"
+    value: "true"
+  - key: "/org/gnome/gedit/preferences/editor/scheme"
+    value: "'cobalt'"
+  - key: "/org/gnome/gedit/preferences/editor/tabs-size"
+    value: "uint32 2"
+  - key: "/org/gnome/gedit/preferences/editor/wrap-last-split-mode"
+    value: "'word'"
+  - key: "/org/gnome/gitg/preferences/interface/default-activity"
+    value: "'commit'"
+  - key: "/org/gnome/gitg/preferences/interface/style-scheme"
+    value: "'cobalt'"
+  - key: "/org/gnome/gitg/preferences/interface/use-gravatar"
+    value: "true"
+  - key: "/org/gnome/nautilus/list-view/default-column-order"
+    value: "['name', 'size', 'type', 'detailed_type', 'owner', 'group', 'permissions', 'where', 'date_modified', 'date_modified_with_time', 'date_accessed', 'date_created', 'recency', 'starred']"
+  - key: "/org/gnome/nautilus/list-view/default-visible-columns"
+    value: "['name', 'detailed_type', 'size', 'date_modified']"
+  - key: "/org/gnome/nautilus/list-view/default-zoom-level"
+    value: "'small'"
+  - key: "/org/gnome/nautilus/list-view/use-tree-view"
+    value: "true"
+  - key: "/org/gnome/nautilus/preferences/default-folder-viewer"
+    value: "'list-view'"
+  - key: "/org/gnome/nautilus/preferences/recursive-search"
+    value: "'always'"
+  - key: "/org/gnome/nautilus/preferences/search-filter-time-type"
+    value: "'last_modified'"
+  - key: "/org/gnome/nautilus/preferences/search-view"
+    value: "'list-view'"
+  - key: "/org/gnome/nautilus/preferences/show-create-link"
+    value: "true"
+  - key: "/org/gnome/nautilus/preferences/show-directory-item-counts"
+    value: "'always'"
+  - key: "/org/gnome/nautilus/preferences/show-image-thumbnails"
+    value: "'always'"
+  - key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
+    value: "true"
+  - key: "/org/gnome/settings-daemon/plugins/color/night-light-temperature"
+    value: "uint32 3700"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+    value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/next"
+    value: "['<Alt>l']"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/play"
+    value: "['<Alt>j']"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/previous"
+    value: "['<Alt>h']"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/stop"
+    value: "['<Alt>k']"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding"
+    value: "'<Super>t'"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command"
+    value: "'gnome-terminal'"
+  - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name"
+    value: "'Terminal'"
+  - key: "/org/gnome/shell/app-picker-layout"
+    value: "[{'org.gnome.Calculator.desktop': <{'position': <0>}>, 'org.gnome.Calendar.desktop': <{'position': <1>}>, 'io.github.celluloid_player.Celluloid.desktop': <{'position': <2>}>, 'org.gnome.clocks.desktop': <{'position': <3>}>, 'discord.desktop': <{'position': <4>}>, 'c987234f-1537-4871-bc3b-f19d2ebb8776': <{'position': <5>}>, 'org.gnome.Extensions.desktop': <{'position': <6>}>, 'org.gnome.gitg.desktop': <{'position': <7>}>, 'org.gnome.Maps.desktop': <{'position': <8>}>, 'com.github.fabiocolacio.marker.desktop': <{'position': <9>}>, 'com.microsoft.Teams.desktop': <{'position': <10>}>, '2f85f263-ae71-4d9b-9cb1-3c0ff554ac49': <{'position': <11>}>, 'steam.desktop': <{'position': <12>}>, 'gnome-control-center.desktop': <{'position': <13>}>, 'org.cvfosammmm.Setzer.desktop': <{'position': <14>}>, 'org.gnome.Software.desktop': <{'position': <15>}>, '8effdec3-ab68-4998-80d4-58d37e43d137': <{'position': <16>}>, 'org.gnome.gedit.desktop': <{'position': <17>}>, 'org.gnome.Todo.desktop': <{'position': <18>}>, 'telegramdesktop.desktop': <{'position': <19>}>, 'Utilities': <{'position': <20>}>, 'org.gnome.Weather.desktop': <{'position': <21>}>, 'us.zoom.Zoom.desktop': <{'position': <22>}>}]"
+  - key: "/org/gnome/shell/disable-user-extensions"
+    value: "false"
+  - key: "/org/gnome/shell/disabled-extensions"
+    value: "@as []"
+  - key: "/org/gnome/shell/enabled-extensions"
+    value: "['trayIconsReloaded@selfmade.pl', 'sound-output-device-chooser@kgshank.net', 'nightthemeswitcher@romainvigier.fr', 'gTile@vibou', 'fullscreen-notifications@sorrow.about.alice.pm.me', 'espresso@coadmunkee.github.com', 'display-brightness-ddcutil@themightydeity.github.com', 'bluetooth-quick-connect@bjarosze.gmail.com', 'no-overview@fthx']"
+  - key: "/org/gnome/shell/favorite-apps"
+    value: "['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Geary.desktop', 'com.spotify.Client.desktop']"
+  - key: "/org/gnome/shell/extensions/bluetooth-quick-connect/keep-menu-on-toggle"
+    value: "true"
+  - key: "/org/gnome/shell/extensions/bluetooth-quick-connect/show-battery-value-on"
+    value: "true"
+  - key: "/org/gnome/shell/extensions/display-brightness-ddcutil/decrease-brightness-shortcut"
+    value: "['<Ctrl><Alt><Shift>k']"
+  - key: "/org/gnome/shell/extensions/display-brightness-ddcutil/increase-brightness-shortcut"
+    value: "['<Ctrl><Alt><Shift>j']"
+  - key: "/org/gnome/shell/extensions/display-brightness-ddcutil/show-all-slider"
+    value: "true"
+  - key: "/org/gnome/shell/extensions/display-brightness-ddcutil/show-value-label"
+    value: "true"
+  - key: "/org/gnome/shell/extensions/gtile/show-icon"
+    value: "false"
+  - key: "/org/gnome/shell/extensions/nightthemeswitcher/time/always-enable-ondemand"
+    value: "true"
+  - key: "/org/gnome/shell/extensions/nightthemeswitcher/time/nightthemeswitcher-ondemand-keybinding"
+    value: "['<Super>d']"
+  - key: "/org/gnome/shell/extensions/nightthemeswitcher/time/ondemand-button-placement"
+    value: "'menu'"
+  - key: "/org/gnome/shell/weather/automatic-location"
+    value: "true"
+  - key: "/org/gnome/shell/weather/location"
+    value: "@av []"
+  - key: "/org/gnome/system/location/enabled"
+    value: "true"
+  - key: "/org/gnome/terminal/legacy/profiles:/default"
+    value: "'749bd384-6325-4410-b868-d40e7cecf7cf'"
+  - key: "/org/gnome/terminal/legacy/profiles:/list"
+    value: "['749bd384-6325-4410-b868-d40e7cecf7cf']"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/allow-bold"
+    value: "true"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/background-color"
+    value: "'#131327273838'"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/bold-color"
+    value: "'#ffffffffffff'"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/bold-color-same-as-fg"
+    value: "true"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/cursor-background-color"
+    value: "'#ffffffffffff'"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/cursor-colors-set"
+    value: "true"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/cursor-foreground-color"
+    value: "'#131327273838'"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/default-size-columns"
+    value: "132"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/default-size-rows"
+    value: "43"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/foreground-color"
+    value: "'#ffffffffffff'"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/palette"
+    value: "['#000000000000', '#ffff00000000', '#3838dede2121', '#ffffe5e50a0a', '#14146060d2d2', '#ffff00005d5d', '#0000bbbbbbbb', '#bbbbbbbbbbbb', '#555555555555', '#f4f40e0e1717', '#3b3bd0d01d1d', '#ededc8c80909', '#55555555ffff', '#ffff5555ffff', '#6a6ae3e3fafa', '#ffffffffffff']"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/use-theme-background"
+    value: "false"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/use-theme-colors"
+    value: "false"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/use-theme-transparency"
+    value: "false"
+  - key: "/org/gnome/terminal/legacy/profiles:/:749bd384-6325-4410-b868-d40e7cecf7cf/visible-name"
+    value: "'Cobalt 2'"
+  - key: "/org/gtk/settings/file-chooser/sort-directories-first"
+    value: "true"

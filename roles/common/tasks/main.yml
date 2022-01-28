@@ -1,0 +1,95 @@
+---
+- name: 'test internet and DNS on 8.8.8.8'
+  ansible.builtin.command:
+    cmd: 'ping -q -c 1 -W 1 google.com'
+  changed_when: false
+
+- include_tasks: 'arch.yml'
+  when: ansible_facts['os_family'] == 'Archlinux'
+
+- include_tasks: 'debian.yml'
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: 'setting shell to zsh'
+  ansible.builtin.user:
+    name: '{{ item }}'
+    shell: '/usr/bin/zsh'
+  loop:
+    - '{{ ansible_env.USER }}'
+    - 'root'
+  become: true
+
+- name: 'installing ohmyzsh for user'
+  ansible.builtin.shell:
+    cmd: 'RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"'
+    creates: '~/.oh-my-zsh'
+
+- name: 'installing ohmyzsh for root'
+  ansible.builtin.shell:
+    cmd: 'RUNZSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"'
+    creates: '/root/.oh-my-zsh'
+  become: true
+
+- name: 'checking for existing ssh key'
+  ansible.builtin.stat:
+    path: '~/.ssh/id_ed25519'
+  register: 'ssh_key'
+
+- name: 'copying ssh keys'
+  ansible.builtin.copy:
+    backup: true
+    src: 'user/keys/'
+    dest: '~/'
+    directory_mode: 0755
+    mode: 0400
+    group: '1000'
+    owner: '1000'
+  when: 'not ssh_key.stat.exists'
+
+- name: 'installing common dotfiles for user'
+  ansible.builtin.copy:
+    backup: true
+    src: '{{ item }}'
+    dest: '~/'
+    directory_mode: 0755
+    mode: 0644
+    group: '1000'
+    owner: '1000'
+  loop:
+    - 'user/git/'
+    - 'user/vim/'
+    - 'user/zsh/'
+
+- name: 'installing common dotfiles for root'
+  ansible.builtin.copy:
+    backup: true
+    src: '{{ item }}'
+    dest: '/'
+    directory_mode: 0755
+    mode: 0644
+    group: '0'
+    owner: '0'
+  loop:
+    - 'user/vim/'
+    - 'root/zsh/'
+  become: true
+
+- name: 'installing/updating vim-plug plugins'
+  ansible.builtin.command:
+    cmd: 'vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall'
+  changed_when: false
+
+- name: 'installing/updating vim-plug plugins for root'
+  ansible.builtin.command:
+    cmd: 'vim +PlugInstall +PlugUpdate +PlugClean! +PlugUpgrade +qall'
+  become: true
+  changed_when: false
+
+
+- name: 'enabling common services'
+  ansible.builtin.service:
+    enabled: true
+    name: '{{ item }}'
+  loop:
+    - 'avahi-daemon'
+  become: true

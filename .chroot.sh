@@ -16,32 +16,11 @@ locale-gen
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
 
-# Enabling early KMS
-#echo "${YELLOW}:: ${MAGENTA}Enabling early KMS...${RESET}"
-#if [[ $hostname == *"Desktop"* ]]
-#then
-#	sed -i 's/MODULES=()/MODULES=(amd)/g' /etc/mkinitcpio.conf
-#else
-#	sed -i 's/MODULES=()/MODULES=(i915)/g' /etc/mkinitcpio.conf
-#fi
-#mkinitcpio -P
-
 # Boot Manager
 echo "${YELLOW}:: ${MAGENTA}Installing systemd-boot...${RESET}"
 bootctl install
-cp -r /dotfiles/systemd-boot/core-loader/* /boot/loader
-if [[ $hostname == *"Laptop"* ]]
-then
-	cp -r /dotfiles/systemd-boot/laptop-entries/* /boot/loader/entries
-elif [[ $hostname == *"Desktop"* ]]
-then
-	cp -r /dotfiles/systemd-boot/desktop-entries/* /boot/loader/entries
-elif [[ $hostname == *"Serv"* ]]
-then
-	cp -r /dotfiles/systemd-boot/server-entries/* /boot/loader/entries
-else
-	cp -r /dotfiles/systemd-boot/core-entries/* /boot/loader/entries
-fi
+cp /dotfiles/systemd-boot/loader.conf /boot/loader
+cp /dotfiles/systemd-boot/arch.conf /boot/loader/entries
 
 # Setting root Password
 echo "${MAGENTA}Please enter a root password:${RESET}"
@@ -52,23 +31,11 @@ echo "${MAGENTA}Enter username for non-privileged user:${RESET}"
 read NAME
 echo "${MAGENTA}Enter the full name of the user $NAME:${RESET}"
 read COMMENT
-useradd -c "$COMMENT" -m -G wheel -s /bin/zsh $NAME
+useradd -c "$COMMENT" -m -G wheel -s /usr/bin/zsh $NAME
 echo "${MAGENTA}Enter a password for $NAME (you will soon be editing the sudoers file; uncomment wheel access):${RESET}"
 passwd $NAME
 EDITOR=vim visudo
 
-# Enabling Services
-echo "${YELLOW}:: ${MAGENTA}Enabling services...${RESET}"
-if [[ $hostname == *"Laptop"* ]]
-then
-	sudo systemctl enable intel-undervolt
-fi
-if [[ $hostname == *"Laptop"* || $hostname == *"Desktop"* ]]
-then
-	systemctl enable avahi-daemon bluetooth cups NetworkManager power-profiles-daemon gdm 
-elif [[ $hostname == *"Serv"* ]]
-then
-	:
-else
-	:
-fi	
+# Enabling NetworkManager
+echo "${YELLOW}:: ${MAGENTA}Enabling NetworkManager...${RESET}"
+systemctl enable NetworkManager

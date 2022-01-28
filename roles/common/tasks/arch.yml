@@ -1,0 +1,73 @@
+---
+- name: 'set pacman config'
+  ansible.builtin.replace:
+    path: '/etc/pacman.conf'
+    regexp: '{{ item.regexp }}'
+    replace: '{{ item.replace }}'
+  loop:
+    - regexp: '#Color'
+      replace: 'Color'
+    - regexp: '#ParallelDownloads'
+      replace: 'ParallelDownloads'
+    - regexp: |
+        #\[multilib\]
+        #Include = /etc/pacman.d/mirrorlist
+      replace: |
+        [multilib]
+        Include = /etc/pacman.d/mirrorlist
+  become: true
+
+- name: 'gather package facts'
+  ansible.builtin.package_facts:
+
+- name: 'installing AUR dependancies'
+  community.general.pacman:
+    name: 'base-devel'
+    state: 'present'
+    update_cache: true
+  become: true
+  when: '"yay" not in ansible_facts.packages'
+
+- name: 'installing yay'
+  ansible.builtin.shell:
+    cmd: |
+      cd ~
+      git clone https://aur.archlinux.org/yay.git
+      cd yay
+      makepkg -si --noconfirm
+      cd ~
+      rm -rf yay
+  when: '"yay" not in ansible_facts.packages'
+
+- name: 'updating packages'
+  community.general.pacman:
+    executable: 'yay'
+    update_cache: true
+    upgrade: true
+
+- name: 'set all packages as dependancies'
+  ansible.builtin.shell:
+    cmd: 'yay -D --asdeps $(yay -Qqe)'
+  changed_when: false
+
+- name: 'installing common packages'
+  community.general.pacman:
+    executable: 'yay'
+    extra_args: '--removemake'
+    name: '{{ common_packages + aur_common_packages }}'
+    state: 'present'
+    update_cache: true
+
+- name: 'set common packages to explicitly installed'
+  ansible.builtin.shell:
+    cmd: 'yay -D --asexplicit {{ (common_packages + aur_common_packages) | join(" ") }} $(yay -Sgq {{ (common_packages + aur_common_packages) | join(" ") }})'
+  changed_when: false
+  failed_when: false
+
+- name: 'enabling systemd-boot-update service'
+  ansible.builtin.service:
+    enabled: true
+    name: '{{ item }}'
+  loop:
+    - 'systemd-boot-update'
+  become: true

@@ -1,0 +1,23 @@
+---
+laptop_packages:
+  - 'intel-media-driver'
+  - 'intel-ucode'
+  - 'intel-undervolt'
+  - 'lib32-mesa'
+  - 'lib32-vulkan-intel'
+  - 'lib32-vulkan-mesa-layers'
+  - 'lib32-vulkan-radeon'
+  - 'libva-mesa-driver'
+  - 'linux'
+  - 'mesa'
+  - 'power-profiles-daemon'
+  - 'thermald'
+  - 'vulkan-intel'
+  - 'vulkan-mesa-layers'
+  - 'vulkan-radeon'
+
+aur_laptop_packages:
+  - 'calf'
+#  - 'libfprint-2-tod1-broadcom'
+  - 'lsp-plugins'
+  - 'pulseeffects-legacy'

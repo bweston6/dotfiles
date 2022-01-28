@@ -1,0 +1,30 @@
+---
+common_packages:
+  - 'ansible'
+  - 'base'
+  - 'base-devel'
+  - 'curl'
+  - 'git'
+  - 'glances'
+  - 'inetutils'
+  - 'linux-firmware'
+  - 'man-db'
+  - 'nss-mdns'
+  - 'pacman-contrib'
+  - 'python-defusedxml'
+  - 'rsync'
+  - 'wget'
+  - 'zsh'
+
+aur_common_packages:
+  - 'vi-vim-symlink'
+  - 'yay'
+
+debian_common_packages:
+  - 'ansible'
+  - 'curl'
+  - 'git'
+  - 'python3-pip'
+  - 'rsync'
+  - 'wget'
+  - 'zsh'

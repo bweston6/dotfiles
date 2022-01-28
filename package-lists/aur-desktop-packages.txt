@@ -1,4 +1,0 @@
-chrome-gnome-shell
-etcher-bin
-gogh-git
-pulseaudio-modules-bt

@@ -1,0 +1,14 @@
+---
+- name: 'appending unlisted packages to ~/ansible_removed_packages.txt'
+  ansible.builtin.shell:
+    cmd: 'yay -Qqttd > /tmp/ansible_removed_packages.txt'
+  register: 'package_check'
+  changed_when: 'package_check.rc == 0' 
+  failed_when: false
+
+- name: 'removing unlisted packages'
+  ansible.builtin.shell:
+    cmd: |
+      cat /tmp/ansible_removed_packages.txt >> ~/ansible_removed_packages.txt
+      yay -Rsn --noconfirm $(yay -Qqttd)
+  when: 'package_check.rc == 0'

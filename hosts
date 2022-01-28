@@ -1,0 +1,13 @@
+[Laptop]
+Bens-Laptop-Arch.local
+
+[Server]
+ArchServ.local
+
+[Pi]
+PiTV
+PiRemote
+raspberrypi
+
+[all:vars]
+ansible_python_interpreter=auto_silent

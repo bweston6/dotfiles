@@ -1,0 +1,14 @@
+---
+- name: 'installing server packages'
+  community.general.pacman:
+    executable: 'yay'
+    extra_args: '--removemake'
+    name: '{{ server_packages  + aur_server_packages}}'
+    state: 'present'
+    update_cache: true
+
+- name: 'set gnome packages to explicitly installed'
+  ansible.builtin.shell:
+    cmd: 'yay -D --asexplicit {{ (server_packages + aur_server_packages) | join(" ") }} $(yay -Sgq {{ (server_packages + aur_server_packages) | join(" ") }})'
+  changed_when: false
+  failed_when: false

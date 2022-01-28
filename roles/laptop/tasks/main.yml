@@ -1,0 +1,73 @@
+---
+- include_tasks: 'arch.yml'
+  when: ansible_facts['os_family'] == 'Archlinux'
+
+- include_tasks: 'debian.yml'
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: 'removing lsp-plugins desktop entries'
+  ansible.builtin.shell:
+    cmd: |
+      mkdir -p ~/.local/share/applications
+      echo '[Desktop Entry] Hidden=true' > /tmp/1
+      find /usr -name "*lsp_plug*desktop" 2>/dev/null | cut -f 5 -d '/' | xargs -I {} cp /tmp/1 ~/.local/share/applications/{}
+    creates: '~/.local/share/applications/*lsp_plug*desktop'
+
+- name: 'installing laptop dotfiles for user'
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: '~/'
+    directory_mode: 0755
+    mode: 0644
+    group: '1000'
+    owner: '1000'
+  loop:
+    - 'user/pulseeffects/'
+
+- name: 'checking for stock mkinitcpio'
+  ansible.builtin.lineinfile:
+    name: '/etc/mkinitcpio.conf'
+    line: 'HOOKS=(systemd autodetect modconf block filesystems fsck)'
+    state: 'present'
+  check_mode: true
+  register: 'mkinitcpio'
+
+- name: 'installing laptop dotfiles for root'
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: '/'
+    directory_mode: 0755
+    mode: 0644
+    group: '0'
+    owner: '0'
+  loop:
+    - 'root/egpu/'
+    - 'root/mkinitcpio/'
+  become: true
+
+- name: 'building boot image with mkinitcpio'
+  ansible.builtin.command:
+    cmd: 'mkinitcpio -P'
+  become: true
+  when: 'mkinitcpio.changed'
+
+- name: 'configuring boot parameters'
+  ansible.builtin.replace:
+    path: '/boot/loader/entries/arch.conf'
+    regexp: '{{ item.regexp }}'
+    replace: '{{ item.replace }}'
+  loop:
+    - regexp: '^(linux.*\n)(.*initramfs.*)$'
+      replace: '\g<1>initrd\t/intel-ucode.img\n\g<2>'
+    - regexp: '^(options\sroot=\".*\" rw)$'
+      replace: '\g<1> quiet i915.enable_guc=2 i915.enable_psr=0'
+  become: true
+
+- name: 'enabling laptop services'
+  ansible.builtin.service:
+    enabled: true
+    name: '{{ item }}'
+  loop:
+    - 'power-profiles-daemon'
+    - 'thermald'
+  become: true

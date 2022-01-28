@@ -1,4 +1,0 @@
-ombi
-radarr-nightly
-sabnzbd
-sonarr
