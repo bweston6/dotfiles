@@ -85,11 +85,18 @@
   become: true
   changed_when: false
 
-
-- name: 'enabling common services'
+- name: 'enabling avahi'
   ansible.builtin.service:
     enabled: true
     name: '{{ item }}'
+    state: 'started'
   loop:
     - 'avahi-daemon'
+  become: true
+
+- name: 'configuring avahi mdns'
+  ansible.builtin.replace:
+    path: '/etc/nsswitch.conf'
+    regexp: 'hosts:\s+((?:mymachines |files )*)((?!.*mdns4_minimal \[NOTFOUND=return\]).*)$'
+    replace: 'hosts: \g<1>mdns4_minimal [NOTFOUND=return] \g<2>'
   become: true
