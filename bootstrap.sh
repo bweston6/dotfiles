@@ -1,9 +1,9 @@
 #!/bin/sh
-# setting variables
-DISTRIBUTION=$(lsb_release -i | cut -f 2)
+# finding os type
+source /etc/os-release
 
 # installing pre-requisites
-if [ "$DISTRIBUTION" = 'Arch' ];
+if [ "$ID" = 'arch' ];
 then
 	if ! command -v 'ansible' >/dev/null 2>&1;
 	then
@@ -21,7 +21,7 @@ then
 	else
 		ansible-playbook $PWD/local.yml -i $PWD/hosts -l $(hostname -f) --ask-vault-pass
 	fi
-elif [ "$DISTRIBUTION" = 'Debian' -o "$DISTRIBUTION" = 'Raspbian' ];
+elif [ "$ID" = 'debian' -o "$ID_LIKE" = 'debian' ];
 then
 	if ! command -v 'ansible' >/dev/null 2>&1;
 	then
