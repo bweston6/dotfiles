@@ -1,6 +1,6 @@
 #!/bin/sh
 # finding os type
-source /etc/os-release
+. /etc/os-release
 
 # installing pre-requisites
 if [ "$ID" = 'arch' ];
