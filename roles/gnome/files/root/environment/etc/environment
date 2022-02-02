@@ -4,4 +4,4 @@
 # Syntax: simple "KEY=VAL" pairs on separate lines
 #
 MOZ_ENABLE_WAYLAND=1
-CLASSPATH=/usr/share/java/junit.jar:/usr/share/java/hamcrest-core.jar
+CLASSPATH=.:/usr/share/java/junit.jar:/usr/share/java/hamcrest-core.jar
