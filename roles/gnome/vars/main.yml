@@ -1,5 +1,6 @@
 ---
 gnome_packages:
+  - 'ant'
   - 'aspell-en'
   - 'bluez-utils'
   - 'celluloid'
@@ -24,6 +25,7 @@ gnome_packages:
   - 'hunspell-en_gb'
   - 'ibus'
   - 'jdk-openjdk'
+  - 'junit'
   - 'lib32-gnutls'
   - 'lib32-systemd'
   - 'libreoffice-fresh'
