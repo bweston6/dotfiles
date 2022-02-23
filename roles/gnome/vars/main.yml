@@ -53,7 +53,6 @@ gnome_packages:
 aur_gnome_packages:
   - 'chrome-gnome-shell'
   - 'etcher-bin'
-  - 'pulseaudio-modules-bt'
   - 'setzer'
 
 flatpak_gnome_packages:
