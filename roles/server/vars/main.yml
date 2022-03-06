@@ -16,6 +16,7 @@ server_packages:
   - 'nginx'
   - 'openssh'
   - 'p7zip'
+  - 'php'
   - 'screen'
   - 'vulkan-intel'
   - 'vulkan-mesa-layers'
