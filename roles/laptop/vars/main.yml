@@ -1,5 +1,6 @@
 ---
 laptop_packages:
+  - 'iio-sensor-proxy'
   - 'intel-media-driver'
   - 'intel-ucode'
   - 'intel-undervolt'
@@ -9,15 +10,10 @@ laptop_packages:
   - 'lib32-vulkan-radeon'
   - 'libva-mesa-driver'
   - 'linux'
+  - 'linux-enable-ir-emitter'
   - 'mesa'
   - 'power-profiles-daemon'
-  - 'thermald'
+  - 'sof-firmware'
   - 'vulkan-intel'
   - 'vulkan-mesa-layers'
   - 'vulkan-radeon'
-
-aur_laptop_packages:
-  - 'calf'
-#  - 'libfprint-2-tod1-broadcom'
-  - 'lsp-plugins'
-  - 'pulseeffects-legacy'

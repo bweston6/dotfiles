@@ -10,7 +10,6 @@ gnome_packages:
   - 'displaycal'
   - 'firefox'
   - 'flatpak'
-  - 'fwupd'
   - 'gdb'
   - 'geary'
   - 'gedit-plugins'
@@ -38,11 +37,16 @@ gnome_packages:
   - 'noto-fonts-extra'
   - 'ntfs-3g'
   - 'nuspell'
+  - 'pipewire-pulse'
   - 'python-pexpect'
   - 'qmk'
+  - 'rare'
+  - 'spotify-tui'
+  - 'spotifyd'
   - 'steam'
   - 'telegram-desktop'
   - 'texlive-core'
+  - 'texlive-fontsextra'
   - 'ttf-liberation'
   - 'wine'
   - 'wine-gecko'
@@ -216,7 +220,7 @@ gnome_dconf:
   - key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name"
     value: "'Terminal'"
   - key: "/org/gnome/shell/app-picker-layout"
-    value: "[{'org.gnome.Calculator.desktop': <{'position': <0>}>, 'org.gnome.Calendar.desktop': <{'position': <1>}>, 'io.github.celluloid_player.Celluloid.desktop': <{'position': <2>}>, 'org.gnome.clocks.desktop': <{'position': <3>}>, 'discord.desktop': <{'position': <4>}>, 'c987234f-1537-4871-bc3b-f19d2ebb8776': <{'position': <5>}>, 'org.gnome.Extensions.desktop': <{'position': <6>}>, 'org.gnome.gitg.desktop': <{'position': <7>}>, 'org.gnome.Maps.desktop': <{'position': <8>}>, 'com.github.fabiocolacio.marker.desktop': <{'position': <9>}>, 'com.microsoft.Teams.desktop': <{'position': <10>}>, '2f85f263-ae71-4d9b-9cb1-3c0ff554ac49': <{'position': <11>}>, 'steam.desktop': <{'position': <12>}>, 'gnome-control-center.desktop': <{'position': <13>}>, 'org.cvfosammmm.Setzer.desktop': <{'position': <14>}>, 'org.gnome.Software.desktop': <{'position': <15>}>, '8effdec3-ab68-4998-80d4-58d37e43d137': <{'position': <16>}>, 'org.gnome.gedit.desktop': <{'position': <17>}>, 'org.gnome.Todo.desktop': <{'position': <18>}>, 'telegramdesktop.desktop': <{'position': <19>}>, 'Utilities': <{'position': <20>}>, 'org.gnome.Weather.desktop': <{'position': <21>}>, 'us.zoom.Zoom.desktop': <{'position': <22>}>}]"
+    value: "[{'org.gnome.Calculator.desktop': <{'position': <0>}>, 'org.gnome.Calendar.desktop': <{'position': <1>}>, 'io.github.celluloid_player.Celluloid.desktop': <{'position': <2>}>, 'org.gnome.clocks.desktop': <{'position': <3>}>, 'discord.desktop': <{'position': <4>}>, 'c987234f-1537-4871-bc3b-f19d2ebb8776': <{'position': <5>}>, 'org.gnome.Extensions.desktop': <{'position': <6>}>, 'org.gnome.gitg.desktop': <{'position': <7>}>, 'org.gnome.Maps.desktop': <{'position': <8>}>, 'com.github.fabiocolacio.marker.desktop': <{'position': <9>}>, 'com.microsoft.Teams.desktop': <{'position': <10>}>, '2f85f263-ae71-4d9b-9cb1-3c0ff554ac49': <{'position': <11>}>, 'rare.desktop': <{'position': <12>}>, 'steam.desktop': <{'position': <13>}>, 'gnome-control-center.desktop': <{'position': <14>}>, 'org.cvfosammmm.Setzer.desktop': <{'position': <15>}>, 'org.gnome.Software.desktop': <{'position': <16>}>, '8effdec3-ab68-4998-80d4-58d37e43d137': <{'position': <17>}>, 'org.gnome.gedit.desktop': <{'position': <18>}>, 'org.gnome.Todo.desktop': <{'position': <19>}>, 'telegramdesktop.desktop': <{'position': <20>}>, 'Utilities': <{'position': <21>}>, 'org.gnome.Weather.desktop': <{'position': <22>}>, 'us.zoom.Zoom.desktop': <{'position': <23>}>}]"
   - key: "/org/gnome/shell/disable-user-extensions"
     value: "false"
   - key: "/org/gnome/shell/disabled-extensions"

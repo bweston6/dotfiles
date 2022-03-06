@@ -17,6 +17,7 @@ common_packages:
   - 'zsh'
 
 aur_common_packages:
+  - 'mkinitcpio-firmware'
   - 'vi-vim-symlink'
   - 'yay'
 
