@@ -57,7 +57,8 @@ gnome_packages:
 aur_gnome_packages:
   - 'chrome-gnome-shell'
   - 'etcher-bin'
-  - 'setzer'
+  - 'foo2zjs-nightly'
+  - 'setzer-git'
 
 flatpak_gnome_packages:
   - 'com.spotify.Client'
