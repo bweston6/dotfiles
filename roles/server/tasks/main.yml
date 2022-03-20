@@ -14,7 +14,11 @@
     group: '0'
     owner: '0'
   loop:
+    - 'root/certbot/'
+    - 'root/cron/'
+    - 'root/fail2ban/'
     - 'root/mkinitcpio/'
+    - 'root/zfs/'
   become: true
 
 - name: 'configuring boot parameters'
