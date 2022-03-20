@@ -5,6 +5,14 @@
 - include_tasks: 'debian.yml'
   when: ansible_facts['os_family'] == 'Debian'
 
+- name: 'checking for stock mkinitcpio'
+  ansible.builtin.lineinfile:
+    name: '/etc/mkinitcpio.conf'
+    line: 'HOOKS=(systemd autodetect modconf block filesystems fsck)'
+    state: 'present'
+  check_mode: true
+  register: 'mkinitcpio'
+
 - name: 'installing server dotfiles for root'
   ansible.builtin.copy:
     src: '{{ item }}'
@@ -15,11 +23,16 @@
     owner: '0'
   loop:
     - 'root/certbot/'
-    - 'root/cron/'
     - 'root/fail2ban/'
     - 'root/mkinitcpio/'
     - 'root/zfs/'
   become: true
+
+- name: 'building boot image with mkinitcpio'
+  ansible.builtin.command:
+    cmd: 'mkinitcpio -P'
+  become: true
+  when: 'mkinitcpio.changed'
 
 - name: 'configuring boot parameters'
   ansible.builtin.replace:
@@ -27,12 +40,8 @@
     regexp: '{{ item.regexp }}'
     replace: '{{ item.replace }}'
   loop:
-    - regexp: '^(linux\s/vmlinuz-linux)$'
-      replace: '\g<1>-lts'
     - regexp: '^(linux.*\n)(.*initramfs.*)$'
       replace: '\g<1>initrd\t/intel-ucode.img\n\g<2>'
-    - regexp: '^(initrd\s/initramfs-linux).img$'
-      replace: '\g<1>-lts.img'
     - regexp: '^(options\sroot=\".*\" rw)$'
       replace: '\g<1> i915.enable_guc=2'
   become: true
