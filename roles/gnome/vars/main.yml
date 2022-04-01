@@ -175,7 +175,7 @@ gnome_dconf:
   - key: "/org/gnome/gitg/preferences/interface/default-activity"
     value: "'commit'"
   - key: "/org/gnome/gitg/preferences/interface/style-scheme"
-    value: "'cobalt'"
+    value: "'classic'"
   - key: "/org/gnome/gitg/preferences/interface/use-gravatar"
     value: "true"
   - key: "/org/gnome/nautilus/list-view/default-column-order"
