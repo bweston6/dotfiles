@@ -1,0 +1,11 @@
+[Unit]
+Description=zpool scrub on shared
+
+[Service]
+Nice=19
+IOSchedulingClass=idle
+KillSignal=SIGINT
+ExecStart=/usr/bin/zpool scrub shared
+
+[Install]
+WantedBy=multi-user.target
