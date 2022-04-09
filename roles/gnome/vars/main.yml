@@ -173,7 +173,7 @@ gnome_dconf:
     value: "'classic'"
   - key: "/org/gnome/gitg/preferences/interface/use-gravatar"
     value: "true"
-  - key: "org/gnome/mutter/experimental-features"
+  - key: "/org/gnome/mutter/experimental-features"
     value: "['scale-monitor-framebuffer']"
   - key: "/org/gnome/nautilus/list-view/default-column-order"
     value: "['name', 'size', 'type', 'detailed_type', 'owner', 'group', 'permissions', 'where', 'date_modified', 'date_modified_with_time', 'date_accessed', 'date_created', 'recency', 'starred']"
