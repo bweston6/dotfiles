@@ -1,6 +1,7 @@
 ---
 laptop_packages:
   - 'easyeffects'
+  - 'gstreamer-vaapi'
   - 'iio-sensor-proxy'
   - 'intel-media-driver'
   - 'intel-ucode'

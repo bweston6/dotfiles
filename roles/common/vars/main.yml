@@ -14,7 +14,6 @@ common_packages:
   - 'mono'
   - 'nss-mdns'
   - 'pacman-contrib'
-  - 'python-defusedxml'
   - 'python-pipenv'
   - 'rsync'
   - 'wget'
