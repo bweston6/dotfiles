@@ -18,3 +18,4 @@ laptop_packages:
   - 'vulkan-intel'
   - 'vulkan-mesa-layers'
   - 'vulkan-radeon'
+  - 'zam-plugins'
