@@ -4,6 +4,7 @@ server_packages:
   - 'certbot-dns-cloudflare'
   - 'cronie'
   - 'ddclient'
+  - 'dhcp'
   - 'emby-server'
   - 'fail2ban'
   - 'hdparm'
@@ -24,7 +25,7 @@ server_packages:
 
 aur_server_packages:
   - 'ombi'
-  - 'radarr-nightly'
+  - 'radarr'
   - 'sabnzbd'
   - 'sonarr'
-  - 'zfs-dkms'
+  - 'zfs-linux'
