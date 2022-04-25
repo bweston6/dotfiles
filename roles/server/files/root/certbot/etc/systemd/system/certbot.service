@@ -4,4 +4,4 @@ Description=Let's Encrypt renewal
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/certbot renew --quiet --agree-tos
-ExecStartPost=/usr/bin/openssl pkcs12 -inkey /etc/letsencrypt/live/sonarr.bweston.uk/privkey.pem -in /etc/letsencrypt/live/sonarr.bweston.uk/fullchain.pem -export -out /etc/letsencrypt/live/sonarr.bweston.uk/emby.p12 -passout file:/etc/letsencrypt/live/sonarr.bweston.uk/outpass
+ExecStartPost=/usr/bin/openssl pkcs12 -inkey /etc/letsencrypt/live/emby.bweston.uk/privkey.pem -in /etc/letsencrypt/live/emby.bweston.uk/fullchain.pem -export -out /etc/letsencrypt/live/emby.bweston.uk/emby.p12 -passout file:/etc/letsencrypt/live/emby.bweston.uk/outpass
